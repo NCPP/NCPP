@@ -1,0 +1,52 @@
+{% extends "ncpp/common/base.html" %}
+
+{% block extrahead %}
+		
+	<!-- Javascript code for map selection -->
+	{% if wizard.steps.current == '0' %}
+		{% include "ncpp/climate_indexes/map_js.html" %}
+	{% endif %}
+		
+{% endblock %}
+
+{% block main %}
+	
+	<!-- top documentation -->
+	{% if wizard.steps.current == '0' %}
+		{% include "ncpp/climate_indexes/form0_docs.html" %}
+	{% endif %}
+	
+	<!-- body -->
+	<div class="box">
+		<h2>Climate Indexes Workflow: Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</h2>
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ wizard.management_form }}			
+
+			{% if wizard.steps.current == '0' %}
+				{% include "ncpp/climate_indexes/form0.html" %}
+			{% endif %}
+			
+			{% if wizard.steps.current == '1' %}
+				{% include "ncpp/climate_indexes/form1.html" %}
+			{% endif %}
+			
+			{% if wizard.steps.current == '2' %}
+				{% include "ncpp/climate_indexes/form2.html" %}
+			{% endif %}
+			
+			{% if wizard.steps.prev %}
+				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Restart</button>
+				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">&lt; Back</button>
+			{% endif %}
+			<input type="submit" value="Next &gt;"/>
+		
+		</form>
+	</div>
+	
+	<!-- bottom documentation -->
+	{% if wizard.steps.current == '1' %}
+		{% include "ncpp/climate_indexes/form1_docs.html" %}
+	{% endif %}
+		
+{% endblock %}

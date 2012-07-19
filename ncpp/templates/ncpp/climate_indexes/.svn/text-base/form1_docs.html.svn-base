@@ -1,0 +1,32 @@
+<div class="doc">
+	<h2><b>Legend: CO2 Emission Scenarios</b></h2>
+	
+	<table class="horizontalTable">	
+		<tr>
+			<th nowrap="nowrap"><a href="http://www.ipcc-data.org/sres/ddc_sres_emissions.html#a1b">SRES A1B</a></th>
+			<td>A future world of very rapid economic growth, low population growth and rapid introduction of new and more efficient technology. 
+			    Major underlying themes are economic and cultural convergence and capacity building, with a substantial reduction in regional differences in per capita income.
+			    In this world, people pursue personal wealth rather than environmental quality.
+			</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap"><a href="http://www.ipcc-data.org/sres/ddc_sres_emissions.html#a2">SRES A2</a></th>
+			<td>A very heterogeneous world. The underlying theme is that of strengthening regional cultural identities, with an emphasis on family values 
+			    and local traditions, high population growth, and less concern for rapid economic development.
+			</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap"><a href="http://www.ipcc-data.org/sres/ddc_sres_emissions.html#b2">SRES B2</a></th>
+			<td>A world in which the emphasis is on local solutions to economic, social, and environmental sustainability. It is again a heterogeneous world with less rapid, 
+			    and more diverse technological change but a strong emphasis on community initiative and social innovation to find local, rather than global solutions.
+			</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap"><a href="http://www.ipcc-data.org/sres/ddc_sres_emissions.html#a1fi">A1FI</a></th>
+			<td>A future world of very rapid economic growth, low population growth and rapid introduction of new and more efficient technology. 
+			    Major underlying themes are economic and cultural convergence and capacity building, with a substantial reduction in regional differences in per capita income. 
+			    In this world, people pursue personal wealth rather than environmental quality.
+			</td>
+		</tr>
+	</table>
+</div>

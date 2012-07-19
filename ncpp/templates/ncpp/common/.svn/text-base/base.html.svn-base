@@ -1,0 +1,39 @@
+<!-- Base template for NCPP views -->
+
+<html>
+
+	<head>
+	
+		<!-- CSS styles -->
+		<link rel="stylesheet" href="{{MEDIA_URL}}ncpp/openlayers/dev/theme/default/style.css" type="text/css" />
+		<link rel="stylesheet" href="{{MEDIA_URL}}ncpp/openlayers/dev/examples/style.css" type="text/css" />
+		{% include "ncpp/climate_indexes/ncpp_css.html" %}
+		
+		{% block extrahead %}
+			<!-- insert custom JavaScript code here -->
+		{% endblock %}
+		
+	</head>
+
+	<body>
+	
+		<!-- header -->
+		<div style="text-align:center; padding:10px">
+			<h1>NCPP (National Climate Predictions and Projections platform)</h1>
+		</div>
+	
+		<!-- main body content -->
+		{% block main %}
+			<!-- insert HTML body content here -->
+		{% endblock %}
+		
+		<!-- footer -->
+		<div style="text-align:center; padding:10px">
+			<h4>NCPP is a project of the National Oceanic and Atmospheric Administration (NOAA), 
+			    <br/>in collaboration with the National Center for Atmospheric Research (NCAR)
+			    and the United States Geological Survey (USGS)</h4>
+		</div>
+
+	</body>
+
+</html>

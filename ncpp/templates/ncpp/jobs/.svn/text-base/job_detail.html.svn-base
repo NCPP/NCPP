@@ -1,0 +1,44 @@
+{% extends "ncpp/common/base.html" %}
+
+{% block main %}
+  <div class="box">
+
+	<h2>Job Identifier: {{ job.id }}</h2>
+	<p/>
+	
+	<table class="horizontalTable">
+		
+		<!-- job data -->
+		<tr><th nowrap="nowrap">Region:</th><td>{{ job_data.region }}</td></tr>
+		<tr><th nowrap="nowrap">Climate Index:</th><td>{{ job_data.index }}</td></tr>
+		<tr><th nowrap="nowrap">Aggregation:</th><td>{{ job_data.aggregation }}</td></tr>
+		<tr><th nowrap="nowrap">Start Date:</th><td>{{ job_data.startDateTime }}</td></tr>
+		<tr><th nowrap="nowrap" style="vertical-align: top;">Observed Dataset:</th><td>{{ job_data.dataset }}</td></tr>
+		<tr><th nowrap="nowrap">Output Format:</th><td>{{ job_data.outputFormat }}</td></tr>
+		<tr>
+			<th nowrap="nowrap">Supporting Information:</th>
+			<td>{% for info in job_data.supportingInfo %}{% if forloop.counter > 1 %}, {% endif %}{{ info }}{% endfor %}</td>
+		</tr>
+		<!-- job status -->
+		<tr><th nowrap="nowrap">User:</th><td>{{ job.user.username }}</td></tr>
+		<tr><th nowrap="nowrap">Status:</th><td>{{ job.status }}</td></tr>
+		<tr><th nowrap="nowrap">Submission Date:</th><td>{{ job.submissionDateTime }}</td></tr>
+		<tr><th nowrap="nowrap">Last Update Date:</th><td>{{ job.updateDateTime }}</td></tr>
+		<tr><th nowrap="nowrap">Error:</th><td>{{ job.error }}</td></tr>
+	
+	</table>
+	<p/>
+	
+	<!-- links -->
+	<a href="{% url job_request job.id %}">Display Job Request XML</a>
+	&nbsp;
+	<a href="{% url job_response job.id %}">Display Job Response XML</a>
+	&nbsp;
+	<a href="{% url job_check job.id %}">Check Job Status</a>
+	&nbsp;
+	{% if job.status == 'ProcessSucceeded' %}
+		<a href="{{ job.url }}">Download Output</a>
+	{% endif %}
+		
+  </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "ncpp/common/base.html" %}
+
+{% block extrahead %}
+	<style type="text/css">
+	
+		#jobsTable { align:center; text-align:center; float:center; }
+		#jobsTable th { text-align:center; padding:10px; }
+	
+	</style>
+{% endblock %}
+
+
+{% block main %}
+
+	<div class="box">
+	
+		<h2>Jobs Listing for User: {{ request.user.username }} </h2>
+		
+		{% if jobs %}
+		
+			<table class="verticalTable">
+				<tr>
+					<th nowrap="nowrap">Job Details</th>
+					<th nowrap="nowrap">Date Submitted</th>
+					<th nowrap="nowrap">Date Updated</th>
+					<th nowrap="nowrap">Status</th>
+					<th nowrap="nowrap">URL</th>
+				</tr>
+				{% for job in jobs %}
+					<tr>
+						<td nowrap="nowrap"><a href="{% url job_detail job.id %}">{{job.id}}</a></td>
+						<td nowrap="nowrap" nowrap="nowrap">{{ job.submissionDateTime|date:"SHORT_DATETIME_FORMAT" }}</td>
+						<td nowrap="nowrap">{{ job.updateDateTime|date:"SHORT_DATETIME_FORMAT" }}</td>
+						<td nowrap="nowrap">{{ job.status }}</td>
+						<td nowrap="nowrap">
+							{% if job.status == 'ProcessSucceeded' %}
+								<a href="{{ job.url }}">Download Output</a>
+							{% else %}
+								<a href="{% url job_check job.id %}">Check Status</a>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+			
+		{% else %}
+			<b>No jobs found</b>
+		{% endif %}
+	</div>
+
+{% endblock %}

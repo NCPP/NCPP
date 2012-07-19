@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/ncpp/!svn/ver/499/COG/ncpp/templates/ncpp/jobs
+END
+jobs_list.html
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svnroot/ncpp/!svn/ver/501/COG/ncpp/templates/ncpp/jobs/jobs_list.html
+END
+job_detail.html
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svnroot/ncpp/!svn/ver/501/COG/ncpp/templates/ncpp/jobs/job_detail.html
+END

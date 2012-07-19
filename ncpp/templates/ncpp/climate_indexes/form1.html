@@ -1,0 +1,35 @@
+<!-- Form to select all other Climate Index Job parameters -->
+
+<h3>Data Selection</h3> 
+
+<table class="horizontalTable">
+	<tr>
+		<th>Climate Index</th>
+		<td>{{ wizard.form.index }}<br/>{{ wizard.form.index.errors }}</td>
+	</tr>
+	{% comment %}
+	<tr>
+		<th>Aggregation</th>
+		<td>{{ wizard.form.aggregation }}<br/>{{ wizard.form.aggregation.errors }}</td>
+	</tr>
+	{% endcomment %}
+	<tr>
+		<th>Start Date</th>
+		<td>{{ wizard.form.startDateTime }}
+			&nbsp; Time Length: 5 year
+			<br/>{{ wizard.form.startDateTime.errors }}</td>
+	</tr>
+	<tr>
+		<th>Observed Dataset</th>
+		<td>{{ wizard.form.dataset }}<br/>{{ wizard.form.dataset.errors }}</td>
+	</tr>
+	<tr>
+		<th>Output Format</th>
+		<td>{{ wizard.form.outputFormat }}<br/>{{ wizard.form.outputFormat.errors }}</td>
+	</tr>
+	<tr>
+		<th>Supporting Information<br/>(not enabled yet)
+		</th>
+		<td>{{ wizard.form.supportingInfo }}<br/>{{ wizard.form.supportingInfo.errors }}</td>
+	</tr>
+</table>

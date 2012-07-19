@@ -1,0 +1,32 @@
+<style type="text/css">
+	.box {
+	    border: 1px solid #666666;	    
+	    background: #B9E0E3;
+	    float: center;
+	    display: block;
+	    width: 600px;
+	    padding: 5px;
+	    margin: 0 auto;
+	    text-align:center;
+	}
+	
+	table th {
+		padding:2px;
+		text-align: right;
+		vertical-align: top;
+	}
+	
+	/** Remove bullets from list */
+	ul, li {
+    	list-style-type: none;
+    	padding: 0px;
+    	margin: 0px;
+    	display: inline;
+	}
+	
+	.error {
+		color: #FF0000;
+		font-weight: bold;
+	}
+	
+</style>

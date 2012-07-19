@@ -2,3 +2,7 @@
 *.pot
 *.pyc
 local_settings.py
+
+# Eclipse configuration files
+.project
+.pydevproject

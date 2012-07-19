@@ -1,0 +1,108 @@
+<!-- Javascript code to allow selection of CSC region on US map -->
+
+<!-- live content from OpenLayers site
+<script src="http://openlayers.org/dev/OpenLayers.js"></script> --> 
+<!-- cached content from ncpp site_media -->  
+<script src="{{MEDIA_URL}}ncpp/openlayers/dev/OpenLayers.js"></script>
+      
+<script type="text/javascript">
+    
+	// page-scope variables
+    var map, layer, control, feature;
+	
+	// HTML select widget id as set by the django form wizard
+	var SELECT_ID = "id_0-region";
+	
+    // map featured selection => drop down selection
+    function selectChoiceField(event) {    
+        feature = event.feature;
+        selectElement = document.getElementById(SELECT_ID);
+        selectElement.value = feature.attributes.id;
+    }
+    
+    //function unselectChoiceField(event) {
+    //	selectElement = document.getElementById(SELECT_ID);
+    //	selectElement.value = ''; // blank choice
+    //}
+	
+    // drop down selection => map feature selection
+    function selectMapFeature() {
+    	    	
+    	// unselect current feature
+    	if (feature!=null) {
+    		control.unselect(feature);
+    		feature = null;	
+    	}
+    	       	
+    	var selectElement = document.getElementById(SELECT_ID);
+    	if (selectElement.value!=null && selectElement.value!='') {
+    	        		    	
+	    	// select new feature
+	    	var _features = layer.getFeaturesByAttribute("id", selectElement.value);
+	    	if (_features.length==1) {
+	    		feature = _features[0];
+	    		control.select(feature);
+	    	}
+	    	
+    	}
+    	
+    }
+
+    // initilize map, layer on load
+    function init() {
+    	
+    	// base map ()
+		var map = new OpenLayers.Map('map', {
+		    controls: [
+		        // disable defaults navigation controls
+		        //new OpenLayers.Control.Navigation(),
+		        //new OpenLayers.Control.ArgParser(),
+		        //new OpenLayers.Control.Attribution()
+		    ]
+		});
+    	
+    	// WMS base layer
+        var wms = new OpenLayers.Layer.WMS(
+            "OpenLayers WMS", "http://vmap0.tiles.osgeo.org/wms/vmap0",
+            {layers: 'basic'}
+        );
+
+    	// GML layer
+        layer = new OpenLayers.Layer.Vector("GML", {
+            	strategies: [new OpenLayers.Strategy.Fixed()],
+            	protocol: new OpenLayers.Protocol.HTTP({
+                url: "{{MEDIA_URL}}ncpp/gml/CSCregions.xml",
+                format: new OpenLayers.Format.GML()
+            })
+        });
+    	
+    	// add both layers simultaneously (faster)
+        map.addLayers([wms, layer]);
+        
+        // map feature selection => select field selection
+        layer.events.register("featureselected", layer, selectChoiceField);
+        //layer.events.register("featureunselected", layer, unselectChoiceField);
+		// page load => select map feature from field selection
+        layer.events.register("loadend", layer, selectMapFeature);
+		// select field selection => map feature selection: trigger specified in form
+		
+		// feature selection control
+        //control = new OpenLayers.Control.SelectFeature(layer, { multiple: false } );
+        control = new OpenLayers.Control.SelectFeature(layer);
+        map.addControl(control);
+        control.activate();
+        
+        //map.zoomToMaxExtent();
+        // zoom to US
+        var bounds = new OpenLayers.Bounds(-135., 25., -45, 50.)
+        map.setCenter(bounds.getCenterLonLat(), 3, false, false);
+              
+        // highlight feature, if selected
+        selectMapFeature();
+
+    }
+    
+    // run init() function at page loading
+    window.onload = init;
+        
+</script>
