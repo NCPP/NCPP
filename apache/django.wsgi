@@ -1,8 +1,7 @@
 import sys
 
 sys.path.insert(0, '/usr/NCPP')
-#os.environ['DJANGO_SETTINGS_MODULE'] = 'ncpp_settings'
-import ncpp_settings as settings
+import settings
 
 import django.core.management
 django.core.management.setup_environ(settings)
