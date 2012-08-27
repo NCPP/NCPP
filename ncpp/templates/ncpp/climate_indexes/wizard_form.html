@@ -16,7 +16,7 @@
 	
 	<!-- top documentation -->
 	{% if wizard.steps.current == '0' %}
-		{% include "ncpp/climate_indexes/form0_docs.html" %}
+		{% include "ncpp/climate_indexes/form0_docs_top.html" %}
 	{% endif %}
 	
 	<!-- body -->
@@ -48,6 +48,10 @@
 	</div>
 	
 	<!-- bottom documentation -->
+	{% if wizard.steps.current == '0' %}
+		{% include "ncpp/climate_indexes/form0_docs_bottom.html" %}
+	{% endif %}
+	
 	{% if wizard.steps.current == '1' %}
 		{% include "ncpp/climate_indexes/form1_docs.html" %}
 	{% endif %}
