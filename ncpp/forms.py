@@ -16,7 +16,7 @@ class ClimateIndexesForm1(Form):
     
     choices = { '':'-----' }
     choices.update( REGION_CHOICES )
-    # note the 'onlcik' event handler that triggers a Javascript function
+    # note the 'onclick' event handler that triggers a Javascript function
     region = ChoiceField(choices=choices.items(), required=True, widget=Select(attrs={'onclick': 'selectMapFeature();'}))
             
 class ClimateIndexesForm2(Form):
