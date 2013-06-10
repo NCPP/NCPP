@@ -27,7 +27,7 @@ urlpatterns = patterns('',
     url(r'^job/request/(?P<job_id>.+)/$', 'ncpp.views.job_request', name='job_request' ),
     url(r'^job/response/(?P<job_id>.+)/$', 'ncpp.views.job_response', name='job_response' ),
     url(r'^job/check/(?P<job_id>.+)/$', 'ncpp.views.job_check', name='job_check' ),
-    url(r'^job/(?P<job_id>.+)/$', 'ncpp.views.job_detail', name='job_detail' ),
+    url(r'^job/(?P<job_id>.+)/(?P<job_class>.+)/$', 'ncpp.views.job_detail', name='job_detail' ),
     
     # login/logout using django default authentication views and templates
     url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}, name='login'),
