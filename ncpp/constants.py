@@ -1,6 +1,8 @@
 # Module holding application constants.
 from datetime import date
 
+APPLICATION_LABEL = 'ncpp'
+
 #REGION_CHOICES = (('','--- Choose ---'), 
 #                  ('NCCSC','North Central Climate Science Center Region'), )
 

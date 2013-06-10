@@ -1,25 +1,11 @@
-from django.db import models
-from django.contrib.auth.models import User
 from threading import Thread
+from django.db import models
 from datetime import datetime, timedelta
-
 from owslib.wps import WebProcessingService, GMLMultiPolygonFeatureCollection, WFSQuery, WFSFeatureCollection
 
-from constants import JOB_STATUS
+from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 
-class Job(models.Model):
-    '''Super class for executable jobs.'''
-    
-    status = models.CharField(max_length=20, verbose_name='Status', blank=False, default=JOB_STATUS.UNKNOWN)
-    user = models.ForeignKey(User, related_name='user', verbose_name='User', blank=False)
-    request = models.TextField(blank=True, null=True, help_text='Generic string containing job request')
-    response = models.TextField(blank=True, null=True, help_text='Generic string containing job response')
-    error = models.TextField(blank=True, null=True, help_text='Generic string containing possible error message')
-    statusLocation = models.URLField('URL', help_text='URL to monitor the job status', blank=True, verify_exists=False, max_length=1000)
-    url = models.URLField('URL', help_text='URL to retrieve the job output', blank=True, verify_exists=False, max_length=1000)
-    submissionDateTime = models.DateTimeField('Date Submitted', auto_now_add=True, default=datetime.now())
-    updateDateTime = models.DateTimeField('Date Updated', auto_now=True, default=datetime.now())
-
+from common import Job
     
 class ClimateIndexJob(Job):
     '''Job that retrieves a climate index over a specified geographic region.'''
@@ -64,6 +50,9 @@ class ClimateIndexJob(Job):
         self.save()
         print 'Job status=%s' % self.status
 
+    class Meta:
+        app_label= APPLICATION_LABEL
+
  
 
 class SupportingInfo(models.Model):
@@ -71,6 +60,10 @@ class SupportingInfo(models.Model):
     
     job = models.ForeignKey(ClimateIndexJob)    
     info = models.CharField(max_length=200, verbose_name='Supporting Information', blank=False)    
+    
+    class Meta:
+        app_label= APPLICATION_LABEL
+
     
 class Runner(Thread):
     
@@ -148,4 +141,3 @@ class Runner(Thread):
             self.job.update(execution)
             
         print 'Done'
-        
