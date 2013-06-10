@@ -1,0 +1,40 @@
+{% extends "ncpp/common/base.html" %}
+
+{% block main %}
+	
+  <!-- do not display anything unless user is authenticated -->
+  {% if user.is_authenticated %}
+		
+	<!-- body -->
+	<div class="box">
+		<h2>Open Climate GIS Workflow: Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</h2>
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ wizard.management_form }}
+			
+			
+			{% if wizard.steps.current == '0' %}
+				{% include "ncpp/open_climate_gis/form0.html" %}
+			{% endif %}
+			
+			{% if wizard.steps.current == '1' %}
+				{% include "ncpp/open_climate_gis/form1.html" %}
+			{% endif %}
+						
+			{% if wizard.steps.current == '2' %}
+				{% include "ncpp/open_climate_gis/form2.html" %}
+			{% endif %}
+			
+			
+			{% if wizard.steps.prev %}
+				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Restart</button>
+				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">&lt; Back</button>
+			{% endif %}
+			<input type="submit" value="Next &gt;"/>
+		
+		</form>
+	</div>
+	
+	{% endif %}
+	
+{% endblock %}

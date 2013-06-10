@@ -3,7 +3,8 @@ from django.views.generic.simple import redirect_to
 from django.contrib.auth.decorators import login_required
 
 from ncpp.forms import ClimateIndexesForm1, ClimateIndexesForm2, ClimateIndexesForm3
-from ncpp.views import ClimateIndexesWizard
+from ncpp.forms import OpenClimateGisForm1, OpenClimateGisForm2, OpenClimateGisForm3
+from ncpp.views import ClimateIndexesWizard, OpenClimateGisWizard
 
 
 urlpatterns = patterns('',
@@ -14,6 +15,10 @@ urlpatterns = patterns('',
     # climate indexes use case
     # note use of 'login_required' decorator directly in URL configuration
     url(r'^climate_indexes/$', login_required(ClimateIndexesWizard.as_view([ClimateIndexesForm1, ClimateIndexesForm2, ClimateIndexesForm3])), name='climate_indexes' ),
+       
+    # open climate GIS use case
+    url(r'^open_climate_gis/$', OpenClimateGisWizard.as_view([OpenClimateGisForm1, OpenClimateGisForm2, OpenClimateGisForm3]), name='open_climate_gis' ),
+
         
     # user jobs listing
     url(r'^jobs/(?P<username>.+)/$', 'ncpp.views.jobs_list', name='jobs_list' ),

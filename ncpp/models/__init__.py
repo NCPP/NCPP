@@ -1,2 +1,3 @@
 from common import Job
 from climate_indexes import ClimateIndexJob, SupportingInfo
+from open_climate_gis import OpenClimateGisJob
