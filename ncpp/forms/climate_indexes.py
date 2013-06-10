@@ -1,8 +1,8 @@
 from django.forms import Form, CharField, ChoiceField, MultipleChoiceField, CheckboxSelectMultiple, Select
 from django.utils.safestring import mark_safe
 
-from ncpp.constants import (REGION_CHOICES, INDEX_CHOICES, AGGREGATION_CHOICES, START_DATETIME_CHOICES, 
-                            DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES)
+from ncpp.models.climate_indexes import (REGION_CHOICES, INDEX_CHOICES, AGGREGATION_CHOICES, START_DATETIME_CHOICES, 
+                                         DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES)
 
 class MyCheckboxSelectMultiple(CheckboxSelectMultiple):
     

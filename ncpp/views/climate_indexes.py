@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
-from ncpp.constants import (REGION_CHOICES, INDEX_CHOICES, AGGREGATION_CHOICES, START_DATETIME_CHOICES,
-                            DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES, JOB_STATUS)
+from ncpp.models.climate_indexes import (REGION_CHOICES, INDEX_CHOICES, AGGREGATION_CHOICES, START_DATETIME_CHOICES,
+                                         DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES, JOB_STATUS)
                             
 
 from django.shortcuts import get_object_or_404, render_to_response
