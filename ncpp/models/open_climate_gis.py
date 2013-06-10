@@ -1,7 +1,9 @@
 from django.db import models
 
 from ncpp.models.common import Job
-from ncpp.constants import APPLICATION_LABEL
+from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
+
+from ncpp.ocg import ocg # FIXME
 
 DATASET_CHOICES = { 'dataset1' : 'Dataset 1',
 				    'dataset2' : 'Dataset 2' }
@@ -17,6 +19,24 @@ class OpenClimateGisJob(Job):
 	
 	def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
+	
+	def getInputData(self):
+		"""Returns an ordered list of (choice label, choice value)."""
+		
+		job_data = []
+		job_data.append( ('Dataset', DATASET_CHOICES[self.dataset]) )
+		job_data.append( ('Variable', VARIABLE_CHOICES[self.variable]) )
+		return job_data				  
+
+	def submit(self):
+		print 'Submitting Open Climate GIS job'
+		
+		# submit the job synchronously, wait for output
+		self.url = ocg(dataset=self.dataset, variable=self.variable)
+		self.request = "<request>"+str( self.getInputData )+"</request>"
+		self.response = "<response>"+self.url+"</response>"
+		self.status = JOB_STATUS.SUCCESS
+		self.save()
 
 	class Meta:
 		app_label= APPLICATION_LABEL

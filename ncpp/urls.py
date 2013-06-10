@@ -10,7 +10,7 @@ from ncpp.views import ClimateIndexesWizard, OpenClimateGisWizard
 urlpatterns = patterns('',
     
     # top-level url
-    url(r'^$', 'django.views.generic.simple.redirect_to', { 'url': '/ncpp/climate_indexes/'}, name='home' ),
+    url(r'^$', 'django.views.generic.simple.redirect_to', { 'url': '/ncpp/open_climate_gis/'}, name='home' ),
     
     # climate indexes use case
     # note use of 'login_required' decorator directly in URL configuration
@@ -18,15 +18,13 @@ urlpatterns = patterns('',
        
     # open climate GIS use case
     url(r'^open_climate_gis/$', OpenClimateGisWizard.as_view([OpenClimateGisForm1, OpenClimateGisForm2, OpenClimateGisForm3]), name='open_climate_gis' ),
-
-        
-    # user jobs listing
-    url(r'^jobs/(?P<username>.+)/$', 'ncpp.views.jobs_list', name='jobs_list' ),
     
     # job display pages
-    url(r'^job/request/(?P<job_id>.+)/$', 'ncpp.views.job_request', name='job_request' ),
-    url(r'^job/response/(?P<job_id>.+)/$', 'ncpp.views.job_response', name='job_response' ),
-    url(r'^job/check/(?P<job_id>.+)/$', 'ncpp.views.job_check', name='job_check' ),
+    url(r'^jobs/(?P<username>.+)/(?P<job_class>.+)/$', 'ncpp.views.jobs_list', name='jobs_list' ),
+    
+    url(r'^job/request/(?P<job_id>.+)/(?P<job_class>.+)/$', 'ncpp.views.job_request', name='job_request' ),
+    url(r'^job/response/(?P<job_id>.+)/(?P<job_class>.+)/$', 'ncpp.views.job_response', name='job_response' ),
+    url(r'^job/check/(?P<job_id>.+)/(?P<job_class>.+)/$', 'ncpp.views.job_check', name='job_check' ),
     url(r'^job/(?P<job_id>.+)/(?P<job_class>.+)/$', 'ncpp.views.job_detail', name='job_detail' ),
     
     # login/logout using django default authentication views and templates

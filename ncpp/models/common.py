@@ -18,3 +18,6 @@ class Job(models.Model):
 
     class Meta:
         app_label= APPLICATION_LABEL
+        
+    def class_name(self):
+        return self.__module__ + "." + self.__class__.__name__
