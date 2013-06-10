@@ -12,9 +12,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.formtools.wizard.views import SessionWizardView
 from django.contrib.auth.models import User
 
-
-from owslib.wps import WPSExecution
-
 from ncpp.models import ClimateIndexJob, SupportingInfo, Job
 
 from ncpp.views.common import LOGIN_URL

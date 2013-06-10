@@ -70,15 +70,9 @@ def job_check(request, job_id, job_class):
     
     # retrieve job of specified type
     job = get_object_or_404(get_class(job_class), pk=job_id)
-    
-    # create a new execution from the job status URL
-    execution = WPSExecution()
-    
-    # check the remote job status
-    execution.checkStatus(url=job.statusLocation, sleepSecs=0)
-    
+        
     # update the job in the database
-    job.update(execution)
+    job.update()
     
     # redirect to job listing
     # FIXME

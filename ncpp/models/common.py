@@ -16,6 +16,28 @@ class Job(models.Model):
     submissionDateTime = models.DateTimeField('Date Submitted', auto_now_add=True, default=datetime.now())
     updateDateTime = models.DateTimeField('Date Updated', auto_now=True, default=datetime.now())
 
+    def submit(self):
+        """Method to submit the job.
+           The default implementation sets the job status to STARTED."""        
+        print 'Submitting job'
+        
+        self.status = JOB_STATUS.STARTED
+        self.save()
+        
+    def update(self):
+        """Method to update the job status. 
+           The default implementation sets the job status to RUNNING."""
+        
+        self.status = JOB_STATUS.RUNNING
+        self.save()
+
+    def getInputData(self):
+        """Method to return all job input parameters as a list of tuples of the form (parameter name, parameter value).
+          The default implementation returns an empty list of tuples."""
+        
+        return []                 
+
+
     class Meta:
         app_label= APPLICATION_LABEL
         

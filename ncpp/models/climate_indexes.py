@@ -7,6 +7,8 @@ from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 
 from ncpp.models.common import Job
 
+from owslib.wps import WPSExecution
+
 #REGION_CHOICES = (('','--- Choose ---'), 
 #                  ('NCCSC','North Central Climate Science Center Region'), )
 
@@ -77,9 +79,17 @@ class ClimateIndexJob(Job):
         job_data.append( ('Supporting Information', supportingInfo) )
         return job_data                  
         
-    def update(self, execution, first=False):
+    def update(self):
         '''Updates the job in the database from the latest WPS execution status.'''
         
+        # create a new execution from the job status URL
+        execution = WPSExecution()
+        execution.checkStatus(url=self.statusLocation, sleepSecs=0)       
+        self._update(execution)
+
+    def _update(self, execution, first=False):
+        """Internal method to update the job state from an existing WPS execution."""
+                
         if first:
             self.request = execution.request
             self.statusLocation = execution.statusLocation
@@ -185,11 +195,11 @@ class Runner(Thread):
         
         # submit job
         execution = wps.execute(processid, inputs, output = "OUTPUT")
-        self.job.update(execution, first=True)
+        self.job._update(execution, first=True)
                  
         # keep monitoring till job completion
         while execution.isComplete()==False:
             execution.checkStatus(sleepSecs=4)
-            self.job.update(execution)
+            self.job._update(execution)
             
         print 'Done'
