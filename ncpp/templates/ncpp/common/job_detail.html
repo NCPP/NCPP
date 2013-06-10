@@ -9,16 +9,15 @@
 	<table class="horizontalTable">
 		
 		<!-- job data -->
-		<tr><th nowrap="nowrap">Region:</th><td>{{ job_data.region }}</td></tr>
-		<tr><th nowrap="nowrap">Climate Index:</th><td>{{ job_data.index }}</td></tr>
-		<tr><th nowrap="nowrap">Aggregation:</th><td>{{ job_data.aggregation }}</td></tr>
-		<tr><th nowrap="nowrap">Start Date:</th><td>{{ job_data.startDateTime }}</td></tr>
-		<tr><th nowrap="nowrap" style="vertical-align: top;">Observed Dataset:</th><td>{{ job_data.dataset }}</td></tr>
-		<tr><th nowrap="nowrap">Output Format:</th><td>{{ job_data.outputFormat }}</td></tr>
-		<tr>
-			<th nowrap="nowrap">Supporting Information:</th>
-			<td>{% for info in job_data.supportingInfo %}{% if forloop.counter > 1 %}, {% endif %}{{ info }}{% endfor %}</td>
-		</tr>
+		{% for tuple in job_data %}
+			{% if tuple.0 == 'Supporting Information' %}
+				<th nowrap="nowrap">Supporting Information:</th>
+				<td>{% for info in tuple.1 %}{% if forloop.counter > 1 %}, {% endif %}{{ info }}{% endfor %}</td>
+			{% else %}
+				<tr><th nowrap="nowrap">{{ tuple.0 }} :</th><td>{{ tuple.1 }}</td></tr>
+			{% endif %}
+		{% endfor %}
+
 		<!-- job status -->
 		<tr><th nowrap="nowrap">User:</th><td>{{ job.user.username }}</td></tr>
 		<tr><th nowrap="nowrap">Status:</th><td>{{ job.status }}</td></tr>

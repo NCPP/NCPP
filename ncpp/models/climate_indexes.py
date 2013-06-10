@@ -63,17 +63,18 @@ class ClimateIndexJob(Job):
         runner.start()
         
     def getInputData(self):
+        """Returns an ordered list of (choice label, choice value)."""
         
-        job_data = {}
-        job_data['region'] = REGION_CHOICES[self.region]
-        job_data['index'] = INDEX_CHOICES[self.index]
-        #job_data['aggregation'] = AGGREGATION_CHOICES[job.aggregation]
-        job_data['startDateTime'] = self.startDateTime
-        job_data['dataset'] = DATASET_CHOICES[self.dataset]
-        job_data['outputFormat'] = OUTPUT_FORMAT_CHOICES[self.outputFormat]
-        job_data['supportingInfo'] = []
+        job_data = []
+        job_data.append( ('Region', REGION_CHOICES[self.region]) )
+        job_data.append( ('Climate Index', INDEX_CHOICES[self.index]) )
+        job_data.append( ('Start Date Time', self.startDateTime) )
+        job_data.append( ('Dataset', DATASET_CHOICES[self.dataset]) )
+        job_data.append( ('Output Format', OUTPUT_FORMAT_CHOICES[self.outputFormat]) )
+        supportingInfo = []
         for info in self.supportinginfo_set.all():
-            job_data['supportingInfo'].append( SUPPORTING_INFO_CHOICES[info.info] )   
+            supportingInfo.append( SUPPORTING_INFO_CHOICES[info.info] )   
+        job_data.append( ('Supporting Information', supportingInfo) )
         return job_data                  
         
     def update(self, execution, first=False):
