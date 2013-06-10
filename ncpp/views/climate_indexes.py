@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from ncpp.constants import (REGION_CHOICES, INDEX_CHOICES, AGGREGATION_CHOICES, START_DATETIME_CHOICES,
-                            DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES)
+                            DATASET_CHOICES, OUTPUT_FORMAT_CHOICES, SUPPORTING_INFO_CHOICES, JOB_STATUS)
                             
 
 from django.shortcuts import get_object_or_404, render_to_response
@@ -16,7 +16,6 @@ from django.conf import settings
 from owslib.wps import WPSExecution
 
 from ncpp.models import ClimateIndexJob, SupportingInfo, Job
-from constants import JOB_STATUS
 
 # URL for user login: use project setting or default to application specific value.
 LOGIN_URL = getattr(settings, "LOGIN_URL", "/ncpp/login/")

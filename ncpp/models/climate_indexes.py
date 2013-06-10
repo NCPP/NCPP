@@ -5,7 +5,7 @@ from owslib.wps import WebProcessingService, GMLMultiPolygonFeatureCollection, W
 
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 
-from common import Job
+from ncpp.models.common import Job
     
 class ClimateIndexJob(Job):
     '''Job that retrieves a climate index over a specified geographic region.'''
