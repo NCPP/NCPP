@@ -62,6 +62,20 @@ class ClimateIndexJob(Job):
         runner = Runner(self)
         runner.start()
         
+    def getInputData(self):
+        
+        job_data = {}
+        job_data['region'] = REGION_CHOICES[self.region]
+        job_data['index'] = INDEX_CHOICES[self.index]
+        #job_data['aggregation'] = AGGREGATION_CHOICES[job.aggregation]
+        job_data['startDateTime'] = self.startDateTime
+        job_data['dataset'] = DATASET_CHOICES[self.dataset]
+        job_data['outputFormat'] = OUTPUT_FORMAT_CHOICES[self.outputFormat]
+        job_data['supportingInfo'] = []
+        for info in self.supportinginfo_set.all():
+            job_data['supportingInfo'].append( SUPPORTING_INFO_CHOICES[info.info] )   
+        return job_data                  
+        
     def update(self, execution, first=False):
         '''Updates the job in the database from the latest WPS execution status.'''
         

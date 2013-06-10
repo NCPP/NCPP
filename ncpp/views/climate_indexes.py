@@ -11,14 +11,13 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.formtools.wizard.views import SessionWizardView
 from django.contrib.auth.models import User
-from django.conf import settings
+
 
 from owslib.wps import WPSExecution
 
 from ncpp.models import ClimateIndexJob, SupportingInfo, Job
 
-# URL for user login: use project setting or default to application specific value.
-LOGIN_URL = getattr(settings, "LOGIN_URL", "/ncpp/login/")
+from ncpp.views.common import LOGIN_URL
     
 class ClimateIndexesWizard(SessionWizardView):
     '''Set of views to submit a climate indexes request.'''
@@ -98,7 +97,7 @@ def jobs_list(request, username):
     
     jobs = Job.objects.filter(user=user).order_by('-submissionDateTime')
     
-    return render_to_response('ncpp/jobs/jobs_list.html',
+    return render_to_response('ncpp/common/jobs_list.html',
                               {'jobs':jobs },
                               context_instance=RequestContext(request))
     
@@ -134,26 +133,3 @@ def job_check(request, job_id):
     return HttpResponseRedirect(reverse('jobs_list', args=['admin']))
     #return HttpResponseRedirect(reverse('jobs_list', args=[request.user.username]))
         
-@login_required(login_url=LOGIN_URL)
-def job_detail(request, job_id):
-    '''View to display detailed information about a single job.'''
-    
-    job = get_object_or_404(ClimateIndexJob, pk=job_id)
-    
-    # build pretty display of user choices (same as for submission form confirmation)
-    job_data = {}
-    job_data['region'] = REGION_CHOICES[job.region]
-    job_data['index'] = INDEX_CHOICES[job.index]
-    #job_data['aggregation'] = AGGREGATION_CHOICES[job.aggregation]
-    job_data['startDateTime'] = job.startDateTime
-    job_data['dataset'] = DATASET_CHOICES[job.dataset]
-    job_data['outputFormat'] = OUTPUT_FORMAT_CHOICES[job.outputFormat]
-    job_data['supportingInfo'] = []
-    for info in job.supportinginfo_set.all():
-        job_data['supportingInfo'].append( SUPPORTING_INFO_CHOICES[info.info] )                     
-
-    return render_to_response('ncpp/jobs/job_detail.html',
-                              {'job':job, 'job_data':job_data },
-                              context_instance=RequestContext(request))
-
-
