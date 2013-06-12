@@ -1,15 +1,21 @@
 from django.db import models
-
+import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 
 from ncpp.ocg import ocg # FIXME
 
-DATASET_CHOICES = { 'dataset1' : 'Dataset 1',
-				    'dataset2' : 'Dataset 2' }
-
-VARIABLE_CHOICES = { 'v1' : 'Variable 1',
-				     'v2' : 'Variable 2'}
+# read choices from configuration when module is first loaded (once per application)
+from ncpp.constants import CONFIG_FILEPATH
+ocgisConfig = ConfigParser.RawConfigParser()
+try:
+    ocgisConfig.read( os.path.expanduser(CONFIG_FILEPATH) )
+except Exception as e:
+    print "Configuration file %s not found" % CONFIG_FILEPATH
+    raise e
+    
+def ocgisChoices(section):
+    return dict( ocgisConfig.items(section) )
 
 class OpenClimateGisJob(Job):
 	"""Class that represents the execution of an Open Climate GIS job."""
@@ -24,8 +30,8 @@ class OpenClimateGisJob(Job):
 		"""Returns an ordered list of (choice label, choice value)."""
 		
 		job_data = []
-		job_data.append( ('Dataset', DATASET_CHOICES[self.dataset]) )
-		job_data.append( ('Variable', VARIABLE_CHOICES[self.variable]) )
+		job_data.append( ('Dataset', ocgisChoices('datasets')[self.dataset]) )
+		job_data.append( ('Variable', ocgisChoices('variables')[self.variable]) )
 		return job_data				  
 
 	def submit(self):

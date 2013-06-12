@@ -1,6 +1,7 @@
 # Module holding application constants.
 
 APPLICATION_LABEL = 'ncpp'
+CONFIG_FILEPATH = '/usr/local/ocgis/ocgis.cfg'
 
 def enum(**enums):
     return type('Enum', (), enums)

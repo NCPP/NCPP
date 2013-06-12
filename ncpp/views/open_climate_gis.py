@@ -5,7 +5,7 @@ from django.contrib.formtools.wizard.views import SessionWizardView
 from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
-from ncpp.models.open_climate_gis import DATASET_CHOICES, VARIABLE_CHOICES, OpenClimateGisJob
+from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices
 from ncpp.utils import get_full_class_name
 
 
@@ -52,9 +52,9 @@ class OpenClimateGisWizard(SessionWizardView):
                 if step != self.steps.current:                    
                     cleaned_data = self.get_cleaned_data_for_step(step)                  
                     if cleaned_data.has_key('dataset'):
-                        job_data['dataset'] = DATASET_CHOICES[cleaned_data['dataset']]
+                        job_data['dataset'] = ocgisChoices('datasets')[cleaned_data['dataset']]
                     if cleaned_data.has_key('variable'):
-                        job_data['variable'] = VARIABLE_CHOICES[cleaned_data['variable']]                    
+                        job_data['variable'] = ocgisChoices('variables')[cleaned_data['variable']]                    
             context.update({'job_data': job_data})
         
         return context
