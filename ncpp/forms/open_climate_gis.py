@@ -1,4 +1,5 @@
-from django.forms import Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple
+from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
+                          TextInput)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 
@@ -13,6 +14,14 @@ class OpenClimateGisForm1(Form):
     geometry = ChoiceField(choices=ocgisChoices(Config.GEOMETRY).items(), required=False)
     geometry_id = MultipleChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False,
                                       widget=SelectMultiple(attrs={'size':6}))
+    
+    latmin = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
+    latmax = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
+    lonmin = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
+    lonmax = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
+    
+    lat = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
+    lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
     
     
 class OpenClimateGisForm2(Form):

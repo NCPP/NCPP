@@ -6,5 +6,10 @@
 	<tr><th nowrap="nowrap">Dataset:</th><td>{{ job_data.dataset }}</td></tr>
 	<tr><th nowrap="nowrap">Variable:</th><td>{{ job_data.variable }}</td></tr>
 	<tr><th nowrap="nowrap">Geometry:</th><td>{{ job_data.geometry }}: {{ job_data.geometry_id }}</td></tr>
-	<tr><th nowrap="nowrap">Aggregate:</th><td>{{ job_data.aggregate }}</td></tr>
+	<tr><th nowrap="nowrap">Bounding Box:</th>
+	    <td> Lat min: {{ job_data.latmin }} max: {{ job_data.latmax }}
+	         Lon min: {{ job_data.lonmin }} max: {{ job_data.lonmax }}
+	    </td>
+	</tr>
+	<tr><th nowrap="nowrap">Point:</th><td> lat: {{ job_data.lat }} lon: {{ job_data.lon }}</td></tr>
 </table>

@@ -37,6 +37,18 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['geometry_id'] =[]
                         for id in cleaned_data['geometry_id']:
                             job_data['geometry_id'].append(ocgisChoices(Config.GEOMETRY_ID)[id])  
+                    if cleaned_data.has_key('latmin') and cleaned_data['latmin'] is not None:
+                        job_data['latmin'] = float( cleaned_data['latmin'] )
+                    if cleaned_data.has_key('latmax') and cleaned_data['latmax'] is not None:
+                        job_data['latmax'] = float( cleaned_data['latmax'] )
+                    if cleaned_data.has_key('lonmin') and cleaned_data['lonmin'] is not None:
+                        job_data['lonmin'] = float( cleaned_data['lonmin'] )
+                    if cleaned_data.has_key('lonmax') and cleaned_data['lonmax'] is not None:
+                        job_data['lonmax'] = float( cleaned_data['lonmax'] )
+                    if cleaned_data.has_key('lat') and cleaned_data['lat'] is not None:
+                        job_data['lat'] = float( cleaned_data['lat'] )
+                    if cleaned_data.has_key('lon') and cleaned_data['lon'] is not None:
+                        job_data['lon'] = float( cleaned_data['lon'] )
                     if cleaned_data.has_key('aggregate'):
                         job_data['aggregate'] = bool(cleaned_data['aggregate'])       
             context.update({'job_data': job_data})
@@ -63,7 +75,13 @@ class OpenClimateGisWizard(SessionWizardView):
                                                geometry=form_data['geometry'],
                                                # must transform list of integers into string
                                                geometry_id=",".join(form_data['geometry_id']),
-                                               aggregate=form_data['aggregate'])
+                                               latmin=form_data['latmin'],
+                                               latmax=form_data['latmax'],
+                                               lonmin=form_data['lonmin'],
+                                               lonmax=form_data['lonmax'],
+                                               lat=form_data['lat'],
+                                               lon=form_data['lon'],
+                                               aggregate=bool(form_data['aggregate']) )
         
         # submit OCG job
         job.submit()
