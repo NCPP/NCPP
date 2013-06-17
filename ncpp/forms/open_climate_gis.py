@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, ChoiceField, BooleanField
+from django.forms import Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 
@@ -11,7 +11,8 @@ class OpenClimateGisForm1(Form):
     dataset = ChoiceField(choices=ocgisChoices(Config.DATASET).items(), required=True)
     variable = ChoiceField(choices=ocgisChoices(Config.VARIABLE).items(), required=True)
     geometry = ChoiceField(choices=ocgisChoices(Config.GEOMETRY).items(), required=False)
-    geometry_id = ChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False)
+    geometry_id = MultipleChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False,
+                                      widget=SelectMultiple(attrs={'size':6}))
     
     
 class OpenClimateGisForm2(Form):

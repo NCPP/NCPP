@@ -44,7 +44,11 @@ class OpenClimateGisJob(Job):
         job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
         job_data.append( ('Variable', ocgisChoices(Config.VARIABLE)[self.variable]) )
         job_data.append( ('Geometry', ocgisChoices(Config.GEOMETRY)[self.geometry]) )
-        job_data.append( ('Geometry ID', ocgisChoices(Config.GEOMETRY_ID)[self.geometry_id]) )
+        # must transform string into list of integers
+        geometry_id=[]
+        for id in self.geometry_id.split(","):
+            geometry_id.append( ocgisChoices(Config.GEOMETRY_ID)[id] )
+        job_data.append( ('Geometry ID', geometry_id) )
         return job_data				  
 
     def submit(self):

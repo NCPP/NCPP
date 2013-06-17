@@ -34,7 +34,9 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('geometry'):
                         job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']]    
                     if cleaned_data.has_key('geometry_id'):
-                        job_data['geometry_id'] = ocgisChoices(Config.GEOMETRY_ID)[cleaned_data['geometry_id']]    
+                        job_data['geometry_id'] =[]
+                        for id in cleaned_data['geometry_id']:
+                            job_data['geometry_id'].append(ocgisChoices(Config.GEOMETRY_ID)[id])  
                     if cleaned_data.has_key('aggregate'):
                         job_data['aggregate'] = bool(cleaned_data['aggregate'])       
             context.update({'job_data': job_data})
@@ -59,7 +61,8 @@ class OpenClimateGisWizard(SessionWizardView):
                                                dataset=form_data['dataset'],
                                                variable=form_data['variable'],
                                                geometry=form_data['geometry'],
-                                               geometry_id=form_data['geometry_id'],
+                                               # must transform list of integers into string
+                                               geometry_id=",".join(form_data['geometry_id']),
                                                aggregate=form_data['aggregate'])
         
         # submit OCG job
