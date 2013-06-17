@@ -1,10 +1,28 @@
 <!-- Form to select the dataset -->
-
-<h3>Dataset Selection</h3>      
        
-<table class="horizontalTable">
-	<tr>
-		<th>Dataset</th>
-		<td>{{ wizard.form.dataset }}<br/>{{ wizard.form.dataset.errors }}</td>
-	</tr>
-</table>
+<fieldset class="fieldset_box">
+	<legend class="fieldset_legend">Data Selection</legend>	
+	<table class="horizontalTable">
+		<tr>
+			<th>Dataset</th>
+			<td>{{ wizard.form.dataset }}<br/>{{ wizard.form.dataset.errors }}</td>
+		</tr>
+		<tr>
+			<th>Variable</th>
+			<td>{{ wizard.form.variable }}<br/>{{ wizard.form.variable.errors }}</td>
+		</tr>
+	</table>
+</fieldset>
+
+<fieldset class="fieldset_box">
+	<legend class="fieldset_legend">Geometry Selection</legend>	
+	Please select either a shape geometry, a bounding box, or a point.
+	<table class="horizontalTable">
+		<tr>
+			<th>Shape: Type</th>
+			<td>{{ wizard.form.geometry }}<br/>{{ wizard.form.geometry.errors }}</td>
+			<th>Geometry</th>
+			<td>{{ wizard.form.geometry_id }}<br/>{{ wizard.form.geometry_id.errors }}</td>
+		</tr>
+	</table>
+</fieldset>
