@@ -7,7 +7,8 @@ OUTPUT = "file:///Users/cinquini/data/NCPP/QED2013/obs/observational/sectorEco/p
 
 def ocg(dataset=None, variable=None, geometry=None, geometry_id=None, 
         latmin=None, latmax=None, lonmin=None, lonmax=None, lat=None, lon=None,
-        aggregate=True):
+        calc=None, par1=None, par2=None, calc_raw=False, calc_group=[],
+        aggregate=True, output_format=None, prefix=None):
     
     time.sleep(SLEEP_SECONDS)
     

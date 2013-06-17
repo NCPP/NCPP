@@ -4,7 +4,32 @@
        
 <table class="horizontalTable">
 	<tr>
+		<th>Calculation</th>
+		<td>{{ wizard.form.calc }}
+		    parameter 1: {{ wizard.form.par1 }} parameter 2: {{ wizard.form.par2 }}
+		     <br/>{{ wizard.form.calc.errors }} {{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }}</td>
+	</tr>
+	<tr>
+		<th>Calculation Group</th>
+		<td>{{ wizard.form.calc_group }}
+		     <br/>{{ wizard.form.calc_group.errors }}</td>
+	</tr>
+	<tr>
+		<th>Calculate Raw ?</th>
+		<td>{{ wizard.form.calc_raw }}
+		     <br/>{{ wizard.form.calc_raw.errors }}</td>
+	</tr>
+	<tr>
 		<th>Aggregate</th>
 		<td>{{ wizard.form.aggregate }}<br/>{{ wizard.form.aggregate.errors }}</td>
 	</tr>
+	<tr>
+		<th>Output Format</th>
+		<td>{{ wizard.form.output_format }}<br/>{{ wizard.form.output_format.errors }}</td>
+	</tr>
+	<tr>
+		<th>Prefix</th>
+		<td>{{ wizard.form.prefix }}<br/>{{ wizard.form.prefix.errors }}</td>
+	</tr>
+	
 </table>

@@ -49,8 +49,25 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['lat'] = float( cleaned_data['lat'] )
                     if cleaned_data.has_key('lon') and cleaned_data['lon'] is not None:
                         job_data['lon'] = float( cleaned_data['lon'] )
+                    if cleaned_data.has_key('calc'):
+                        job_data['calc'] = ocgisChoices(Config.CALCULATION)[cleaned_data['calc']]
+                    if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:
+                        job_data['par1'] = float( cleaned_data['par1'] )
+                    if cleaned_data.has_key('par2') and cleaned_data['par2'] is not None:
+                        job_data['par2'] = float( cleaned_data['par2'] )
+                    if cleaned_data.has_key('calc_group'):
+                        job_data['calc_group'] =[]
+                        for group in cleaned_data['calc_group']:
+                            job_data['calc_group'].append(ocgisChoices(Config.CALCULATION_GROUP)[group])                             
+                    if cleaned_data.has_key('calc_raw'):
+                        job_data['calc_raw'] = bool(cleaned_data['calc_raw'])       
                     if cleaned_data.has_key('aggregate'):
                         job_data['aggregate'] = bool(cleaned_data['aggregate'])       
+                    if cleaned_data.has_key('output_format'):
+                        job_data['output_format'] = ocgisChoices(Config.OUTPUT_FORMAT)[cleaned_data['output_format']]   
+                    if cleaned_data.has_key('prefix'):
+                        job_data['prefix'] = cleaned_data['prefix']       
+                            
             context.update({'job_data': job_data})
         
         return context
@@ -81,7 +98,14 @@ class OpenClimateGisWizard(SessionWizardView):
                                                lonmax=form_data['lonmax'],
                                                lat=form_data['lat'],
                                                lon=form_data['lon'],
-                                               aggregate=bool(form_data['aggregate']) )
+                                               calc=form_data['calc'],
+                                               par1=form_data['par1'],
+                                               par2=form_data['par2'],
+                                               calc_raw=form_data['calc_raw'],
+                                               calc_group=form_data['calc_group'],
+                                               aggregate=bool(form_data['aggregate']),
+                                               output_format=form_data['output_format'],
+                                               prefix=form_data['prefix'] )
         
         # submit OCG job
         job.submit()

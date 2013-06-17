@@ -21,13 +21,21 @@ class OpenClimateGisForm1(Form):
     lonmax = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
     
     lat = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
-    lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
-    
+    lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))    
     
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''
     
-    aggregate = BooleanField(required=True, initial=True)
+    calc = ChoiceField(choices=ocgisChoices(Config.CALCULATION).items(), required=True)
+    par1 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
+    par2 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
+    calc_group = MultipleChoiceField(choices=ocgisChoices(Config.CALCULATION_GROUP).items(), required=False)
+    calc_raw = BooleanField(initial=False, required=False)
+
+    aggregate = BooleanField(initial=True, required=False)
+    #spatial_operation = RadioField()
+    output_format = ChoiceField(choices=ocgisChoices(Config.OUTPUT_FORMAT).items(), required=True)
+    prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
     
 class OpenClimateGisForm3(Form):
     '''Dummy form that presents a summary of all previous choices'''
