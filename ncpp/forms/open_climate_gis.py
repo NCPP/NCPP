@@ -1,5 +1,5 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
-                          TextInput, RadioSelect)
+                          TextInput, RadioSelect, DateTimeField)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 
@@ -21,7 +21,10 @@ class OpenClimateGisForm1(Form):
     lonmax = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))
     
     lat = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
-    lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))    
+    lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))   
+    
+    datetime_start = DateTimeField(required=False)
+    datetime_stop = DateTimeField(required=False)
     
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''

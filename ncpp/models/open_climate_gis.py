@@ -45,6 +45,9 @@ class OpenClimateGisJob(Job):
     lat = models.FloatField(verbose_name='Latitude', blank=True, null=True)
     lon = models.FloatField(verbose_name='Longitude', blank=True, null=True)
     
+    datetime_start = models.DateTimeField(verbose_name='Start Date Time', blank=True, null=True)
+    datetime_stop = models.DateTimeField(verbose_name='Stop Date Time', blank=True, null=True)
+    
     calc = models.CharField(max_length=50, verbose_name='Calculation', null=False)
     par1 = models.FloatField(verbose_name='Calculation Parameter 1', blank=True, null=True)
     par2 = models.FloatField(verbose_name='Calculation Parameter 2', blank=True, null=True)
@@ -67,7 +70,9 @@ class OpenClimateGisJob(Job):
                        geometry=self.geometry, geometry_id=self.geometry_id, 
                        latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
                        lat=self.lat, lon=self.lon,
+                       datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
                        calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
+                       spatial_operation=self.spatial_operation,
                        aggregate=self.aggregate, output_format=self.output_format, prefix=self.prefix)
         
         self.request = "<request>"+str( self.getInputData )+"</request>"
@@ -95,6 +100,9 @@ class OpenClimateGisJob(Job):
         
         job_data.append( ('Latitude', self.lat) )
         job_data.append( ('Longitude', self.lon) )
+        
+        job_data.append( ('Start Date Time', self.datetime_start) )
+        job_data.append( ('Stop Date Time', self.datetime_stop) )
         
         job_data.append( ('Calculation', self.calc) )
         job_data.append( ('Calculation Parameter 1', self.par1) )

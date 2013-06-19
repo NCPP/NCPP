@@ -49,6 +49,10 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['lat'] = float( cleaned_data['lat'] )
                     if cleaned_data.has_key('lon') and cleaned_data['lon'] is not None:
                         job_data['lon'] = float( cleaned_data['lon'] )
+                    if cleaned_data.has_key('datetime_start') and cleaned_data['datetime_start'] is not None:
+                        job_data['datetime_start'] = cleaned_data['datetime_start']
+                    if cleaned_data.has_key('datetime_stop') and cleaned_data['datetime_stop'] is not None:
+                        job_data['datetime_stop'] = cleaned_data['datetime_stop']
                     if cleaned_data.has_key('calc'):
                         job_data['calc'] = ocgisChoices(Config.CALCULATION)[cleaned_data['calc']]
                     if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:
@@ -100,6 +104,8 @@ class OpenClimateGisWizard(SessionWizardView):
                                                lonmax=form_data['lonmax'],
                                                lat=form_data['lat'],
                                                lon=form_data['lon'],
+                                               datetime_start=form_data['datetime_start'],
+                                               datetime_stop=form_data['datetime_stop'],
                                                calc=form_data['calc'],
                                                par1=form_data['par1'],
                                                par2=form_data['par2'],
