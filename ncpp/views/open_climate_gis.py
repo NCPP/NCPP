@@ -60,7 +60,9 @@ class OpenClimateGisWizard(SessionWizardView):
                         for group in cleaned_data['calc_group']:
                             job_data['calc_group'].append(ocgisChoices(Config.CALCULATION_GROUP)[group])                             
                     if cleaned_data.has_key('calc_raw'):
-                        job_data['calc_raw'] = bool(cleaned_data['calc_raw'])       
+                        job_data['calc_raw'] = bool(cleaned_data['calc_raw'])   
+                    if cleaned_data.has_key('spatial_operation'):
+                        job_data['spatial_operation'] = ocgisChoices(Config.SPATIAL_OPERATION)[cleaned_data['spatial_operation']]
                     if cleaned_data.has_key('aggregate'):
                         job_data['aggregate'] = bool(cleaned_data['aggregate'])       
                     if cleaned_data.has_key('output_format'):
@@ -103,6 +105,7 @@ class OpenClimateGisWizard(SessionWizardView):
                                                par2=form_data['par2'],
                                                calc_raw=form_data['calc_raw'],
                                                calc_group=form_data['calc_group'],
+                                               spatial_operation=form_data['spatial_operation'],
                                                aggregate=bool(form_data['aggregate']),
                                                output_format=form_data['output_format'],
                                                prefix=form_data['prefix'] )

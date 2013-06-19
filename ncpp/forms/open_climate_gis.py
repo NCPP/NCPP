@@ -1,5 +1,5 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
-                          TextInput)
+                          TextInput, RadioSelect)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 
@@ -31,9 +31,9 @@ class OpenClimateGisForm2(Form):
     par2 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
     calc_group = MultipleChoiceField(choices=ocgisChoices(Config.CALCULATION_GROUP).items(), required=False)
     calc_raw = BooleanField(initial=False, required=False)
-
     aggregate = BooleanField(initial=True, required=False)
-    #spatial_operation = RadioField()
+    spatial_operation = ChoiceField(required=True, choices=ocgisChoices(Config.SPATIAL_OPERATION).items(),
+                                    widget=RadioSelect, initial='intersects')
     output_format = ChoiceField(choices=ocgisChoices(Config.OUTPUT_FORMAT).items(), required=True)
     prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
     
