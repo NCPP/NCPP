@@ -1,4 +1,3 @@
-# Fake Open Climate GIS library
 import time
 import os
 
@@ -14,6 +13,11 @@ class OCG(object):
         self.rootUrl = rootUrl
         # flag to execute dummy run while developing
         self.debug = debug
+        
+        # initialize OCGIS environment
+        ocgis.env.DIR_OUTPUT = self.rootDir
+        ocgis.env.OVERWRITE = True
+
     
     def run(self, 
             dataset=None, variable=None, geometry=None, geometry_id=None, 
@@ -31,30 +35,29 @@ class OCG(object):
         else:
             import ocgis
             
-            DIR_OUTPUT = "/usr/NCPP/static/ocgis"
-            DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
-            FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
-            VARIABLE = 'rhs'
+            #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
+            #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
+            #VARIABLE = 'rhs'
             AGGREGATE = False #True
             SPATIAL_OPERATION = 'intersects' #'clip'
             GEOM = 'state_boundaries'
             STATES = {'CO':[32],'CA':[25]}
-            OUTPUT_FORMAT = 'csv+' #'csv' #'nc' #'shp'
-            PREFIX = 'ocgis_output'
+            #OUTPUT_FORMAT = 'csv+' #'csv' #'nc' #'shp'
+            #PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
-
-            # output location
-            ocgis.env.DIR_OUTPUT = DIR_OUTPUT
-            ocgis.env.OVERWRITE = True
             
-            rd = ocgis.RequestDataset(uri=os.path.join(DIR_DATA,FILENAME),
-                          variable=VARIABLE,time_range=None,
-                          time_region=TIME_REGION)
+            rd = ocgis.RequestDataset(uri=dataset,
+                                      variable=variable, 
+                                      time_range=None,
+                                      time_region=TIME_REGION)
 
             ## construct the operations call
-            ops = ocgis.OcgOperations(dataset=rd,geom=GEOM,select_ugid=STATES['CO'],
-                                      aggregate=AGGREGATE,spatial_operation=SPATIAL_OPERATION,prefix=PREFIX,
-                                      output_format=OUTPUT_FORMAT)
+            ops = ocgis.OcgOperations(dataset=rd, 
+                                      geom=GEOM,select_ugid=STATES['CO'],
+                                      aggregate=AGGREGATE, 
+                                      spatial_operation=SPATIAL_OPERATION, 
+                                      prefix=prefix,
+                                      output_format=output_format)
 
             ## return the path to the folder containing the output data
             path = ops.execute()
