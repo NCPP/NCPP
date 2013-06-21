@@ -14,11 +14,6 @@ class OCG(object):
         # flag to execute dummy run while developing
         self.debug = debug
         
-        # initialize OCGIS environment
-        ocgis.env.DIR_OUTPUT = self.rootDir
-        ocgis.env.OVERWRITE = True
-
-    
     def run(self, 
             dataset=None, variable=None, geometry=None, geometry_id=None, 
             latmin=None, latmax=None, lonmin=None, lonmax=None, lat=None, lon=None,
@@ -34,6 +29,10 @@ class OCG(object):
          # real invocation on NOAA servers 
         else:
             import ocgis
+            
+            # initialize OCGIS environment
+            ocgis.env.DIR_OUTPUT = self.rootDir
+            ocgis.env.OVERWRITE = True
             
             #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
             #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
