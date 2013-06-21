@@ -16,3 +16,7 @@ def get_full_class_name(o):
         Example: 'ncpp.models.climate_indexes.ClimateIndexesJob' = get_full_class_name(instance)."""
         
     return o.__module__ + "." + o.__class__.__name__
+
+def str2bool(v):
+    """Convert a string to a boolean value."""
+    return v.lower() in ("yes", "true", "t", "1")

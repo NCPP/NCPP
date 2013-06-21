@@ -2,7 +2,7 @@ from django.db import models
 import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
-
+from ncpp.utils import str2bool
 from ncpp.ocg import OCG
 
 # read choices from configuration when module is first loaded (once per application)
@@ -66,7 +66,7 @@ class OpenClimateGisJob(Job):
         # instantiate Open Climate GIS adapter
         self.ocg = OCG(ocgisConfig.get("default", "rootDir"),
                        ocgisConfig.get("default", "rootUrl"),
-                       debug=ocgisConfig.get("default", "debug"))
+                       debug=str2bool( ocgisConfig.get("default", "debug") ))
     
     def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
