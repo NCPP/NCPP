@@ -28,7 +28,6 @@ class OCG(object):
         if self.debug:
             time.sleep(SLEEP_SECONDS)
             path = "/usr/NCPP/static/ocgis/ocgis_output/MaurerNew_ARRM-CGCM3_bias_tasmax_mean_mon1_1971-2000_US48.jpg"
-            url = path.replace(self.rootDir, self.rootUrl)
            
          # real invocation on NOAA servers 
         else:
@@ -60,6 +59,7 @@ class OCG(object):
             path = ops.execute()
 
         # return ouput
+        url = path.replace(self.rootDir, self.rootUrl)
         print 'url=%s' % url
         return url
         
