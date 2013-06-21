@@ -4,8 +4,6 @@ import os
 
 SLEEP_SECONDS = 1
 
-OUTPUT = "file:///Users/cinquini/data/NCPP/QED2013/obs/observational/sectorEco/pr/day/US48/19712000/QED2013_evalData_ARRM_CGCM3_P1_G2agro_tasmax_ann_GSL_US48_19712000.jpg"
-
 class OCG(object):
     """Adapter class that invokes the ocgis library."""
     
@@ -44,6 +42,9 @@ class OCG(object):
             OUTPUT_FORMAT = 'csv+' #'csv' #'nc' #'shp'
             PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
+
+            # output location
+            ocgis.env.DIR_OUTPUT = DIR_OUTPUT
             ocgis.env.OVERWRITE = True
             
             rd = ocgis.RequestDataset(uri=os.path.join(DIR_DATA,FILENAME),
@@ -60,6 +61,5 @@ class OCG(object):
 
         # return ouput
         url = path.replace(self.rootDir, self.rootUrl)
-        print 'url=%s' % url
         return url
         
