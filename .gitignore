@@ -6,3 +6,6 @@ local_settings.py
 # Eclipse configuration files
 .project
 .pydevproject
+
+# OCGIS output directory
+ncpp/static/ncpp/ocgis

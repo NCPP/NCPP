@@ -3,7 +3,7 @@ import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 
-from ncpp.ocg import ocg # FIXME
+from ncpp.ocg import OCG
 
 # read choices from configuration when module is first loaded (once per application)
 from ncpp.constants import CONFIG_FILEPATH
@@ -59,6 +59,15 @@ class OpenClimateGisJob(Job):
     output_format = models.CharField(max_length=20, verbose_name='Output Format', blank=False)
     prefix = models.CharField(max_length=50, verbose_name='Prefix', blank=False, default='ocgis_output')
     
+    def __init__(self, *args, **kwargs):
+        
+        super(OpenClimateGisJob, self).__init__(*args, **kwargs)
+                
+        # instantiate Open Climate GIS adapter
+        self.ocg = OCG(ocgisConfig.get("default", "rootDir"),
+                       ocgisConfig.get("default", "rootUrl"),
+                       debug=ocgisConfig.get("default", "debug"))
+    
     def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
         
@@ -66,14 +75,14 @@ class OpenClimateGisJob(Job):
         print 'Submitting Open Climate GIS job'
         
         # submit the job synchronously, wait for output
-        self.url = ocg(dataset=self.dataset, variable=self.variable, 
-                       geometry=self.geometry, geometry_id=self.geometry_id, 
-                       latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
-                       lat=self.lat, lon=self.lon,
-                       datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
-                       calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
-                       spatial_operation=self.spatial_operation,
-                       aggregate=self.aggregate, output_format=self.output_format, prefix=self.prefix)
+        self.url = self.ocg.run(dataset=self.dataset, variable=self.variable, 
+                                geometry=self.geometry, geometry_id=self.geometry_id, 
+                                latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
+                                lat=self.lat, lon=self.lon,
+                                datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
+                                calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
+                                spatial_operation=self.spatial_operation,
+                                aggregate=self.aggregate, output_format=self.output_format, prefix=self.prefix)
         
         self.request = "<request>"+str( self.getInputData )+"</request>"
         self.response = "<response>"+self.url+"</response>"
