@@ -37,24 +37,26 @@ class OCG(object):
             #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
             #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
             #VARIABLE = 'rhs'
-            AGGREGATE = False #True
-            SPATIAL_OPERATION = 'intersects' #'clip'
-            GEOM = 'state_boundaries'
-            STATES = {'CO':[32],'CA':[25]}
+            #AGGREGATE = False #True
+            #SPATIAL_OPERATION = 'intersects' #'clip'
+            #GEOM = 'state_boundaries'
+            #STATES = {'CO':[32],'CA':[25]}
             #OUTPUT_FORMAT = 'csv+' #'csv' #'nc' #'shp'
             #PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
             rd = ocgis.RequestDataset(uri=dataset,
-                                      variable=variable, 
+                                      variable=str(variable), 
                                       time_range=None,
                                       time_region=TIME_REGION)
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
-                                      geom=GEOM,select_ugid=STATES['CO'],
-                                      aggregate=AGGREGATE, 
-                                      spatial_operation=SPATIAL_OPERATION, 
+                                      geom=geometry,
+                                      #select_ugid=STATES['CO'],
+                                      select_ugid=geometry_id,
+                                      aggregate=aggregate, 
+                                      spatial_operation=spatial_operation, 
                                       prefix=prefix,
                                       output_format=output_format)
 
