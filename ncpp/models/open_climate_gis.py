@@ -8,6 +8,8 @@ from ncpp.ocg import OCG
 # read choices from configuration when module is first loaded (once per application)
 from ncpp.constants import CONFIG_FILEPATH
 ocgisConfig = ConfigParser.RawConfigParser()
+# must set following line explicitely to preserve the case of configuration keys
+ocgisConfig.optionxform = str 
 try:
     ocgisConfig.read( os.path.expanduser(CONFIG_FILEPATH) )
 except Exception as e:
@@ -67,6 +69,8 @@ class OpenClimateGisJob(Job):
         self.ocg = OCG(ocgisConfig.get("default", "rootDir"),
                        ocgisConfig.get("default", "rootUrl"),
                        debug=str2bool( ocgisConfig.get("default", "debug") ))
+        
+        print 'choices=%s' % ocgisChoices(Config.DATASET).items()
     
     def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
