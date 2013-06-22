@@ -70,8 +70,6 @@ class OpenClimateGisJob(Job):
                        ocgisConfig.get("default", "rootUrl"),
                        debug=str2bool( ocgisConfig.get("default", "debug") ))
         
-        print 'choices=%s' % ocgisChoices(Config.DATASET).items()
-    
     def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
         
@@ -86,7 +84,7 @@ class OpenClimateGisJob(Job):
                                 datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
                                 calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
                                 spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
-                                output_format=self.output_format, prefix=self.prefix, dir_output=""+self.id)
+                                output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
         
         self.request = "<request>"+str( self.getInputData )+"</request>"
         self.response = "<response>"+self.url+"</response>"
