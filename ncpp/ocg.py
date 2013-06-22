@@ -33,6 +33,8 @@ class OCG(object):
             
             # create output directory
             dir_output = os.path.join(self.rootDir, dir_output)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
             
             #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
             #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
