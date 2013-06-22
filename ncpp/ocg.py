@@ -19,8 +19,9 @@ class OCG(object):
             latmin=None, latmax=None, lonmin=None, lonmax=None, lat=None, lon=None,
             datetime_start=None, datetime_stop=None,
             calc=None, par1=None, par2=None, calc_raw=False, calc_group=[],
-            spatial_operation='intersects', aggregate=True, output_format=None, prefix=None):
-        
+            spatial_operation='intersects', aggregate=True, 
+            output_format=None, prefix=None, dir_output=""):
+
         # fake invocation on laptop
         if self.debug:
             time.sleep(SLEEP_SECONDS)
@@ -30,9 +31,8 @@ class OCG(object):
         else:
             import ocgis
             
-            # initialize OCGIS environment
-            ocgis.env.DIR_OUTPUT = self.rootDir
-            ocgis.env.OVERWRITE = True
+            # create output directory
+            dir_output = os.path.join(self.rootDir, dir_output)
             
             #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
             #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
@@ -53,12 +53,11 @@ class OCG(object):
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
                                       geom=geometry,
-                                      #select_ugid=STATES['CO'],
                                       select_ugid=geometry_id,
                                       aggregate=aggregate, 
                                       spatial_operation=spatial_operation, 
                                       prefix=prefix,
-                                      output_format=output_format)
+                                      output_format=output_format, dir_output=dir_output)
 
             ## return the path to the folder containing the output data
             path = ops.execute()
