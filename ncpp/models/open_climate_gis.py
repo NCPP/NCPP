@@ -76,21 +76,40 @@ class OpenClimateGisJob(Job):
     def submit(self):
         print 'Submitting Open Climate GIS job'
         
-        # submit the job synchronously, wait for output
-        self.url = self.ocg.run(dataset=self.dataset, variable=self.variable, 
-                                geometry=self.geometry, geometry_id=self.geometry_id, 
-                                latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
-                                lat=self.lat, lon=self.lon,
-                                datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
-                                calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
-                                spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
-                                output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
-        
         self.request = "<request>"+str( self.getInputData() )+"</request>"
-        self.response = "<response>"+self.url+"</response>"
-        self.status = JOB_STATUS.SUCCESS
+        
+        try:
+            # submit the job synchronously, wait for output
+            self.url = self.ocg.run(dataset=self.dataset, variable=self.variable, 
+                                    geometry=self.geometry, geometry_id=self.geometry_id, 
+                                    latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
+                                    lat=self.lat, lon=self.lon,
+                                    datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
+                                    calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
+                                    spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
+                                    output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
+            
+            # job terminated successfully
+            self.status = JOB_STATUS.SUCCESS
+            self._encode_response()
+            
+        except Exception as e:
+            print e
+            # job terminated in error
+            self.status = JOB_STATUS.FAILED
+            self.error = e
+            self._encode_response()       
+        
+    def _encode_response(self):
+        """Utility method to build the job response field."""
+        
+        self.response  = '<response job_id="%s">' % self.id
+        self.response += '<status>%s</status>' % self.status
+        self.response += '<url>%s</url>' % self.url
+        self.response += '<error>%s</error>' % self.error
+        self.response += '</response>'
         self.save()
-	
+        
     def getInputData(self):
         """Returns an ordered list of (choice label, choice value)."""
         

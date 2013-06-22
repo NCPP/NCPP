@@ -26,11 +26,9 @@ class Job(models.Model):
         
     def update(self):
         """Method to update the job status. 
-           The default implementation sets the job status to RUNNING."""
-        
-        self.status = JOB_STATUS.RUNNING
-        self.save()
-
+           The default implementation does nothing."""
+        pass
+    
     def getInputData(self):
         """Method to return all job input parameters as a list of tuples of the form (parameter name, parameter value).
           The default implementation returns an empty list of tuples."""

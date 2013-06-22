@@ -17,5 +17,5 @@ def enum(**enums):
             raise Exception('Unknown process execution status: %s' % self.status)
 
 
-JOB_STATUS = enum(UNKNOWN='StatusUnknown', STARTED='ProcessStarted', RUNNING='ProcessRunning', SUCCESS='ProcessSucceeded', 
-                  FAILED='ProcessFailed', ACCEPTED='ProcessAccepted', PAUSED='ProcessPaused', ERROR='Exception')
+JOB_STATUS = enum(UNKNOWN='Status Unknown', STARTED='Process Started', RUNNING='Process Running', SUCCESS='Process Succeeded', 
+                  FAILED='Process Failed', ACCEPTED='Process Accepted', PAUSED='ProcessPaused', ERROR='Error')
