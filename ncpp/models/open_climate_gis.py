@@ -86,7 +86,7 @@ class OpenClimateGisJob(Job):
                                 spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
                                 output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
         
-        self.request = "<request>"+str( self.getInputData )+"</request>"
+        self.request = "<request>"+str( self.getInputData() )+"</request>"
         self.response = "<response>"+self.url+"</response>"
         self.status = JOB_STATUS.SUCCESS
         self.save()
