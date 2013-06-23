@@ -19,6 +19,7 @@ except Exception as e:
 class Config():
     '''Class holding keys into configuration file.'''
     
+    DEFAULT = 'default'
     DATASET = 'dataset'
     VARIABLE = 'variable'
     GEOMETRY = 'geometry'
@@ -29,8 +30,13 @@ class Config():
     SPATIAL_OPERATION = 'spatial_operation'
     
     
-def ocgisChoices(section):
-    return dict( ocgisConfig.items(section) )
+def ocgisChoices(section, nochoice=False):
+    choices = {}
+    # add empty choice 
+    if nochoice:
+        choices[""] = "-- Please Select --"
+    choices.update( dict( ocgisConfig.items(section) ) )
+    return choices
 
 class OpenClimateGisJob(Job):
     """Class that represents the execution of an Open Climate GIS job."""
@@ -66,9 +72,9 @@ class OpenClimateGisJob(Job):
         super(OpenClimateGisJob, self).__init__(*args, **kwargs)
                 
         # instantiate Open Climate GIS adapter
-        self.ocg = OCG(ocgisConfig.get("default", "rootDir"),
-                       ocgisConfig.get("default", "rootUrl"),
-                       debug=str2bool( ocgisConfig.get("default", "debug") ))
+        self.ocg = OCG(ocgisConfig.get(Config.DEFAULT, "rootDir"),
+                       ocgisConfig.get(Config.DEFAULT, "rootUrl"),
+                       debug=str2bool( ocgisConfig.get(Config.DEFAULT, "debug")) )
         
     def __unicode__(self):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)

@@ -1,4 +1,76 @@
 <!-- Form to select the dataset -->
+
+<!-- YUI libraries -->
+<script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js"></script>
+<script src="http://yui.yahooapis.com/2.9.0/build/connection/connection_core-min.js"></script>
+
+<!-- custom javascript code -->
+<script language="javascript">
+
+	// function to populate the form widget with dataset-specific choices
+	function inspectDataset() {
+		
+		// retrieve current dataset selection
+		datasetSelect = document.getElementById("id_0-dataset");
+		if (datasetSelect.value!=null && datasetSelect.value!='') {
+			
+			// execute ajax call to inspect the dataset
+			url = '/ncpp/open_climate_gis/inspectDataset?uri='+encodeURIComponent(datasetSelect.value);
+			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
+
+		} else {
+			
+			// populate variables widget with no options
+			var variables = new Array();
+			variables[0] = ["","-- Please Select --"];
+			showVariables( variables );
+			
+		}
+		
+	}
+	
+	// function called if Ajax request failed
+	var handleFailure = function(o) {
+		alert("An Error Occurred!"
+		     +"\nHTTP Status Code: "+o.status
+		     +"\nMessage: "+o.statusText);
+	}
+	
+	// function called if Ajax request succeded
+	var handleSuccess = function(o) {
+		
+		// parse JSON response into object		
+		var jsonResponse = eval('(' + o.responseText + ')');
+		
+		// populate variable choices
+		showVariables(jsonResponse.variables);
+
+	}
+	
+	// function to populate the variable choices
+	function showVariables(variables) {
+		
+		// populate variable choices
+		variableSelect = document.getElementById("id_0-variable");
+		variableSelect.options.length = 0;
+		for (var i = 0; i < variables.length; i++) {
+			variableSelect.add( new Option(variables[i][1], variables[i][0]) );
+		}
+		
+	}
+	
+	// function called after Ajax request returns
+	var callback = {
+	  success: handleSuccess,
+	  failure: handleFailure,
+	  cache: false,
+	  timeout: 5000,
+	  argument: [],
+	};
+
+
+</script>
        
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Data Selection</legend>	

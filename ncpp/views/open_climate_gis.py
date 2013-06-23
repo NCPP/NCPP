@@ -1,12 +1,14 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.formtools.wizard.views import SessionWizardView
-
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
-from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config
-from ncpp.utils import get_full_class_name
+from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig
+from ncpp.utils import get_full_class_name, str2bool
+from django.utils import simplejson  
+
 
 
 class OpenClimateGisWizard(SessionWizardView):
@@ -121,3 +123,17 @@ class OpenClimateGisWizard(SessionWizardView):
         
         # FIXME: pass OCG as additional argument to select jobs
         return HttpResponseRedirect(reverse('job_detail', args=[job.id, get_full_class_name(job)]))
+    
+def inspect_dataset(request):
+    """View called from Ajax request to inspect a dataset."""
+    
+    uri = request.GET.get('uri', None)
+    debug = str2bool( ocgisConfig.get(Config.DEFAULT, "debug"))
+    
+    if debug:
+        response_data = {}
+        response_data['variables'] = [ ('v1','Variable 1'), ('v2','Variable 2'), ('v3','Variable 3')]
+        return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
+    else:
+        pass
+    

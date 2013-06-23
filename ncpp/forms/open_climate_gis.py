@@ -1,5 +1,5 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
-                          TextInput, RadioSelect, DateTimeField)
+                          TextInput, RadioSelect, DateTimeField, Select)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 
@@ -9,8 +9,9 @@ class OpenClimateGisForm1(Form):
     '''Form that backs up the first selection page. 
        The argument passed to ocgisChoices must correspond to a valid key in the file OCGIS configuration file.'''
     
-    dataset = ChoiceField(choices=ocgisChoices(Config.DATASET).items(), required=True)
-    variable = ChoiceField(choices=ocgisChoices(Config.VARIABLE).items(), required=True)
+    dataset = ChoiceField(choices=ocgisChoices(Config.DATASET, nochoice=True).items(), required=True,
+                          widget=Select(attrs={'onchange': 'inspectDataset();'}))
+    variable = ChoiceField(choices=ocgisChoices(Config.VARIABLE, nochoice=True).items(), required=True)
     geometry = ChoiceField(choices=ocgisChoices(Config.GEOMETRY).items(), required=False)
     geometry_id = MultipleChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False,
                                       widget=SelectMultiple(attrs={'size':6}))
