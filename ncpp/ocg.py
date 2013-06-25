@@ -17,8 +17,11 @@ class OCG(object):
     def encodeArgs(self, openClimateGisJob):
         """Method to transfor the OpenClimateGisJob instance into a dictionary of arguments passed on to the ocgis library."""
         args = {}
-        args['dataset'] = openClimateGisJob.dataset
+        # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
+        #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
+        args['uri'] = openClimateGisJob.dataset
         args['variable'] = openClimateGisJob.variable
+        
         args['geometry'] = openClimateGisJob.geometry
         args['geometry_id'] = openClimateGisJob.geometry_id
         args['latmin'] = openClimateGisJob.latmin
@@ -71,7 +74,7 @@ class OCG(object):
             #PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
-            rd = ocgis.RequestDataset(uri=args['dataset'],
+            rd = ocgis.RequestDataset(uri=args['uri'],
                                       variable=args['variable'], 
                                       time_range=None,
                                       time_region=args['time_region'])

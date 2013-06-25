@@ -94,18 +94,42 @@
 	<table class="horizontalTable">
 		<tr>
 			<th>Shape:</th>
-			<th>Type: {{ wizard.form.geometry }}</th>
-			<th>Geometry: {{ wizard.form.geometry_id }}</th>
+			<td>Type:</td>
+			<td>{{ wizard.form.geometry }}</td>
+			<td>Geometry:</td>
+			<td style="width:100%; text-align:left;"> {{ wizard.form.geometry_id }}</td>
 		</tr>
 		<tr>
-			<th>Bounding Box:</th>
-			<th>Latitude min: {{ wizard.form.latmin }} max: {{ wizard.form.latmax }}</th>
-			<th>Longitude min: {{ wizard.form.lonmin }} max: {{ wizard.form.lonmax }}</th>	
+			<td></td>
+			<td colspan="4"><span class="error">{{ wizard.form.geometry_id.errors }}</span></td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap">Bounding Box:</th>
+			<td colspan="4" nowrap="nowrap">
+				Latitude min: {{ wizard.form.latmin }} max: {{ wizard.form.latmax }}
+				Longitude min: {{ wizard.form.lonmin }} max: {{ wizard.form.lonmax }}
+			</td>	
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="4"><span class="error">{{ wizard.form.latmin.errors }}</span>
+							<span class="error">{{ wizard.form.latmax.errors }}</span>
+							<span class="error">{{ wizard.form.lonmin.errors }}</span>
+							<span class="error">{{ wizard.form.lonmax.errors }}</span>
+			</td>
 		</tr>
 		<tr>
 			<th>Point:</th>
-			<th>Latitude: {{ wizard.form.lat }} </th>
-			<th>Longitude: {{ wizard.form.lon }}</th>	
+			<td colspan="4">Latitude: {{ wizard.form.lat }}
+							Longitude: {{ wizard.form.lon }}
+						<br/><span class="error">{{ wizard.form.geometry.errors }}</span>
+			</td>	
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan="4"><span class="error">{{ wizard.form.lat.errors }}</span>
+							<span class="error">{{ wizard.form.lon.errors }}</span>
+			</td>
 		</tr>
 		
 	</table>

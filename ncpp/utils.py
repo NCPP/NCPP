@@ -22,6 +22,10 @@ def str2bool(v):
     """Convert a string to a boolean value."""
     return v.lower() in ("yes", "true", "t", "1")
 
+def hasText(value):
+    """Checks wether a string is not null."""
+    return value is not None and str(value).strip() != ""
+
 def get_month_string(months):
     """Converts a list of integers into a comma-separated list of months."""
     

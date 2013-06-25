@@ -37,7 +37,6 @@ def job_request(request, job_id, job_class):
     # retrieve job of specified type
     kls = get_class(job_class)
     job = get_object_or_404(kls, pk=job_id)
-    print job.request
     return HttpResponse(job.request, mimetype="text/plain") # FIXME: change to "text/xml" ?
 
 @login_required(login_url=LOGIN_URL)

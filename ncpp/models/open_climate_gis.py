@@ -1,7 +1,7 @@
 from django.db import models
 import os, ConfigParser
 from ncpp.models.common import Job
-from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
+from ncpp.constants import APPLICATION_LABEL, JOB_STATUS, NO_VALUE_OPTION
 from ncpp.utils import str2bool, get_month_string
 from ncpp.ocg import OCG
 #from collections import OrderedDict
@@ -36,7 +36,7 @@ def ocgisChoices(section, nochoice=False):
     choices = {}
     # add empty choice 
     if nochoice:
-        choices[""] = "-- Please Select --"
+        choices[ NO_VALUE_OPTION[0] ] = NO_VALUE_OPTION[1]
     choices.update( dict( ocgisConfig.items(section) ) )
     return choices
 
