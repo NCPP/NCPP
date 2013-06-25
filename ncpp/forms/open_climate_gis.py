@@ -26,8 +26,8 @@ class OpenClimateGisForm1(Form):
     datetime_start = DateTimeField(required=False)
     datetime_stop = DateTimeField(required=False)
     
-    time_range_month = MultipleChoiceField(choices=MONTH_CHOICES, required=False, widget=CheckboxSelectMultiple)                                    #initial = range(12))
-    time_range_year = CharField(required=False, widget=TextInput(attrs={'size':60}))
+    timeregion_month = MultipleChoiceField(choices=MONTH_CHOICES, required=False, widget=CheckboxSelectMultiple)                                    #initial = range(12))
+    timeregion_year = CharField(required=False, widget=TextInput(attrs={'size':60}))
     
     # custom validation
     def clean(self):

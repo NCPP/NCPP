@@ -17,7 +17,7 @@ class OCG(object):
     def run(self, 
             dataset=None, variable=None, geometry=None, geometry_id=None, 
             latmin=None, latmax=None, lonmin=None, lonmax=None, lat=None, lon=None,
-            datetime_start=None, datetime_stop=None,
+            datetime_start=None, datetime_stop=None, timeregion_month=None, timeregion_year=None,
             calc=None, par1=None, par2=None, calc_raw=False, calc_group=[],
             spatial_operation='intersects', aggregate=True, 
             output_format=None, prefix=None, dir_output=""):

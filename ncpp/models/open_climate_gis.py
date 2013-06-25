@@ -2,7 +2,7 @@ from django.db import models
 import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
-from ncpp.utils import str2bool
+from ncpp.utils import str2bool, get_month_string
 from ncpp.ocg import OCG
 #from collections import OrderedDict
 
@@ -96,6 +96,7 @@ class OpenClimateGisJob(Job):
                                     latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
                                     lat=self.lat, lon=self.lon,
                                     datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
+                                    timeregion_month=self.timeregion_month, timeregion_year=self.timeregion_year,
                                     calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
                                     spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
                                     output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
@@ -144,6 +145,8 @@ class OpenClimateGisJob(Job):
         
         job_data.append( ('Start Date Time', self.datetime_start) )
         job_data.append( ('Stop Date Time', self.datetime_stop) )
+        job_data.append( ('Selected Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
+        job_data.append( ('Selected Years', self.timeregion_year) )
         
         job_data.append( ('Calculation', self.calc) )
         job_data.append( ('Calculation Parameter 1', self.par1) )

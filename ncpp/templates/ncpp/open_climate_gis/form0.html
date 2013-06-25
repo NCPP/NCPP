@@ -123,14 +123,14 @@
 		<tr>
 			<th>Specific Months:</th>
 			<td>
-			{% for box in wizard.form.time_range_month %}
+			{% for box in wizard.form.timeregion_month %}
 				{{ box }}
 			{% endfor %}
 			</td>
 		</tr>
 		<tr>
 			<th>Specific Years:</th>
-			<td>{{ wizard.form.time_range_year }}
+			<td>{{ wizard.form.timeregion_year }}
 				&nbsp;[Format: YYYY, YYYY, YYYY, ...]
 			</td>
 		</tr>

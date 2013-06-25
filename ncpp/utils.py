@@ -1,4 +1,5 @@
 # module containing NCPP utility functions
+from ncpp.constants import MONTH_DICT
 
 def get_class( kls ):
     """ Utility function to retrieve a Class object from its fully qualified name as a string.
@@ -20,3 +21,11 @@ def get_full_class_name(o):
 def str2bool(v):
     """Convert a string to a boolean value."""
     return v.lower() in ("yes", "true", "t", "1")
+
+def get_month_string(months):
+    """Converts a list of integers into a comma-separated list of months."""
+    
+    list = []
+    for month in months:
+        list.append(MONTH_DICT[int(month)])
+    return ",".join(list)
