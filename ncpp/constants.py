@@ -19,3 +19,6 @@ def enum(**enums):
 
 JOB_STATUS = enum(UNKNOWN='Status Unknown', STARTED='Process Started', RUNNING='Process Running', SUCCESS='Process Succeeded', 
                   FAILED='Process Failed', ACCEPTED='Process Accepted', PAUSED='ProcessPaused', ERROR='Error')
+
+MONTH_CHOICES = ( (0,'Jan'), (1,'Feb'), (2,'Mar'), (3,'Apr'), (4,'May'), (5,'Jun'),
+                  (6,'Jul'), (7,'Aug'), (8,'Sep'), (9,'Oct'), (10,'Nov'), (10,'Dec'))

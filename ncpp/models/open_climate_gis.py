@@ -4,9 +4,11 @@ from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS
 from ncpp.utils import str2bool
 from ncpp.ocg import OCG
+#from collections import OrderedDict
 
 # read choices from configuration when module is first loaded (once per application)
 from ncpp.constants import CONFIG_FILEPATH
+#ocgisConfig = ConfigParser.RawConfigParser(dict_type=OrderedDict)
 ocgisConfig = ConfigParser.RawConfigParser()
 # must set following line explicitely to preserve the case of configuration keys
 ocgisConfig.optionxform = str 
@@ -38,6 +40,7 @@ def ocgisChoices(section, nochoice=False):
     choices.update( dict( ocgisConfig.items(section) ) )
     return choices
 
+
 class OpenClimateGisJob(Job):
     """Class that represents the execution of an Open Climate GIS job."""
     
@@ -55,7 +58,9 @@ class OpenClimateGisJob(Job):
     
     datetime_start = models.DateTimeField(verbose_name='Start Date Time', blank=True, null=True)
     datetime_stop = models.DateTimeField(verbose_name='Stop Date Time', blank=True, null=True)
-    
+    timeregion_month = models.CharField(max_length=200, verbose_name='Time Region: Month', null=True, blank=True)
+    timeregion_year = models.CharField(max_length=200, verbose_name='Time Region: Year', null=True, blank=True)
+        
     calc = models.CharField(max_length=50, verbose_name='Calculation', null=False)
     par1 = models.FloatField(verbose_name='Calculation Parameter 1', blank=True, null=True)
     par2 = models.FloatField(verbose_name='Calculation Parameter 2', blank=True, null=True)

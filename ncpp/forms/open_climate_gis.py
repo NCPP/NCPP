@@ -1,9 +1,8 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
-                          TextInput, RadioSelect, DateTimeField, Select)
+                          TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
-
-
+from ncpp.constants import MONTH_CHOICES
 
 class OpenClimateGisForm1(Form):
     '''Form that backs up the first selection page. 
@@ -26,6 +25,22 @@ class OpenClimateGisForm1(Form):
     
     datetime_start = DateTimeField(required=False)
     datetime_stop = DateTimeField(required=False)
+    
+    time_range_month = MultipleChoiceField(choices=MONTH_CHOICES, required=False, widget=CheckboxSelectMultiple)                                    #initial = range(12))
+    time_range_year = CharField(required=False, widget=TextInput(attrs={'size':60}))
+    
+    # custom validation
+    def clean(self):
+        
+        # invoke superclass cleaning method
+        super(OpenClimateGisForm1, self).clean()
+        
+        if not self.is_valid():
+            print 'VALIDATION ERRORS: %s' % self.errors
+        
+        # return cleaned data
+        return self.cleaned_data
+
     
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''

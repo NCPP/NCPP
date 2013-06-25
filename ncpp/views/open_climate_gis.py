@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from ncpp.models.common import JOB_STATUS
 from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig
 from ncpp.utils import get_full_class_name, str2bool
+from ncpp.constants import MONTH_CHOICES
 from django.utils import simplejson  
 
 
@@ -20,7 +21,7 @@ class OpenClimateGisWizard(SessionWizardView):
     # overridden here to aggregate user choices from all steps before the last one
     def get_context_data(self, form, **kwargs):
         
-        context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)              
+        context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)    
         
         # before very last view: create summary of user choices
         if self.steps.current == self.steps.last:
@@ -28,7 +29,8 @@ class OpenClimateGisWizard(SessionWizardView):
             # retrieve form data for all previous views
             for step in self.steps.all:
                 if step != self.steps.current:                    
-                    cleaned_data = self.get_cleaned_data_for_step(step)                  
+                    cleaned_data = self.get_cleaned_data_for_step(step)   
+                    month_dict = dict(MONTH_CHOICES)               
                     if cleaned_data.has_key("dataset"):
                         job_data['dataset'] = ocgisChoices(Config.DATASET)[cleaned_data['dataset']]
                     if cleaned_data.has_key('variable'):
@@ -55,6 +57,12 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['datetime_start'] = cleaned_data['datetime_start']
                     if cleaned_data.has_key('datetime_stop') and cleaned_data['datetime_stop'] is not None:
                         job_data['datetime_stop'] = cleaned_data['datetime_stop']
+                    if cleaned_data.has_key('time_range_month') and cleaned_data['time_range_month'] is not None:
+                        job_data['time_range_month'] = []
+                        for month in cleaned_data['time_range_month']:
+                            job_data['time_range_month'].append(month_dict[int(month)])
+                    if cleaned_data.has_key('time_range_year') and cleaned_data['time_range_year'] is not None:
+                        job_data['time_range_year'] = cleaned_data['time_range_year']
                     if cleaned_data.has_key('calc'):
                         job_data['calc'] = ocgisChoices(Config.CALCULATION)[cleaned_data['calc']]
                     if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:

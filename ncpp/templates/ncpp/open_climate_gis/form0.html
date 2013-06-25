@@ -114,11 +114,25 @@
 	<table class="horizontalTable">
 		<tr>
 			<th>Start:</th>
-			<td>{{ wizard.form.datetime_start }} &nbsp; {{ wizard.form.datetime_start.errors }}</td>
+			<td>
+				{{ wizard.form.datetime_start }} &nbsp; {{ wizard.form.datetime_start.errors }}
+				<b>Stop:</b>
+				{{ wizard.form.datetime_stop }} &nbsp; {{ wizard.form.datetime_stop.errors }}
+			</td>
 		</tr>
 		<tr>
-			<th>Stop:</th>
-			<td>{{ wizard.form.datetime_stop }} &nbsp; {{ wizard.form.datetime_stop.errors }}</td>
+			<th>Specific Months:</th>
+			<td>
+			{% for box in wizard.form.time_range_month %}
+				{{ box }}
+			{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th>Specific Years:</th>
+			<td>{{ wizard.form.time_range_year }}
+				&nbsp;[Format: YYYY, YYYY, YYYY, ...]
+			</td>
 		</tr>
 	</table>
 </fieldset>
