@@ -24,7 +24,7 @@ def job_detail(request, job_id, job_class):
     job = get_object_or_404(kls, pk=job_id)
     
     # retrieve job-specific submission data
-    job_data = job.getInputData()
+    job_data = job.getFormData()
 
     return render_to_response('ncpp/common/job_detail.html',
                               {'job':job, 'job_data':job_data },

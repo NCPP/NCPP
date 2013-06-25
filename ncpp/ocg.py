@@ -14,13 +14,37 @@ class OCG(object):
         # flag to execute dummy run while developing
         self.debug = debug
         
-    def run(self, 
-            dataset=None, variable=None, geometry=None, geometry_id=None, 
-            latmin=None, latmax=None, lonmin=None, lonmax=None, lat=None, lon=None,
-            datetime_start=None, datetime_stop=None, timeregion_month=None, timeregion_year=None,
-            calc=None, par1=None, par2=None, calc_raw=False, calc_group=[],
-            spatial_operation='intersects', aggregate=True, 
-            output_format=None, prefix=None, dir_output=""):
+    def encodeArgs(self, openClimateGisJob):
+        """Method to transfor the OpenClimateGisJob instance into a dictionary of arguments passed on to the ocgis library."""
+        args = {}
+        args['dataset'] = openClimateGisJob.dataset
+        args['variable'] = openClimateGisJob.variable
+        args['geometry'] = openClimateGisJob.geometry
+        args['geometry_id'] = openClimateGisJob.geometry_id
+        args['latmin'] = openClimateGisJob.latmin
+        args['latmax'] = openClimateGisJob.latmax
+        args['lonmin'] = openClimateGisJob.lonmin
+        args['lonmax'] = openClimateGisJob.lonmax
+        args['lat'] = openClimateGisJob.lat
+        args['lon'] = openClimateGisJob.lon
+        args['datetime_start'] = openClimateGisJob.datetime_start
+        args['datetime_stop'] = openClimateGisJob.datetime_stop
+        args['timeregion_month'] = openClimateGisJob.timeregion_month
+        args['timeregion_year'] = openClimateGisJob.timeregion_year
+        args['calc'] = openClimateGisJob.calc
+        args['par1'] = openClimateGisJob.par1
+        args['par2'] = openClimateGisJob.par2
+        args['calc_raw'] = openClimateGisJob.calc_raw
+        args['calc_group'] = openClimateGisJob.calc_group
+        args['spatial_operation'] = openClimateGisJob.spatial_operation
+        args['aggregate'] = openClimateGisJob.aggregate
+        args['output_format'] = openClimateGisJob.output_format
+        args['prefix'] = openClimateGisJob.prefix
+        args['dir_output'] = str( openClimateGisJob.id )
+            
+        return args
+        
+    def run(self, args):
 
         # fake invocation on laptop
         if self.debug:
@@ -47,19 +71,20 @@ class OCG(object):
             #PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
-            rd = ocgis.RequestDataset(uri=dataset,
-                                      variable=str(variable), 
+            rd = ocgis.RequestDataset(uri=args['dataset'],
+                                      variable=args['variable'], 
                                       time_range=None,
-                                      time_region=TIME_REGION)
+                                      time_region=args['time_region'])
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
-                                      geom=geometry,
-                                      select_ugid=geometry_id,
-                                      aggregate=aggregate, 
-                                      spatial_operation=spatial_operation, 
-                                      prefix=prefix,
-                                      output_format=output_format, dir_output=dir_output)
+                                      geom=args['geometry'],
+                                      select_ugid=args['geometry_id'],
+                                      aggregate=args['aggregate'], 
+                                      spatial_operation=args['spatial_operation'], 
+                                      prefix=args['prefix'],
+                                      output_format=args['output_format'], 
+                                      dir_output=args['dir_output'])
 
             ## return the path to the folder containing the output data
             path = ops.execute()

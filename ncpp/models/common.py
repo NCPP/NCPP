@@ -29,7 +29,7 @@ class Job(models.Model):
            The default implementation does nothing."""
         pass
     
-    def getInputData(self):
+    def getFormData(self):
         """Method to return all job input parameters as a list of tuples of the form (parameter name, parameter value).
           The default implementation returns an empty list of tuples."""
         

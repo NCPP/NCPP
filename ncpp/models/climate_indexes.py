@@ -64,7 +64,7 @@ class ClimateIndexJob(Job):
         runner = Runner(self)
         runner.start()
         
-    def getInputData(self):
+    def getFormData(self):
         """Returns an ordered list of (choice label, choice value)."""
         
         job_data = []

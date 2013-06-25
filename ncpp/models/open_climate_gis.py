@@ -87,19 +87,12 @@ class OpenClimateGisJob(Job):
     def submit(self):
         print 'Submitting Open Climate GIS job'
         
-        self.request = "<request>"+str( self.getInputData() )+"</request>"
+        args = self.ocg.encodeArgs(self)
+        self.request = self._encode_request(args)
         
         try:
             # submit the job synchronously, wait for output
-            self.url = self.ocg.run(dataset=self.dataset, variable=self.variable, 
-                                    geometry=self.geometry, geometry_id=self.geometry_id, 
-                                    latmin=self.latmin, latmax=self.latmax, lonmin=self.lonmin, lonmax=self.lonmax,
-                                    lat=self.lat, lon=self.lon,
-                                    datetime_start=self.datetime_start, datetime_stop=self.datetime_stop,
-                                    timeregion_month=self.timeregion_month, timeregion_year=self.timeregion_year,
-                                    calc=self.calc, par1=self.par1, par2=self.par2, calc_raw=self.calc_raw, calc_group=self.calc_group,
-                                    spatial_operation=self.spatial_operation, aggregate=self.aggregate, 
-                                    output_format=self.output_format, prefix=self.prefix, dir_output=str(self.id))
+            self.url = self.ocg.run(args)
             
             # job terminated successfully
             self.status = JOB_STATUS.SUCCESS
@@ -110,7 +103,16 @@ class OpenClimateGisJob(Job):
             # job terminated in error
             self.status = JOB_STATUS.FAILED
             self.error = e
-            self._encode_response()       
+            self._encode_response()    
+            
+        self.save()   
+        
+    def _encode_request(self, args):
+        """Utility method to build the job request document."""
+        
+        print "arga=%s" % args
+        return "<request>%s</request>" % sorted(args, key=lambda key: args[key])
+        
         
     def _encode_response(self):
         """Utility method to build the job response field."""
@@ -120,9 +122,9 @@ class OpenClimateGisJob(Job):
         self.response += '<url>%s</url>' % self.url
         self.response += '<error>%s</error>' % self.error
         self.response += '</response>'
-        self.save()
         
-    def getInputData(self):
+        
+    def getFormData(self):
         """Returns an ordered list of (choice label, choice value)."""
         
         job_data = []
@@ -145,7 +147,9 @@ class OpenClimateGisJob(Job):
         
         job_data.append( ('Start Date Time', self.datetime_start) )
         job_data.append( ('Stop Date Time', self.datetime_stop) )
-        job_data.append( ('Selected Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
+        print 'timeregion_month=%s' % self.timeregion_month
+        if self.timeregion_month is not None and len(self.timeregion_month)>0:
+            job_data.append( ('Selected Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
         job_data.append( ('Selected Years', self.timeregion_year) )
         
         job_data.append( ('Calculation', self.calc) )
