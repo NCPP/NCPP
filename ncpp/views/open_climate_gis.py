@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
 from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig
-from ncpp.utils import get_full_class_name, str2bool
+from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
 
@@ -34,7 +34,8 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['dataset'] = ocgisChoices(Config.DATASET)[cleaned_data['dataset']]
                     if cleaned_data.has_key('variable'):
                         job_data['variable'] = cleaned_data['variable']  
-                    if cleaned_data.has_key('geometry'):
+                    if cleaned_data.has_key('geometry') and hasText(cleaned_data['geometry']):
+                        print 'geometry=%s' % cleaned_data['geometry']
                         job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']]    
                     if cleaned_data.has_key('geometry_id'):
                         job_data['geometry_id'] =[]

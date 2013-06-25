@@ -72,7 +72,7 @@ class OpenClimateGisForm1(Form):
             if geometry =='shape':
               if not hasText(self.cleaned_data['geometry']):
                   self._errors["geometry_id"] = self.error_class(["Please select a shape type"]) 
-              else:
+              if len(self.cleaned_data['geometry_id'])==0:
                   self._errors["geometry_id"] = self.error_class(["Please select a shape geometry"])
             elif geometry == 'box':
                 if (   not hasText(self.cleaned_data['latmin']) or not hasText(self.cleaned_data['latmax'])
@@ -81,7 +81,7 @@ class OpenClimateGisForm1(Form):
             elif geometry == 'point':
                 if not hasText(self.cleaned_data['lat']):
                     self._errors["lat"] = self.error_class(["Invalid point latitude"])   
-                else:
+                if not hasText(self.cleaned_data['lon']):
                      self._errors["lon"] = self.error_class(["Invalid point longitude"])   
         
         if not self.is_valid():

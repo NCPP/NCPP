@@ -5,13 +5,19 @@
 <table class="horizontalTable">
 	<tr><th nowrap="nowrap">Dataset:</th><td>{{ job_data.dataset }}</td></tr>
 	<tr><th nowrap="nowrap">Variable:</th><td>{{ job_data.variable }}</td></tr>
-	<tr><th nowrap="nowrap">Geometry:</th><td>{{ job_data.geometry }}: {{ job_data.geometry_id }}</td></tr>
-	<tr><th nowrap="nowrap">Bounding Box:</th>
-	    <td> Lat min: {{ job_data.latmin }} max: {{ job_data.latmax }}
-	         Lon min: {{ job_data.lonmin }} max: {{ job_data.lonmax }}
-	    </td>
-	</tr>
-	<tr><th nowrap="nowrap">Point:</th><td> lat: {{ job_data.lat }} lon: {{ job_data.lon }}</td></tr>
+	{% if job_data.geometry %}
+		<tr><th nowrap="nowrap">Geometry:</th><td>{{ job_data.geometry }}: {{ job_data.geometry_id }}</td></tr>
+	{% endif %}
+	{% if job_data.latmin or job_data.latmax or job_data.lonmin or job_data.lonmax %}
+		<tr><th nowrap="nowrap">Bounding Box:</th>
+		    <td> Lat min: {{ job_data.latmin }} max: {{ job_data.latmax }}
+		         Lon min: {{ job_data.lonmin }} max: {{ job_data.lonmax }}
+		    </td>
+		</tr>
+	{% endif %}
+	{% if job_data.lat or job_data.lon %}
+		<tr><th nowrap="nowrap">Point:</th><td> Latitude: {{ job_data.lat }} Longitude: {{ job_data.lon }}</td></tr>
+	{% endif %}
 	<tr><th nowrap="nowrap">Start Date Time:</th><td>{{ job_data.datetime_start }}</td></tr>
 	<tr><th nowrap="nowrap">Stop Date Time:</th><td>{{ job_data.datetime_stop }}</td></tr>
 	<tr><th nowrap="nowrap">Selected Months:</th><td>{{ job_data.timeregion_month }}</td></tr>

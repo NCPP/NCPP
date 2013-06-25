@@ -2,7 +2,7 @@ from django.db import models
 import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS, NO_VALUE_OPTION
-from ncpp.utils import str2bool, get_month_string
+from ncpp.utils import str2bool, get_month_string, hasText
 from ncpp.ocg import OCG
 #from collections import OrderedDict
 
@@ -133,17 +133,23 @@ class OpenClimateGisJob(Job):
         job_data = []
         job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
         job_data.append( ('Variable', self.variable) )
-        job_data.append( ('Geometry', ocgisChoices(Config.GEOMETRY)[self.geometry]) )
+        if hasText(self.geometry):
+            job_data.append( ('Shape Type', ocgisChoices(Config.GEOMETRY)[self.geometry]) )
         # must transform string into list of integers
         geometry_id=[]
         for id in self.geometry_id.split(","):
             if id != '':
                 geometry_id.append( ocgisChoices(Config.GEOMETRY_ID)[id] )
-        job_data.append( ('Geometry ID', geometry_id) )
-        job_data.append( ('Latitude Minimum', self.latmin) )
-        job_data.append( ('Latitude Maximum', self.latmax) )
-        job_data.append( ('Longitude Minimum', self.lonmin) )
-        job_data.append( ('Longitude Maximum', self.lonmax) )
+        if len(geometry_id)>0:
+            job_data.append( ('Shape Geometry', geometry_id) )
+        if hasText(self.latmin):
+            job_data.append( ('Latitude Minimum', self.latmin) )
+        if hasText(self.latmax):
+            job_data.append( ('Latitude Maximum', self.latmax) )
+        if hasText(self.lonmin):
+            job_data.append( ('Longitude Minimum', self.lonmin) )
+        if hasText(self.lonmax):
+            job_data.append( ('Longitude Maximum', self.lonmax) )
         
         job_data.append( ('Latitude', self.lat) )
         job_data.append( ('Longitude', self.lon) )

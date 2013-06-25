@@ -1,5 +1,6 @@
 import time
 import os
+from ncpp.utils import hasText
 
 SLEEP_SECONDS = 1
 
@@ -16,20 +17,30 @@ class OCG(object):
         
     def encodeArgs(self, openClimateGisJob):
         """Method to transfor the OpenClimateGisJob instance into a dictionary of arguments passed on to the ocgis library."""
+        
         args = {}
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
         args['uri'] = openClimateGisJob.dataset
         args['variable'] = openClimateGisJob.variable
         
-        args['geometry'] = openClimateGisJob.geometry
-        args['geometry_id'] = openClimateGisJob.geometry_id
-        args['latmin'] = openClimateGisJob.latmin
-        args['latmax'] = openClimateGisJob.latmax
-        args['lonmin'] = openClimateGisJob.lonmin
-        args['lonmax'] = openClimateGisJob.lonmax
-        args['lat'] = openClimateGisJob.lat
-        args['lon'] = openClimateGisJob.lon
+        # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
+        #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 
+        #                           abstraction='polygon', snippet=False, backend='ocg', prefix=None, 
+        #                           output_format='numpy', agg_selection=False, select_ugid=None, 
+        #                           vector_wrap=True, allow_empty=False, dir_output=None, slice=None, 
+        #                           file_only=False, headers=None)
+        args['geom'] = None
+        args['select_ugid'] = None
+        if hasText(openClimateGisJob.geometry):
+            args['geom'] = openClimateGisJob.geometry
+            args['select_ugid'] = openClimateGisJob.geometry_id
+        elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
+              and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
+            args['geom'] = [openClimateGisJob.lonmin, openClimateGisJob.lonmax, openClimateGisJob.latmin,  openClimateGisJob.latmax]
+        elif hasText(openClimateGisJob.lat) and hasText(openClimateGisJob.lon):
+            args['geom'] = [openClimateGisJob.lon, openClimateGisJob.lat]
+
         args['datetime_start'] = openClimateGisJob.datetime_start
         args['datetime_stop'] = openClimateGisJob.datetime_stop
         args['timeregion_month'] = openClimateGisJob.timeregion_month
@@ -81,8 +92,8 @@ class OCG(object):
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
-                                      geom=args['geometry'],
-                                      select_ugid=args['geometry_id'],
+                                      geom=args['geom'],
+                                      select_ugid=args['select_ugid'],
                                       aggregate=args['aggregate'], 
                                       spatial_operation=args['spatial_operation'], 
                                       prefix=args['prefix'],
