@@ -1,8 +1,17 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
-                          TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple)
+                          TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config
 from ncpp.constants import MONTH_CHOICES
+
+class DynamicChoiceField(ChoiceField):
+   """ Class that extends the MultipleChoiceField to suppress validation on valid choices, 
+       to support the case when they are assigned dynamically through Ajax calls."""
+       
+   def validate(self, value):
+       """This method only checks that a value exist, not which value it is."""
+       if self.required and not value:
+           raise ValidationError(self.error_messages['required'])
 
 class OpenClimateGisForm1(Form):
     '''Form that backs up the first selection page. 
@@ -10,7 +19,8 @@ class OpenClimateGisForm1(Form):
     
     dataset = ChoiceField(choices=ocgisChoices(Config.DATASET, nochoice=True).items(), required=True,
                           widget=Select(attrs={'onchange': 'inspectDataset();'}))
-    variable = ChoiceField(choices=ocgisChoices(Config.VARIABLE, nochoice=True).items(), required=True)
+    # no initial values for 'variables' widget. The choices are assigned dynamically through Ajax
+    variable = DynamicChoiceField(choices=[("","-- Please Select --")], required=True)
     geometry = ChoiceField(choices=ocgisChoices(Config.GEOMETRY).items(), required=False)
     geometry_id = MultipleChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False,
                                       widget=SelectMultiple(attrs={'size':6}))

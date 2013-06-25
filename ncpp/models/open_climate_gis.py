@@ -110,8 +110,11 @@ class OpenClimateGisJob(Job):
     def _encode_request(self, args):
         """Utility method to build the job request document."""
         
-        print "arga=%s" % args
-        return "<request>%s</request>" % sorted(args, key=lambda key: args[key])
+        request = "<request>\n"
+        for k, v in sorted(args.items()):
+            request += "\t<%s>%s</%s>\n" % (k, v, k)
+        request += "</request>\n" 
+        return request
         
         
     def _encode_response(self):
@@ -129,7 +132,7 @@ class OpenClimateGisJob(Job):
         
         job_data = []
         job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
-        job_data.append( ('Variable', ocgisChoices(Config.VARIABLE)[self.variable]) )
+        job_data.append( ('Variable', self.variable) )
         job_data.append( ('Geometry', ocgisChoices(Config.GEOMETRY)[self.geometry]) )
         # must transform string into list of integers
         geometry_id=[]
@@ -147,7 +150,6 @@ class OpenClimateGisJob(Job):
         
         job_data.append( ('Start Date Time', self.datetime_start) )
         job_data.append( ('Stop Date Time', self.datetime_stop) )
-        print 'timeregion_month=%s' % self.timeregion_month
         if self.timeregion_month is not None and len(self.timeregion_month)>0:
             job_data.append( ('Selected Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
         job_data.append( ('Selected Years', self.timeregion_year) )

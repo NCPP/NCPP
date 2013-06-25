@@ -33,7 +33,7 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key("dataset"):
                         job_data['dataset'] = ocgisChoices(Config.DATASET)[cleaned_data['dataset']]
                     if cleaned_data.has_key('variable'):
-                        job_data['variable'] = ocgisChoices(Config.VARIABLE)[cleaned_data['variable']]    
+                        job_data['variable'] = cleaned_data['variable']  
                     if cleaned_data.has_key('geometry'):
                         job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']]    
                     if cleaned_data.has_key('geometry_id'):
@@ -92,7 +92,6 @@ class OpenClimateGisWizard(SessionWizardView):
         form_data = {}
         for form in form_list:
             form_data.update( form.cleaned_data )
-        print form_data
             
         # FIXME
         user = User.objects.get(username='admin')
@@ -139,7 +138,7 @@ def inspect_dataset(request):
     
     if debug:
         response_data = {}
-        response_data['variables'] = [ ('v1','Variable 1'), ('v2','Variable 2'), ('v3','Variable 3')]
+        response_data['variables'] = [ ('rhs','Relative Surface Humidity'), ('v2','Variable 2'), ('v3','Variable 3')]
         return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
     else:
         pass

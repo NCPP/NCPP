@@ -77,11 +77,13 @@
 	<table class="horizontalTable">
 		<tr>
 			<th>Dataset</th>
-			<td>{{ wizard.form.dataset }}<br/>{{ wizard.form.dataset.errors }}</td>
+			<td>{{ wizard.form.dataset }}
+				<br/>&nbsp;<span class="error">{{ wizard.form.dataset.errors }}</span></td>
 		</tr>
 		<tr>
 			<th>Variable</th>
-			<td>{{ wizard.form.variable }}<br/>{{ wizard.form.variable.errors }}</td>
+			<td>{{ wizard.form.variable }}
+				<br/>&nbsp;<span class="error">{{ wizard.form.variable.errors }}</span></td>
 		</tr>
 	</table>
 </fieldset>
