@@ -6,7 +6,17 @@ from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
 
 class DynamicChoiceField(ChoiceField):
-   """ Class that extends the MultipleChoiceField to suppress validation on valid choices, 
+   """ Class that extends the ChoiceField to suppress validation on valid choices, 
+       to support the case when they are assigned dynamically through Ajax calls."""
+       
+   def validate(self, value):
+       """This method only checks that a value exist, not which value it is."""
+       
+       if self.required and not value:
+           raise ValidationError(self.error_messages['required'])
+       
+class DynamicMultipleChoiceField(MultipleChoiceField):
+   """ Class that extends MultipleChoiceField to suppress validation on valid choices, 
        to support the case when they are assigned dynamically through Ajax calls."""
        
    def validate(self, value):
@@ -27,7 +37,7 @@ class OpenClimateGisForm1(Form):
     
     # geometry selection
     geometry = ChoiceField(choices=ocgisGeometries.getTypes(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))
-    geometry_id = MultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
+    geometry_id = DynamicMultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
     
     latmin = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
     latmax = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
@@ -48,10 +58,7 @@ class OpenClimateGisForm1(Form):
         
         # invoke superclass cleaning method
         super(OpenClimateGisForm1, self).clean()
-        
-        # FIXME
-        print self.cleaned_data
-        
+                
         # validate geometry
         ngeometries = 0
         geometry = None

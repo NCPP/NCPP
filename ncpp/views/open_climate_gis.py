@@ -37,13 +37,9 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('variable'):
                         job_data['variable'] = cleaned_data['variable']  
                     if cleaned_data.has_key('geometry') and hasText(cleaned_data['geometry']):
-                        print 'geometry=%s' % cleaned_data['geometry']
-                        job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']] 
-                    print '\n\ngeometry_id=%s' %    cleaned_data.has_key('geometry_id')
-                    if cleaned_data.has_key('geometry_id'):
-                        job_data['geometry_id'] =[]
-                        for id in cleaned_data['geometry_id']:
-                            job_data['geometry_id'].append(ocgisChoices(Config.GEOMETRY_ID)[id])  
+                        job_data['geometry'] = cleaned_data['geometry']
+                    if cleaned_data.has_key('geometry_id') and len( cleaned_data['geometry_id'] )>0:
+                        job_data['geometry_id'] = cleaned_data['geometry_id']
                     if cleaned_data.has_key('latmin') and cleaned_data['latmin'] is not None:
                         job_data['latmin'] = float( cleaned_data['latmin'] )
                     if cleaned_data.has_key('latmax') and cleaned_data['latmax'] is not None:
@@ -107,7 +103,7 @@ class OpenClimateGisWizard(SessionWizardView):
                                                variable=form_data['variable'],
                                                geometry=form_data['geometry'],
                                                # must transform list of integers into string
-                                               geometry_id=",".join(form_data['geometry_id']),
+                                               geometry_id=form_data['geometry_id'],
                                                latmin=form_data['latmin'],
                                                latmax=form_data['latmax'],
                                                lonmin=form_data['lonmin'],

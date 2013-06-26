@@ -7,7 +7,9 @@ SLEEP_SECONDS = 1
 class OCG(object):
     """Adapter class that invokes the ocgis library."""
     
-    def __init__(self, rootDir, rootUrl, debug=False):
+    def __init__(self, geometries, rootDir, rootUrl, debug=False):
+        # object holding geometries
+        self.geometries = geometries
         # root directory where output is written
         self.rootDir = rootDir
         # root URL for generated products
@@ -16,7 +18,7 @@ class OCG(object):
         self.debug = debug
         
     def encodeArgs(self, openClimateGisJob):
-        """Method to transfor the OpenClimateGisJob instance into a dictionary of arguments passed on to the ocgis library."""
+        """Method to transform the OpenClimateGisJob instance into a dictionary of arguments passed on to the ocgis library."""
         
         args = {}
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
@@ -34,7 +36,11 @@ class OCG(object):
         args['select_ugid'] = None
         if hasText(openClimateGisJob.geometry):
             args['geom'] = openClimateGisJob.geometry
-            args['select_ugid'] = openClimateGisJob.geometry_id
+            args['select_ugid'] = []
+            for geom in openClimateGisJob.geometry_id:
+                print openClimateGisJob.geometry
+                print geom
+                args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
         elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
               and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
             args['geom'] = [openClimateGisJob.lonmin, openClimateGisJob.lonmax, openClimateGisJob.latmin,  openClimateGisJob.latmax]

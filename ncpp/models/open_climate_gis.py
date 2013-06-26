@@ -48,10 +48,14 @@ class Geometries(object):
         
         tuples = []
         for k,v in self.geometries[type]['geometries'].items():
-            tuples.append( (int(v), k) )
+            #tuples.append( (int(v), k) )
+            tuples.append( (k,k) )
         return sorted(tuples, key=lambda t: t[1])
+    
+    def getGuid(self, type, geometry):
+        return self.geometries[type]['geometries'][geometry]
 
-ocgisGeometries = Geometries(GEOMETRIES_FILEPATH)        
+ocgisGeometries = Geometries(GEOMETRIES_FILEPATH)     
 
 class Config():
     '''Class holding keys into configuration file.'''
@@ -59,8 +63,6 @@ class Config():
     DEFAULT = 'default'
     DATASET = 'dataset'
     VARIABLE = 'variable'
-    GEOMETRY = 'geometry'
-    GEOMETRY_ID = 'geometry_id'
     OUTPUT_FORMAT = 'output_format'
     CALCULATION = 'calculation'
     CALCULATION_GROUP = 'calculation_group'
@@ -112,7 +114,8 @@ class OpenClimateGisJob(Job):
         super(OpenClimateGisJob, self).__init__(*args, **kwargs)
                 
         # instantiate Open Climate GIS adapter
-        self.ocg = OCG(ocgisConfig.get(Config.DEFAULT, "rootDir"),
+        self.ocg = OCG(ocgisGeometries,
+                       ocgisConfig.get(Config.DEFAULT, "rootDir"),
                        ocgisConfig.get(Config.DEFAULT, "rootUrl"),
                        debug=str2bool( ocgisConfig.get(Config.DEFAULT, "debug")) )
         
@@ -169,14 +172,9 @@ class OpenClimateGisJob(Job):
         job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
         job_data.append( ('Variable', self.variable) )
         if hasText(self.geometry):
-            job_data.append( ('Shape Type', ocgisChoices(Config.GEOMETRY)[self.geometry]) )
-        # must transform string into list of integers
-        geometry_id=[]
-        for id in self.geometry_id.split(","):
-            if id != '':
-                geometry_id.append( ocgisChoices(Config.GEOMETRY_ID)[id] )
-        if len(geometry_id)>0:
-            job_data.append( ('Shape Geometry', geometry_id) )
+            job_data.append( ('Shape Type', self.geometry) )
+        if len(self.geometry_id)>0:
+            job_data.append( ('Shape Geometry', self.geometry_id) )
         if hasText(self.latmin):
             job_data.append( ('Latitude Minimum', self.latmin) )
         if hasText(self.latmax):
