@@ -16,8 +16,8 @@
 		if (datasetSelect.value!=null && datasetSelect.value!='') {
 			
 			// execute ajax call to inspect the dataset
-			url = '/ncpp/open_climate_gis/inspectDataset?uri='+encodeURIComponent(datasetSelect.value);
-			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, callback, null);
+			url = '/ncpp/open_climate_gis/dataset?uri='+encodeURIComponent(datasetSelect.value);
+			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, datasetCallback, null);
 
 		} else {
 			
@@ -30,6 +30,37 @@
 		
 	}
 	
+	// function to populate the geometries widget
+	function populateGeometries() {
+		
+		// retrieve current dataset selection
+		geometryTypeSelect = document.getElementById("id_0-geometry");
+		if (geometryTypeSelect.value!=null && geometryTypeSelect.value!='') {
+			
+			// execute ajax call to inspect the dataset
+			url = '/ncpp/open_climate_gis/geometries?type='+encodeURIComponent(geometryTypeSelect.value);
+			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, geometryCallback, null);
+
+		} else {
+			
+			// populate variables widget with no options
+			var variables = new Array();
+			variables[0] = ["","-- Please Select --"];
+			showVariables( variables );
+			
+		}
+		
+	}
+	
+	// function to initialize the selection widgets via Ajax calls
+	function init() {
+		
+		inspectDataset();
+		
+		populateGeometries();
+		
+	}
+	
 	// function called if Ajax request failed
 	var handleFailure = function(o) {
 		alert("An Error Occurred!"
@@ -37,8 +68,8 @@
 		     +"\nMessage: "+o.statusText);
 	}
 	
-	// function called if Ajax request succeded
-	var handleSuccess = function(o) {
+	// function called if Ajax request to inspect dataset succeded
+	var handleDatasetSuccess = function(o) {
 		
 		// parse JSON response into object		
 		var jsonResponse = eval('(' + o.responseText + ')');
@@ -73,17 +104,48 @@
 
 	}
 	
-	// function called after Ajax request returns
-	var callback = {
-	  success: handleSuccess,
+	// function called after dataset Ajax request returns
+	var datasetCallback = {
+	  success: handleDatasetSuccess,
 	  failure: handleFailure,
 	  cache: false,
 	  timeout: 5000,
 	  argument: [],
 	};
 	
-    // run inspectDataset() function at page loading
-    window.onload = inspectDataset;
+	// function to populate the geometry choices
+	function showGeometries(geometries) {
+		
+		geometryIdSelect = document.getElementById("id_0-geometry_id");
+		geometryIdSelect.options.length = 0;
+		for (var i = 0; i < geometries.length; i++) {
+			geometryIdSelect.add( new Option(geometries[i][1], geometries[i][0]) );
+		}
+				
+	}
+	
+	// function called if Ajax request to inspect dataset succeded
+	var handleGeometrySuccess = function(o) {
+		
+		// parse JSON response into object		
+		var jsonResponse = eval('(' + o.responseText + ')');
+		
+		// populate geometry choices
+		showGeometries(jsonResponse.geometries);
+
+	}
+	
+	// function called after geometry Ajax request returns
+	var geometryCallback = {
+	  success: handleGeometrySuccess,
+	  failure: handleFailure,
+	  cache: false,
+	  timeout: 5000,
+	  argument: [],
+	};
+	
+    // initialize widgets at page loading
+    window.onload = init;
 
 </script>
        

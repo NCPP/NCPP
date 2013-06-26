@@ -4,10 +4,12 @@ from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS, NO_VALUE_OPTION
 from ncpp.utils import str2bool, get_month_string, hasText
 from ncpp.ocg import OCG
+import json
 #from collections import OrderedDict
 
 # read choices from configuration when module is first loaded (once per application)
-from ncpp.constants import CONFIG_FILEPATH
+from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, NO_VALUE_OPTION
+
 #ocgisConfig = ConfigParser.RawConfigParser(dict_type=OrderedDict)
 ocgisConfig = ConfigParser.RawConfigParser()
 # must set following line explicitely to preserve the case of configuration keys
@@ -17,6 +19,39 @@ try:
 except Exception as e:
     print "Configuration file %s not found" % CONFIG_FILEPATH
     raise e
+
+class Geometries(object):
+    """Class holding OCGIS geometries."""
+    
+    def __init__(self, filepath):
+        
+        # read geometries from JSON file
+        try:
+            with open(filepath,'r') as f:
+                self.geometries = json.load(f)
+        except Exception as e:
+            print "Error reading geometry file: %s" % GEOMETRIES_FILEPATH
+            raise e
+        
+    def getTypes(self):
+        # no option selected
+        tuples = [ NO_VALUE_OPTION ]
+        # first option is US States
+        tuples.append( ('US State Boundaries', 'US State Boundaries') )
+        # then all US counties
+        for category in sorted( self.geometries.keys() ):
+            if category != 'US State Boundaries':
+                tuples.append( (category, category) )
+        return tuples
+    
+    def getGeometries(self, type):
+        
+        tuples = []
+        for k,v in self.geometries[type]['geometries'].items():
+            tuples.append( (int(v), k) )
+        return sorted(tuples, key=lambda t: t[1])
+
+ocgisGeometries = Geometries(GEOMETRIES_FILEPATH)        
 
 class Config():
     '''Class holding keys into configuration file.'''

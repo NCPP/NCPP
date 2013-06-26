@@ -1,7 +1,7 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
                           TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
-from ncpp.models.open_climate_gis import ocgisChoices, Config
+from ncpp.models.open_climate_gis import ocgisChoices, Config, ocgisGeometries
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
 
@@ -26,9 +26,8 @@ class OpenClimateGisForm1(Form):
     variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True)
     
     # geometry selection
-    geometry = ChoiceField(choices=ocgisChoices(Config.GEOMETRY, nochoice=True).items(), required=False)
-    geometry_id = MultipleChoiceField(choices=ocgisChoices(Config.GEOMETRY_ID).items(), required=False,
-                                      widget=SelectMultiple(attrs={'size':6}))
+    geometry = ChoiceField(choices=ocgisGeometries.getTypes(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))
+    geometry_id = MultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
     
     latmin = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
     latmax = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
@@ -50,13 +49,14 @@ class OpenClimateGisForm1(Form):
         # invoke superclass cleaning method
         super(OpenClimateGisForm1, self).clean()
         
+        # FIXME
+        print self.cleaned_data
+        
         # validate geometry
         ngeometries = 0
         geometry = None
         if (hasText(self.cleaned_data['geometry']) or len(self.cleaned_data['geometry_id']) ):
             ngeometries += 1
-            print 'its a shape %s' % self.cleaned_data['geometry']
-            print 'its a shape %s' % self.cleaned_data['geometry_id']
             geometry = 'shape'
         if (    hasText(self.cleaned_data['latmin']) or hasText(self.cleaned_data['latmax']) 
              or hasText(self.cleaned_data['lonmin']) or hasText(self.cleaned_data['lonmax']) ):

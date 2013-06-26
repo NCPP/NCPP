@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
-from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig
+from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig, ocgisGeometries
 from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
@@ -38,7 +38,8 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['variable'] = cleaned_data['variable']  
                     if cleaned_data.has_key('geometry') and hasText(cleaned_data['geometry']):
                         print 'geometry=%s' % cleaned_data['geometry']
-                        job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']]    
+                        job_data['geometry'] = ocgisChoices(Config.GEOMETRY)[cleaned_data['geometry']] 
+                    print '\n\ngeometry_id=%s' %    cleaned_data.has_key('geometry_id')
                     if cleaned_data.has_key('geometry_id'):
                         job_data['geometry_id'] =[]
                         for id in cleaned_data['geometry_id']:
@@ -178,4 +179,14 @@ def inspect_dataset(request):
             pass        
                 
     return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
+    
+def get_geometries(request):
+    
+    type = request.GET.get('type', None)
+    
+    response_data = {}
+    response_data['geometries'] = ocgisGeometries.getGeometries(type)
+    
+    return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')
+    
     
