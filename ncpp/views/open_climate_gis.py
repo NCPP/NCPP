@@ -136,11 +136,33 @@ def inspect_dataset(request):
     
     uri = request.GET.get('uri', None)
     debug = str2bool( ocgisConfig.get(Config.DEFAULT, "debug"))
+    response_data = {}
+    response_data['variables'] = []
     
     if debug:
-        response_data = {}
-        response_data['variables'] = [ ('rhs','Relative Surface Humidity'), ('v2','Variable 2'), ('v3','Variable 3')]
-        return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
+        # return synthetic data
+        response_data['variables'].append( ('rhs','Relative Surface Humidity') )
+    
     else:
-        pass
+        # inspect dataset dynamially
+        import ocgis
+        
+        rd = ocgis.RequestDataset(uri)
+        ret = rd.inspect_as_dct()
+        
+        # retrieve variables
+        for key, value in ret['variables'].items():
+            # exclude coordinates
+            if (not 'lat' in key and not 'lon' in key and not 'time in key' and not 'height' in key):
+                label = key
+                attrs = value['attrs']
+                if attrs.get('long_name', None):
+                    label = attrs['long_name']
+                elif attrs.get('standard_name', None):
+                    label = attrs['standard_name']
+                elif attrs.get('name', None):
+                    label = attrs['name']
+                response_data['variables'].append( (key,label) )
+                
+    return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
     
