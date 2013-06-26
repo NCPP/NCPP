@@ -38,8 +38,8 @@ class OpenClimateGisForm1(Form):
     lat = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
     lon = FloatField(required=False, min_value=-180, max_value=+180, widget=TextInput(attrs={'size':6}))   
     
-    datetime_start = DateTimeField(required=False)
-    datetime_stop = DateTimeField(required=False)
+    datetime_start = DateTimeField(required=False, widget=TextInput(attrs={'size':24}))
+    datetime_stop = DateTimeField(required=False, widget=TextInput(attrs={'size':24}))
     
     timeregion_month = MultipleChoiceField(choices=MONTH_CHOICES, required=False, widget=CheckboxSelectMultiple)                                    #initial = range(12))
     timeregion_year = CharField(required=False, widget=TextInput(attrs={'size':60}))

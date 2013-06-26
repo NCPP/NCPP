@@ -45,19 +45,32 @@
 		
 		// populate variable choices
 		showVariables(jsonResponse.variables);
+		
+		// populate start, stop times
+		showDateTimes(jsonResponse.datetime_start, jsonResponse.datetime_stop);
 
 	}
 	
 	// function to populate the variable choices
 	function showVariables(variables) {
 		
-		// populate variable choices
 		variableSelect = document.getElementById("id_0-variable");
 		variableSelect.options.length = 0;
 		for (var i = 0; i < variables.length; i++) {
 			variableSelect.add( new Option(variables[i][1], variables[i][0]) );
 		}
+				
+	}
+	
+	// function to populate the start, stop times
+	function showDateTimes(datetime_start, datetime_stop) {
 		
+		startDateTimeText = document.getElementById("id_0-datetime_start");
+		startDateTimeText.value = datetime_start
+		
+		stopDateTimeText = document.getElementById("id_0-datetime_stop");
+		stopDateTimeText.value = datetime_stop
+
 	}
 	
 	// function called after Ajax request returns

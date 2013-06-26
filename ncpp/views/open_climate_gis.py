@@ -10,6 +10,8 @@ from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
 
+from datetime import datetime
+
 
 
 class OpenClimateGisWizard(SessionWizardView):
@@ -142,7 +144,11 @@ def inspect_dataset(request):
     if debug:
         # return synthetic data
         response_data['variables'].append( ('rhs','Relative Surface Humidity') )
-    
+        #response_data['datetime_start'] = datetime.strptime('2011-01-01 12:00:00', '%Y-%m-%d %H:%M:%S')
+        #response_data['datetime_stop'] = datetime.strptime('2020-12-31 12:00:00', '%Y-%m-%d %H:%M:%S') 
+        response_data['datetime_start'] = "2011-01-01 12:00:00"
+        response_data['datetime_stop'] = "2020-12-31 12:00:00"
+
     else:
         # inspect dataset dynamially
         import ocgis
@@ -163,6 +169,13 @@ def inspect_dataset(request):
                 elif attrs.get('name', None):
                     label = attrs['name']
                 response_data['variables'].append( (key,label) )
+                
+        # retrieve start, end dates
+        try:
+            response_data['datetime_start'] = ret['derived']['Start Date']
+            response_data['datetime_stop'] = ret['derived']['End Date']
+        except KeyError:
+            pass        
                 
     return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
     
