@@ -102,7 +102,7 @@ class OCG(object):
                                       spatial_operation=args['spatial_operation'], 
                                       prefix=args['prefix'],
                                       output_format=args['output_format'], 
-                                      dir_output=args['dir_output'])
+                                      dir_output=dir_output)
 
             ## return the path to the folder containing the output data
             path = ops.execute()
