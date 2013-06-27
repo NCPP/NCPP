@@ -46,8 +46,10 @@ class OCG(object):
         elif hasText(openClimateGisJob.lat) and hasText(openClimateGisJob.lon):
             args['geom'] = [openClimateGisJob.lon, openClimateGisJob.lat]
 
-        args['datetime_start'] = openClimateGisJob.datetime_start
-        args['datetime_stop'] = openClimateGisJob.datetime_stop
+        if openClimateGisJob.datetime_start is not None and openClimateGisJob.datetime_stop is not None:
+            args['time_range'] = [openClimateGisJob.datetime_start, openClimateGisJob.datetime_stop]
+        else:
+            args['time_range'] = None
         args['timeregion_month'] = openClimateGisJob.timeregion_month
         args['timeregion_year'] = openClimateGisJob.timeregion_year
         args['calc'] = openClimateGisJob.calc
@@ -81,9 +83,12 @@ class OCG(object):
             
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
+            print 'args=%s' % args
+            
+            # define dataset
             rd = ocgis.RequestDataset(uri=args['uri'],
                                       variable=str(args['variable']), 
-                                      time_range=None,
+                                      time_range=args['time_range'],
                                       #time_region=args['time_region'],
                                       time_region=None)
 

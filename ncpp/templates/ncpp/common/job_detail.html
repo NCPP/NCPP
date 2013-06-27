@@ -14,7 +14,9 @@
 				<th nowrap="nowrap">Supporting Information:</th>
 				<td>{% for info in tuple.1 %}{% if forloop.counter > 1 %}, {% endif %}{{ info }}{% endfor %}</td>
 			{% else %}
-				<tr><th nowrap="nowrap">{{ tuple.0 }} :</th><td>{{ tuple.1 }}</td></tr>
+				{% if tuple.1 != None %}
+					<tr><th nowrap="nowrap">{{ tuple.0 }} :</th><td>{{ tuple.1 }}</td></tr>
+				{% endif %}
 			{% endif %}
 		{% endfor %}
 
