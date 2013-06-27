@@ -35,7 +35,7 @@ class OCG(object):
         args['geom'] = None
         args['select_ugid'] = None
         if hasText(openClimateGisJob.geometry):
-            args['geom'] = openClimateGisJob.geometry
+            args['geom'] = self.geometries.getCategoryKey( openClimateGisJob.geometry )
             args['select_ugid'] = []
             for geom in openClimateGisJob.geometry_id:
                 args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
@@ -96,8 +96,7 @@ class OCG(object):
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
-                                      #geom=args['geom'],
-                                      geom='state_boundaries',
+                                      geom=args['geom'],
                                       select_ugid=args['select_ugid'],
                                       aggregate=args['aggregate'], 
                                       spatial_operation=args['spatial_operation'], 

@@ -36,7 +36,7 @@ class OpenClimateGisForm1(Form):
     variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True)
     
     # geometry selection
-    geometry = ChoiceField(choices=ocgisGeometries.getTypes(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))
+    geometry = ChoiceField(choices=ocgisGeometries.getCategories(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))
     geometry_id = DynamicMultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
     
     latmin = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))

@@ -33,7 +33,7 @@ class Geometries(object):
             print "Error reading geometry file: %s" % GEOMETRIES_FILEPATH
             raise e
         
-    def getTypes(self):
+    def getCategories(self):
         # no option selected
         tuples = [ NO_VALUE_OPTION ]
         # first option is US States
@@ -52,8 +52,11 @@ class Geometries(object):
             tuples.append( (k,k) )
         return sorted(tuples, key=lambda t: t[1])
     
-    def getGuid(self, type, geometry):
-        return self.geometries[type]['geometries'][geometry]
+    def getGuid(self, category, geometry):
+        return self.geometries[category]['geometries'][geometry]
+    
+    def getCategoryKey(self, category):
+        return self.geometries[category]['key']
 
 ocgisGeometries = Geometries(GEOMETRIES_FILEPATH)     
 
