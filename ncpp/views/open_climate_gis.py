@@ -156,7 +156,7 @@ def inspect_dataset(request):
         # retrieve variables
         for key, value in ret['variables'].items():
             # exclude coordinates
-            if (not 'lat' in key and not 'lon' in key and not 'time in key' and not 'height' in key):
+            if (not 'lat' in key and not 'lon' in key and not 'time' in key and not 'height' in key):
                 label = key
                 attrs = value['attrs']
                 if attrs.get('long_name', None):
