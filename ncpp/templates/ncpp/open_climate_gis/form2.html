@@ -31,8 +31,16 @@
 		<tr><th nowrap="nowrap">Time Region: Years</th><td>{{ job_data.timeregion_year }}</td></tr>
 	{% endif %}
 	<tr><th nowrap="nowrap">Aggregate:</th><td>{{ job_data.aggregate }}</td></tr>
-	<tr><th nowrap="nowrap">Calculation:</th><td>{{ job_data.calc }}</td></tr>
-	<tr><th nowrap="nowrap">Calculation Parameters:</th><td>{{ job_data.par1 }},{{ job_data.par2 }}</td></tr>
+	
+	{% if job_data.calc %}
+		<tr><th nowrap="nowrap">Calculation:</th><td>{{ job_data.calc }}</td></tr>
+	{% endif %}
+	{% if job_data.par1 %}
+		<tr><th nowrap="nowrap">Calculation Parameters:</th>
+		<td>{{ job_data.par1 }}
+		{% if job_data.par2 %} , {{ job_data.par2 }}{% endif %}
+		</td></tr>
+	{% endif %}
 	<tr><th nowrap="nowrap">Calculate Group:</th><td>{{ job_data.calc_group }}</td></tr>
 	<tr><th nowrap="nowrap">Calculate Raw:</th><td>{{ job_data.calc_raw }}</td></tr>
 	<tr><th nowrap="nowrap">Spatial Operation:</th><td>{{ job_data.spatial_operation }}</td></tr>

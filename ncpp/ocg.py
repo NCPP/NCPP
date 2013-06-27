@@ -61,9 +61,14 @@ class OCG(object):
             for i in map(int, openClimateGisJob.timeregion_year.split(",")):
                 args['time_region']['year'].append(i)
         
-        args['calc'] = openClimateGisJob.calc
-        args['par1'] = openClimateGisJob.par1
-        args['par2'] = openClimateGisJob.par2
+        args['calc'] = None
+        if hasText(openClimateGisJob.calc):
+            args['calc'] = [ {'func':str(openClimateGisJob.calc), 'name':str(openClimateGisJob.calc)} ] 
+            if openClimateGisJob.calc == 'threshold':
+                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1}
+            elif openClimateGisJob.calc == 'between':
+                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
+            
         args['calc_raw'] = openClimateGisJob.calc_raw
         args['calc_group'] = openClimateGisJob.calc_group
         args['spatial_operation'] = openClimateGisJob.spatial_operation
