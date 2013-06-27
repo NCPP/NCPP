@@ -155,6 +155,9 @@
        
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Data Selection</legend>	
+	Please select a <i>dataset</i>, then a <i>variable</i>.
+	<p/>&nbsp;
+	
 	<table class="horizontalTable">
 		<tr>
 			<th>Dataset</th>
@@ -171,7 +174,10 @@
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Geometry Selection</legend>	
-	Please select either a shape geometry, a bounding box, or a point.
+	Optionally, please select either a <i>shape</i> geometry, a <i>bounding box</i>, or a <i>point</i>.
+	<br/>No selection will result in the full dataset geo-spatial extent.
+	<p/>&nbsp;
+	
 	<table class="horizontalTable">
 		<tr>
 			<th>Shape:</th>
@@ -218,6 +224,11 @@
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Temporal Selection</legend>
+	Optionally, please select either a <i>time range</i> (i.e. a start and stop time), 
+	or a <i>time region</i> (one or more months, and/or one or more years).
+	No selection will result in the full dataset time extent.
+	<p/>&nbsp;
+	
 	<table class="horizontalTable">
 		<tr>
 			<th>Time Range: Start</th>
@@ -225,6 +236,7 @@
 				{{ wizard.form.datetime_start }} &nbsp; {{ wizard.form.datetime_start.errors }}
 				<b>Stop</b>
 				{{ wizard.form.datetime_stop }} &nbsp; {{ wizard.form.datetime_stop.errors }}
+				&nbsp;[Format: YYYY-MM-DD HH:MM:SS]
 			</td>
 		</tr>
 		<tr>
