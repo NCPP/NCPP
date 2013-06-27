@@ -93,7 +93,7 @@ class OpenClimateGisForm1(Form):
                      
         # validate times
         if self.cleaned_data['datetime_start'] is not None or self.cleaned_data['datetime_stop']:
-            if len(self.cleaned_data['timeregion_month'])>0 or self.cleaned_data['timeregion_year'] is not None:
+            if len(self.cleaned_data['timeregion_month'])>0 or hasText(self.cleaned_data['timeregion_year']):
                 self._errors["timeregion_year"] = self.error_class(["Please select a time range OR a time region"])
         
         if not self.is_valid():
