@@ -38,8 +38,6 @@ class OCG(object):
             args['geom'] = openClimateGisJob.geometry
             args['select_ugid'] = []
             for geom in openClimateGisJob.geometry_id:
-                print openClimateGisJob.geometry
-                print geom
                 args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
         elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
               and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
@@ -76,7 +74,7 @@ class OCG(object):
             import ocgis
             
             # create output directory
-            dir_output = os.path.join(self.rootDir, dir_output)
+            dir_output = os.path.join(self.rootDir, args['dir_output'])
             if not os.path.exists(dir_output):
                 os.makedirs(dir_output)
             
