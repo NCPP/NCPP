@@ -90,13 +90,14 @@ class OCG(object):
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
             rd = ocgis.RequestDataset(uri=args['uri'],
-                                      variable=args['variable'], 
+                                      variable=str(args['variable']), 
                                       time_range=None,
                                       time_region=args['time_region'])
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
-                                      geom=args['geom'],
+                                      #geom=args['geom'],
+                                      geom='state_boundaries',
                                       select_ugid=args['select_ugid'],
                                       aggregate=args['aggregate'], 
                                       spatial_operation=args['spatial_operation'], 
