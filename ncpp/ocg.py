@@ -51,15 +51,17 @@ class OCG(object):
         else:
             args['time_range'] = None
             
-        args['time_region'] = { 'month':None, 'year':None }
-        if hasText(openClimateGisJob.timeregion_month):
-            args['time_region']['month'] = []
-            for i in map(int, openClimateGisJob.timeregion_month.split(",")):
-                args['time_region']['month'].append(i)
-        if hasText(openClimateGisJob.timeregion_year):
-            args['time_region']['year'] = []
-            for i in map(int, openClimateGisJob.timeregion_year.split(",")):
-                args['time_region']['year'].append(i)
+        args['time_region'] = None
+        if hasText(openClimateGisJob.timeregion_month) or hasText(openClimateGisJob.timeregion_year):
+            args['time_region'] = { 'month':None, 'year':None }
+            if hasText(openClimateGisJob.timeregion_month):
+                args['time_region']['month'] = []
+                for i in map(int, openClimateGisJob.timeregion_month.split(",")):
+                    args['time_region']['month'].append(i)
+            if hasText(openClimateGisJob.timeregion_year):
+                args['time_region']['year'] = []
+                for i in map(int, openClimateGisJob.timeregion_year.split(",")):
+                    args['time_region']['year'].append(i)
         
         args['calc'] = None
         if hasText(openClimateGisJob.calc):
