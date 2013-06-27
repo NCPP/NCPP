@@ -41,7 +41,10 @@
 		{% if job_data.par2 != None %} , {{ job_data.par2 }}{% endif %}
 		</td></tr>
 	{% endif %}
-	<tr><th nowrap="nowrap">Calculate Group:</th><td>{{ job_data.calc_group }}</td></tr>
+	{% if job_data.calc_group %}
+		<tr><th nowrap="nowrap">Calculation Group:</th><td>{{ job_data.calc_group }}</td></tr>
+	{% endif %}
+	
 	<tr><th nowrap="nowrap">Calculate Raw:</th><td>{{ job_data.calc_raw }}</td></tr>
 	<tr><th nowrap="nowrap">Spatial Operation:</th><td>{{ job_data.spatial_operation }}</td></tr>
 	<tr><th nowrap="nowrap">Output Format:</th><td>{{ job_data.output_format }}</td></tr>

@@ -204,7 +204,8 @@ class OpenClimateGisJob(Job):
             job_data.append( ('Calculation Parameter 1', self.par1) )
         if self.par2 is not None:
             job_data.append( ('Calculation Parameter 2', self.par2) )
-        job_data.append( ('Calculation Group', self.calc_group) )
+            
+        job_data.append( ('Calculation Group', self.calc_group.replace(",",", ")) )
         job_data.append( ('Calculate Raw?', self.calc_raw) )
         
         job_data.append( ('Spatial Operation', ocgisChoices(Config.SPATIAL_OPERATION)[self.spatial_operation]) )

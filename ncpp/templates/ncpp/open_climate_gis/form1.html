@@ -18,33 +18,49 @@
 		<tr>
 			<th>Calculation Group</th>
 			<td>{{ wizard.form.calc_group }}
+				&nbsp;Optionally, select one or more temporal grouping for the data
 			     <br/>{{ wizard.form.calc_group.errors }}</td>
+		</tr>
+		<tr>
+			<th>Aggregate</th>
+			<td>{{ wizard.form.aggregate }} Check to combine selected geometries into a single geometry
+			<br/>{{ wizard.form.aggregate.errors }}</td>
 		</tr>
 		<tr>
 			<th>Calculate Raw ?</th>
 			<td>{{ wizard.form.calc_raw }}
+				&nbsp;Check to execute the calculation on raw, unaggregated values
 			     <br/>{{ wizard.form.calc_raw.errors }}</td>
 		</tr>
 	</table>
 
 </fieldset>
 
-<table>
-	<tr>
-		<th>Aggregate</th>
-		<td>{{ wizard.form.aggregate }}<br/>{{ wizard.form.aggregate.errors }}</td>
-	</tr>
-	<tr>
-		<th>Spatial Operation</th>
-		<td>{{ wizard.form.spatial_operation }}<br/>{{ wizard.form.spatial_operation.errors }}</td>
-	</tr>
-	<tr>
-		<th>Output Format</th>
-		<td>{{ wizard.form.output_format }}<br/>{{ wizard.form.output_format.errors }}</td>
-	</tr>
-	<tr>
-		<th>Prefix</th>
-		<td>{{ wizard.form.prefix }}<br/>{{ wizard.form.prefix.errors }}</td>
-	</tr>
-	
-</table>
+<fieldset class="fieldset_box">
+	<legend class="fieldset_legend">Output Format</legend>	
+	<table>
+		<tr>
+			<th nowrap="nowrap"><b>Spatial Operation</b></th>
+			<td> {{ wizard.form.spatial_operation }}
+				<br/>{{ wizard.form.spatial_operation.errors }}
+			</td>
+		</tr>
+		<tr>
+			<th>&nbsp;</th>
+			<td>
+				     <i>Intersect:</i> Source geometries touching or overlapping selection geometries are returned.
+				<br/><i>Clip:</i> A full geometric intersection is performed between source and selection geometries. 
+				</td>
+		</tr>
+		<tr>
+			<th><b>Output Format</b></th>
+			<td>{{ wizard.form.output_format }}<br/>{{ wizard.form.output_format.errors }}</td>
+		</tr>
+		<tr>
+			<th><b>Prefix</b></th>
+			<td>{{ wizard.form.prefix }} &nbsp;Optionally, specify the output prefix to prepend to any output data filename.
+			<br/>{{ wizard.form.prefix.errors }}</td>
+		</tr>
+		
+	</table>
+</fieldset>
