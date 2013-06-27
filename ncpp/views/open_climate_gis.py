@@ -171,7 +171,7 @@ def inspect_dataset(request):
         try:
             response_data['datetime_start'] = ret['derived']['Start Date']
             response_data['datetime_stop'] = ret['derived']['End Date']
-        except KeyError:
+        except Exception as e:
             pass        
                 
     return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
