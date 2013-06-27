@@ -96,11 +96,15 @@
 	// function to populate the start, stop times
 	function showDateTimes(datetime_start, datetime_stop) {
 		
-		startDateTimeText = document.getElementById("id_0-datetime_start");
-		startDateTimeText.value = datetime_start
+		if (datetime_start!=null) {}
+			startDateTimeText = document.getElementById("id_0-datetime_start");
+			startDateTimeText.value = datetime_start
+		}
 		
-		stopDateTimeText = document.getElementById("id_0-datetime_stop");
-		stopDateTimeText.value = datetime_stop
+		if (datetime_stop!=null) {
+			stopDateTimeText = document.getElementById("id_0-datetime_stop");
+			stopDateTimeText.value = datetime_stop
+		}
 
 	}
 	
