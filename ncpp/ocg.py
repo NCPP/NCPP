@@ -76,7 +76,7 @@ class OCG(object):
         
     def run(self, args):
         
-        print 'Runnin OCGIS job with arguments=%s' % args
+        print 'Running OCGIS job with arguments=%s' % args
 
         # fake invocation on laptop
         if self.debug:
