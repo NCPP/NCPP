@@ -92,7 +92,8 @@ class OCG(object):
             rd = ocgis.RequestDataset(uri=args['uri'],
                                       variable=str(args['variable']), 
                                       time_range=None,
-                                      time_region=args['time_region'])
+                                      #time_region=args['time_region'],
+                                      time_region=None)
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
