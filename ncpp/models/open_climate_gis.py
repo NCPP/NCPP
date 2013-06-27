@@ -187,10 +187,9 @@ class OpenClimateGisJob(Job):
         if hasText(self.lonmax):
             job_data.append( ('Longitude Maximum', self.lonmax) )
         
-        print "lat=%s" % self.lat
-        if self.lat is not None:
+        if hasText(self.lat):
             job_data.append( ('Latitude', self.lat) )
-        if self.lon is not None:
+        if hasText(self.lon):
             job_data.append( ('Longitude', self.lon) )
         
         job_data.append( ('Start Date Time', self.datetime_start) )
