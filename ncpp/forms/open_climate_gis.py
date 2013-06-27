@@ -90,6 +90,11 @@ class OpenClimateGisForm1(Form):
                     self._errors["lat"] = self.error_class(["Invalid point latitude"])   
                 if not hasText(self.cleaned_data['lon']):
                      self._errors["lon"] = self.error_class(["Invalid point longitude"])   
+                     
+        # validate times
+        if self.cleaned_data['datetime_start'] is not None or self.cleaned_data['datetime_stop']:
+            if len(self.cleaned_data['timeregion_month'])>0 or self.cleaned_data['timeregion_year'] is not None:
+                self._errors["timeregion_year"] = self.error_class(["Please select a time range OR a time region"])
         
         if not self.is_valid():
             print 'VALIDATION ERRORS: %s' % self.errors

@@ -32,4 +32,4 @@ def get_month_string(months):
     list = []
     for month in months:
         list.append(MONTH_DICT[int(month)])
-    return ",".join(list)
+    return ", ".join(list)

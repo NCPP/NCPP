@@ -126,7 +126,6 @@ class OpenClimateGisJob(Job):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
         
     def submit(self):
-        print 'Submitting Open Climate GIS job'
         
         args = self.ocg.encodeArgs(self)
         self.request = self._encode_request(args)
@@ -195,8 +194,9 @@ class OpenClimateGisJob(Job):
         job_data.append( ('Start Date Time', self.datetime_start) )
         job_data.append( ('Stop Date Time', self.datetime_stop) )
         if self.timeregion_month is not None and len(self.timeregion_month)>0:
-            job_data.append( ('Selected Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
-        job_data.append( ('Selected Years', self.timeregion_year) )
+            job_data.append( ('Time Region: Months', get_month_string( map(int, self.timeregion_month.split(",")) ) ))
+        if self.timeregion_year is not None and hasText(self.timeregion_year):
+            job_data.append( ('Time Region: Years', self.timeregion_year) )
         
         job_data.append( ('Calculation', self.calc) )
         job_data.append( ('Calculation Parameter 1', self.par1) )

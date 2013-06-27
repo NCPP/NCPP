@@ -220,26 +220,30 @@
 	<legend class="fieldset_legend">Temporal Selection</legend>
 	<table class="horizontalTable">
 		<tr>
-			<th>Start:</th>
+			<th>Time Range: Start</th>
 			<td>
 				{{ wizard.form.datetime_start }} &nbsp; {{ wizard.form.datetime_start.errors }}
-				<b>Stop:</b>
+				<b>Stop</b>
 				{{ wizard.form.datetime_stop }} &nbsp; {{ wizard.form.datetime_stop.errors }}
 			</td>
 		</tr>
 		<tr>
-			<th>Specific Months:</th>
-			<td>
+			<th>Time Region: Months</th>
+			<td nowrap="nowrap">
 			{% for box in wizard.form.timeregion_month %}
 				{{ box }}
 			{% endfor %}
 			</td>
 		</tr>
 		<tr>
-			<th>Specific Years:</th>
+			<th nowrap="nowrap">Time Region: Years</th>
 			<td>{{ wizard.form.timeregion_year }}
-				&nbsp;[Format: YYYY, YYYY, YYYY, ...]
+				&nbsp;[Format: YYYY, YYYY, ...]
 			</td>
+		</tr>
+		<tr>
+			<th></th>
+			<td><span class="error">{{ wizard.form.timeregion_year.errors }}</span></td>
 		</tr>
 	</table>
 </fieldset>

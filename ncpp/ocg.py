@@ -50,8 +50,17 @@ class OCG(object):
             args['time_range'] = [openClimateGisJob.datetime_start, openClimateGisJob.datetime_stop]
         else:
             args['time_range'] = None
-        args['timeregion_month'] = openClimateGisJob.timeregion_month
-        args['timeregion_year'] = openClimateGisJob.timeregion_year
+            
+        args['time_region'] = { 'month':None, 'year':None }
+        if hasText(openClimateGisJob.timeregion_month):
+            args['time_region']['month'] = []
+            for i in map(int, openClimateGisJob.timeregion_month.split(",")):
+                args['time_region']['month'].append(i)
+        if hasText(openClimateGisJob.timeregion_year):
+            args['time_region']['year'] = []
+            for i in map(int, openClimateGisJob.timeregion_year.split(",")):
+                args['time_region']['year'].append(i)
+        
         args['calc'] = openClimateGisJob.calc
         args['par1'] = openClimateGisJob.par1
         args['par2'] = openClimateGisJob.par2
@@ -66,6 +75,8 @@ class OCG(object):
         return args
         
     def run(self, args):
+        
+        print 'Runnin OCGIS job with arguments=%s' % args
 
         # fake invocation on laptop
         if self.debug:
@@ -80,17 +91,12 @@ class OCG(object):
             dir_output = os.path.join(self.rootDir, args['dir_output'])
             if not os.path.exists(dir_output):
                 os.makedirs(dir_output)
-            
-            TIME_REGION = {'month':[6,7],'year':[2011]}
-            
-            print 'args=%s' % args
-            
+                                    
             # define dataset
             rd = ocgis.RequestDataset(uri=args['uri'],
                                       variable=str(args['variable']), 
                                       time_range=args['time_range'],
-                                      #time_region=args['time_region'],
-                                      time_region=None)
+                                      time_region=args['time_region'])
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 
