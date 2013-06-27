@@ -169,15 +169,15 @@ class OpenClimateGisJob(Job):
         
         
     def getFormData(self):
-        """Returns an ordered list of (choice label, choice value)."""
+        """Returns an ordered list of (choice label, choice value) for display to the user."""
         
         job_data = []
         job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
         job_data.append( ('Variable', self.variable) )
         if hasText(self.geometry):
             job_data.append( ('Shape Type', self.geometry) )
-        if len(self.geometry_id)>0:
-            job_data.append( ('Shape Geometry', self.geometry_id) )
+        if self.geometry_id is not None and len(self.geometry_id)>0:
+            job_data.append( ('Shape Geometry', self.geometry_id.replace(",",", ")) )
         if hasText(self.latmin):
             job_data.append( ('Latitude Minimum', self.latmin) )
         if hasText(self.latmax):
@@ -187,8 +187,11 @@ class OpenClimateGisJob(Job):
         if hasText(self.lonmax):
             job_data.append( ('Longitude Maximum', self.lonmax) )
         
-        job_data.append( ('Latitude', self.lat) )
-        job_data.append( ('Longitude', self.lon) )
+        print "lat=%s" % self.lat
+        if self.lat is not None:
+            job_data.append( ('Latitude', self.lat) )
+        if self.lon is not None:
+            job_data.append( ('Longitude', self.lon) )
         
         job_data.append( ('Start Date Time', self.datetime_start) )
         job_data.append( ('Stop Date Time', self.datetime_stop) )

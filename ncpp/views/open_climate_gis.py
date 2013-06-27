@@ -48,9 +48,9 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['lonmin'] = float( cleaned_data['lonmin'] )
                     if cleaned_data.has_key('lonmax') and cleaned_data['lonmax'] is not None:
                         job_data['lonmax'] = float( cleaned_data['lonmax'] )
-                    if cleaned_data.has_key('lat') and cleaned_data['lat'] is not None:
+                    if cleaned_data.has_key('lat'):
                         job_data['lat'] = float( cleaned_data['lat'] )
-                    if cleaned_data.has_key('lon') and cleaned_data['lon'] is not None:
+                    if cleaned_data.has_key('lon'):
                         job_data['lon'] = float( cleaned_data['lon'] )
                     if cleaned_data.has_key('datetime_start') and cleaned_data['datetime_start'] is not None:
                         job_data['datetime_start'] = cleaned_data['datetime_start']
@@ -103,7 +103,7 @@ class OpenClimateGisWizard(SessionWizardView):
                                                variable=form_data['variable'],
                                                geometry=form_data['geometry'],
                                                # must transform list of integers into string
-                                               geometry_id=form_data['geometry_id'],
+                                               geometry_id = ",".join(form_data['geometry_id']) if len(form_data['geometry_id'])>0 else None,
                                                latmin=form_data['latmin'],
                                                latmax=form_data['latmax'],
                                                lonmin=form_data['lonmin'],

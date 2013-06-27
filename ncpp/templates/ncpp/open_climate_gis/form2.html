@@ -15,7 +15,7 @@
 		    </td>
 		</tr>
 	{% endif %}
-	{% if job_data.lat or job_data.lon %}
+	{% if job_data.lat != None and job_data.lon != None %}
 		<tr><th nowrap="nowrap">Point:</th><td> Latitude: {{ job_data.lat }} Longitude: {{ job_data.lon }}</td></tr>
 	{% endif %}
 	<tr><th nowrap="nowrap">Start Date Time:</th><td>{{ job_data.datetime_start }}</td></tr>

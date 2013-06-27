@@ -37,7 +37,8 @@ class OCG(object):
         if hasText(openClimateGisJob.geometry):
             args['geom'] = self.geometries.getCategoryKey( openClimateGisJob.geometry )
             args['select_ugid'] = []
-            for geom in openClimateGisJob.geometry_id:
+            # must transform back from string to list of integers
+            for geom in openClimateGisJob.geometry_id.split(","):
                 args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
         elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
               and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
@@ -78,15 +79,6 @@ class OCG(object):
             if not os.path.exists(dir_output):
                 os.makedirs(dir_output)
             
-            #DIR_DATA = '/home/local/WX/ben.koziol/links/ocgis/bin/nc'
-            #FILENAME = 'rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc'
-            #VARIABLE = 'rhs'
-            #AGGREGATE = False #True
-            #SPATIAL_OPERATION = 'intersects' #'clip'
-            #GEOM = 'state_boundaries'
-            #STATES = {'CO':[32],'CA':[25]}
-            #OUTPUT_FORMAT = 'csv+' #'csv' #'nc' #'shp'
-            #PREFIX = 'ocgis_output'
             TIME_REGION = {'month':[6,7],'year':[2011]}
             
             rd = ocgis.RequestDataset(uri=args['uri'],
