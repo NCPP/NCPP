@@ -67,7 +67,7 @@ class OCG(object):
         if hasText(openClimateGisJob.calc):
             args['calc'] = [ {'func':str(openClimateGisJob.calc), 'name':str(openClimateGisJob.calc)} ] 
             if openClimateGisJob.calc == 'threshold':
-                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1}
+                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'operation':'gte'}
             elif openClimateGisJob.calc == 'between':
                 args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
             
@@ -89,7 +89,7 @@ class OCG(object):
         # fake invocation on laptop
         if self.debug:
             time.sleep(SLEEP_SECONDS)
-            path = "/usr/NCPP/static/ocgis/ocgis_output/MaurerNew_ARRM-CGCM3_bias_tasmax_mean_mon1_1971-2000_US48.jpg"
+            download_path = "/usr/NCPP/static/ocgis/ocgis_output/MaurerNew_ARRM-CGCM3_bias_tasmax_mean_mon1_1971-2000_US48.jpg"
            
          # real invocation on NOAA servers 
         else:
@@ -116,10 +116,13 @@ class OCG(object):
                                       output_format=args['output_format'], 
                                       dir_output=dir_output)
 
-            ## return the path to the folder containing the output data
+            # execute the operation
+            # 'path' points to the top-level folder containing the output data
             path = ops.execute()
+            # 'download_path' points to single file for user to download
+            download_path = ocgis.format_return(ret, ops)
 
         # return ouput
-        url = path.replace(self.rootDir, self.rootUrl)
+        url = download_path.replace(self.rootDir, self.rootUrl)
         return url
         
