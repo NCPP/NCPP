@@ -115,8 +115,7 @@ class OCG(object):
                                       spatial_operation=args['spatial_operation'], 
                                       prefix=args['prefix'],
                                       output_format=args['output_format'], 
-                                      dir_output=dir_output,
-                                      with_auxiliary_files=args['with_auxiliary_files'])
+                                      dir_output=dir_output)
 
             # execute the operation
             # 'path' points to the top-level folder containing the output data
@@ -125,6 +124,6 @@ class OCG(object):
             download_path = ocgis.format_return(path, ops)
 
         # return ouput
-        url = download_path.replace(self.rootDir, self.rootUrl)
+        url = download_path.replace(self.rootDir, self.rootUrl, with_auxiliary_files=args['with_auxiliary_files'])
         return url
         
