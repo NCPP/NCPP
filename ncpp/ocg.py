@@ -79,6 +79,7 @@ class OCG(object):
         args['output_format'] = openClimateGisJob.output_format
         args['prefix'] = openClimateGisJob.prefix
         args['dir_output'] = str( openClimateGisJob.id )
+        args['with_auxiliary_files'] = openClimateGisJob.with_auxiliary_files
             
         return args
         
@@ -114,7 +115,8 @@ class OCG(object):
                                       spatial_operation=args['spatial_operation'], 
                                       prefix=args['prefix'],
                                       output_format=args['output_format'], 
-                                      dir_output=dir_output)
+                                      dir_output=dir_output,
+                                      with_auxiliary_files=args['with_auxiliary_files'])
 
             # execute the operation
             # 'path' points to the top-level folder containing the output data

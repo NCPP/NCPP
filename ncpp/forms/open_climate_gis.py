@@ -116,6 +116,7 @@ class OpenClimateGisForm2(Form):
                                     widget=RadioSelect, initial='intersects')
     output_format = ChoiceField(choices=ocgisChoices(Config.OUTPUT_FORMAT).items(), required=True, initial='csv')
     prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
+    with_auxiliary_files = BooleanField(initial=False, required=False)
     
 class OpenClimateGisForm3(Form):
     '''Dummy form that presents a summary of all previous choices'''

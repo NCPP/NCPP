@@ -38,7 +38,7 @@
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Output Format</legend>	
-	<table>
+	<table class="horizontalTable">
 		<tr>
 			<th nowrap="nowrap"><b>Spatial Operation</b></th>
 			<td> {{ wizard.form.spatial_operation }}
@@ -53,13 +53,18 @@
 				</td>
 		</tr>
 		<tr>
-			<th><b>Output Format</b></th>
+			<th nowrap="nowrap"><b>Output Format</b></th>
 			<td>{{ wizard.form.output_format }}<br/>{{ wizard.form.output_format.errors }}</td>
 		</tr>
 		<tr>
 			<th><b>Prefix</b></th>
 			<td>{{ wizard.form.prefix }} &nbsp;Optionally, specify the output prefix to prepend to any output data filename.
 			<br/>{{ wizard.form.prefix.errors }}</td>
+		</tr>
+		<tr>
+			<th nowrap="nowrap"><b>Include Auxiliary Files ?</b></th>
+			<td>{{ wizard.form.with_auxiliary_files }} &nbsp;Check to return a compressed file that includes auxiliary files.
+			<br/>{{ wizard.form.with_auxiliary_files.errors }}</td>
 		</tr>
 		
 	</table>

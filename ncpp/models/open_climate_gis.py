@@ -111,6 +111,7 @@ class OpenClimateGisJob(Job):
     aggregate = models.BooleanField(verbose_name='Aggregate ?')
     output_format = models.CharField(max_length=20, verbose_name='Output Format', blank=False)
     prefix = models.CharField(max_length=50, verbose_name='Prefix', blank=False, default='ocgis_output')
+    with_auxiliary_files = models.BooleanField(verbose_name='Include auxiliary files ?')
     
     def __init__(self, *args, **kwargs):
         
@@ -205,13 +206,15 @@ class OpenClimateGisJob(Job):
         if self.par2 is not None:
             job_data.append( ('Calculation Parameter 2', self.par2) )
             
-        job_data.append( ('Calculation Group', self.calc_group.replace(",",", ")) )
+        if self.calc_group is not None and len(self.calc_group)>0:
+            job_data.append( ('Calculation Group', self.calc_group.replace(",",", ")) )
         job_data.append( ('Calculate Raw?', self.calc_raw) )
         
         job_data.append( ('Spatial Operation', ocgisChoices(Config.SPATIAL_OPERATION)[self.spatial_operation]) )
         job_data.append( ('Aggregate', self.aggregate) )
         job_data.append( ('Output Format', ocgisChoices(Config.OUTPUT_FORMAT)[self.output_format]) )
         job_data.append( ('Prefix', self.prefix) )
+        job_data.append( ('Include Auxiliary Files', self.with_auxiliary_files) )
                  
         return job_data				  
         

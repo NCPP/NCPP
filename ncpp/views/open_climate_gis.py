@@ -79,7 +79,10 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('output_format'):
                         job_data['output_format'] = ocgisChoices(Config.OUTPUT_FORMAT)[cleaned_data['output_format']]   
                     if cleaned_data.has_key('prefix'):
-                        job_data['prefix'] = cleaned_data['prefix']       
+                        job_data['prefix'] = cleaned_data['prefix']    
+                    if cleaned_data.has_key('with_auxiliary_files'):
+                        job_data['with_auxiliary_files'] = bool(cleaned_data['with_auxiliary_files'])       
+                       
                             
             context.update({'job_data': job_data})
         
@@ -122,7 +125,8 @@ class OpenClimateGisWizard(SessionWizardView):
                                                spatial_operation=form_data['spatial_operation'],
                                                aggregate=bool(form_data['aggregate']),
                                                output_format=form_data['output_format'],
-                                               prefix=form_data['prefix'] )
+                                               prefix=form_data['prefix'],
+                                               with_auxiliary_files=form_data['with_auxiliary_files'] )
         
         # submit OCG job
         job.submit()
