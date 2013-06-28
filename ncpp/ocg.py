@@ -120,7 +120,7 @@ class OCG(object):
             # 'path' points to the top-level folder containing the output data
             path = ops.execute()
             # 'download_path' points to single file for user to download
-            download_path = ocgis.format_return(ret, ops)
+            download_path = ocgis.format_return(path, ops)
 
         # return ouput
         url = download_path.replace(self.rootDir, self.rootUrl)
