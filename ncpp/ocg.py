@@ -68,7 +68,7 @@ class OCG(object):
         if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':
             args['calc'] = [ {'func':str(openClimateGisJob.calc), 'name':str(openClimateGisJob.calc)} ] 
             if openClimateGisJob.calc == 'threshold':
-                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'operation':'gte'}
+                args['calc'][0]['kwds'] = {'threshold':openClimateGisJob.par1, 'operation':'gte'}
             elif openClimateGisJob.calc == 'between':
                 args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
             
