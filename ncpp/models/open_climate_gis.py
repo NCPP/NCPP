@@ -101,7 +101,7 @@ class OpenClimateGisJob(Job):
     timeregion_month = models.CharField(max_length=200, verbose_name='Time Region: Month', null=True, blank=True)
     timeregion_year = models.CharField(max_length=200, verbose_name='Time Region: Year', null=True, blank=True)
         
-    calc = models.CharField(max_length=50, verbose_name='Calculation', null=False)
+    calc = models.CharField(max_length=50, verbose_name='Calculation', null=True, blank=True)
     par1 = models.FloatField(verbose_name='Calculation Parameter 1', blank=True, null=True)
     par2 = models.FloatField(verbose_name='Calculation Parameter 2', blank=True, null=True)
     calc_group = models.CharField(max_length=100, verbose_name='Calculation Group', null=True, blank=True)

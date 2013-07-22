@@ -64,7 +64,7 @@ class OCG(object):
                     args['time_region']['year'].append(i)
         
         args['calc'] = None
-        if hasText(openClimateGisJob.calc):
+        if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':
             args['calc'] = [ {'func':str(openClimateGisJob.calc), 'name':str(openClimateGisJob.calc)} ] 
             if openClimateGisJob.calc == 'threshold':
                 args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'operation':'gte'}
