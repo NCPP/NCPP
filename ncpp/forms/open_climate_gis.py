@@ -118,6 +118,21 @@ class OpenClimateGisForm2(Form):
     prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
     with_auxiliary_files = BooleanField(initial=False, required=False)
     
+    # custom validation
+    def clean(self):
+        
+        # invoke superclass cleaning method
+        super(OpenClimateGisForm2, self).clean()
+        
+        if hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
+            if len( self.cleaned_data['calc_group'] ) == 0:
+                self._errors["calc_group"] = self.error_class(["Calculation Group(s) not selected"]) 
+        
+        # return cleaned data
+        return self.cleaned_data
+
+
+    
 class OpenClimateGisForm3(Form):
     '''Dummy form that presents a summary of all previous choices'''
     

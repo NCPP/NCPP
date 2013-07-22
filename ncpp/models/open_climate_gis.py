@@ -104,7 +104,7 @@ class OpenClimateGisJob(Job):
     calc = models.CharField(max_length=50, verbose_name='Calculation', null=True, blank=True)
     par1 = models.FloatField(verbose_name='Calculation Parameter 1', blank=True, null=True)
     par2 = models.FloatField(verbose_name='Calculation Parameter 2', blank=True, null=True)
-    calc_group = models.CharField(max_length=100, verbose_name='Calculation Group', null=True, blank=True)
+    calc_group = models.CharField(max_length=100, verbose_name='Calculation Group', null=False, blank=False)
     calc_raw = models.BooleanField(verbose_name='Calculate Raw ?')
     spatial_operation = models.CharField(max_length=50, verbose_name='Spatial Operation', blank=False)
     

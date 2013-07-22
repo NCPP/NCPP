@@ -13,24 +13,25 @@
 			<th>Calculation</th>
 			<td>{{ wizard.form.calc }}
 			    parameter 1: {{ wizard.form.par1 }} parameter 2: {{ wizard.form.par2 }}
-			     <br/>{{ wizard.form.calc.errors }} {{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }}</td>
+			     <br/>
+			     <span class="error">{{ wizard.form.calc.errors }} {{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }}</span></td>
 		</tr>
 		<tr>
 			<th>Calculation Group</th>
 			<td>{{ wizard.form.calc_group }}
-				&nbsp;Optionally, select one or more temporal grouping for the data
-			     <br/>{{ wizard.form.calc_group.errors }}</td>
+				&nbsp;If performing a computation, you MUST select one or more temporal grouping for the data
+			     <br/><span class="error">{{ wizard.form.calc_group.errors }}</span></td>
 		</tr>
 		<tr>
 			<th>Aggregate</th>
 			<td>{{ wizard.form.aggregate }} Check to combine selected geometries into a single geometry
-			<br/>{{ wizard.form.aggregate.errors }}</td>
+			<br/><span class="error">{{ wizard.form.aggregate.errors }}</span></td>
 		</tr>
 		<tr>
 			<th>Calculate Raw ?</th>
 			<td>{{ wizard.form.calc_raw }}
 				&nbsp;Check to execute the calculation on raw, unaggregated values
-			     <br/>{{ wizard.form.calc_raw.errors }}</td>
+			     <br/><span class="error">{{ wizard.form.calc_raw.errors }}</span></td>
 		</tr>
 	</table>
 
@@ -42,7 +43,7 @@
 		<tr>
 			<th nowrap="nowrap"><b>Spatial Operation</b></th>
 			<td> {{ wizard.form.spatial_operation }}
-				<br/>{{ wizard.form.spatial_operation.errors }}
+				<br/><span class="error">{{ wizard.form.spatial_operation.errors }}</span>
 			</td>
 		</tr>
 		<tr>
@@ -54,17 +55,17 @@
 		</tr>
 		<tr>
 			<th nowrap="nowrap"><b>Output Format</b></th>
-			<td>{{ wizard.form.output_format }}<br/>{{ wizard.form.output_format.errors }}</td>
+			<td>{{ wizard.form.output_format }}<br/><span class="error">{{ wizard.form.output_format.errors }}</span></td>
 		</tr>
 		<tr>
 			<th><b>Prefix</b></th>
 			<td>{{ wizard.form.prefix }} &nbsp;Optionally, specify the output prefix to prepend to any output data filename.
-			<br/>{{ wizard.form.prefix.errors }}</td>
+			<br/><span class="error">{{ wizard.form.prefix.errors }}</span></td>
 		</tr>
 		<tr>
 			<th nowrap="nowrap"><b>Include Auxiliary Files ?</b></th>
 			<td>{{ wizard.form.with_auxiliary_files }} &nbsp;Check to return a compressed file that includes auxiliary files.
-			<br/>{{ wizard.form.with_auxiliary_files.errors }}</td>
+			<br/><span class="error">{{ wizard.form.with_auxiliary_files.errors }}</span></td>
 		</tr>
 		
 	</table>
