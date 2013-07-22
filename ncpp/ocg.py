@@ -117,6 +117,9 @@ class OCG(object):
                                       select_ugid=args['select_ugid'],
                                       aggregate=args['aggregate'], 
                                       spatial_operation=args['spatial_operation'], 
+                                      calc=args['calc'], 
+                                      calc_grouping=args['calc_grouping'],
+                                      calc_raw=args['calc_raw'],
                                       prefix=args['prefix'],
                                       output_format=args['output_format'], 
                                       dir_output=dir_output)
