@@ -73,7 +73,10 @@ class OCG(object):
                 args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
             
         args['calc_raw'] = openClimateGisJob.calc_raw
-        args['calc_grouping'] = map(str, openClimateGisJob.calc_group.split(","))
+        if hasText(openClimateGisJob.calc_group):
+            args['calc_grouping'] = map(str, openClimateGisJob.calc_group.split(","))
+        else:
+            args['calc_grouping'] = None
         
         args['spatial_operation'] = openClimateGisJob.spatial_operation
         args['aggregate'] = openClimateGisJob.aggregate
