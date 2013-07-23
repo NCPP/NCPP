@@ -4,6 +4,10 @@ from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleCh
 from ncpp.models.open_climate_gis import ocgisChoices, Config, ocgisGeometries
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
+import re
+
+# list of invalid characters for 'prefix' field
+INVALID_CHARS = "[^a-zA-Z0-9_\-]"
 
 class DynamicChoiceField(ChoiceField):
    """ Class that extends the ChoiceField to suppress validation on valid choices, 
@@ -135,6 +139,9 @@ class OpenClimateGisForm2(Form):
         if hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
             if len( self.cleaned_data['calc_group'] ) == 0:
                 self._errors["calc_group"] = self.error_class(["Calculation Group(s) not selected."]) 
+                
+        if 'prefix' in self.cleaned_data and re.search(INVALID_CHARS, self.cleaned_data['prefix']):
+            self._errors['prefix'] = self.error_class(["The prefix contains invalid characters."])
         
         # return cleaned data
         return self.cleaned_data
