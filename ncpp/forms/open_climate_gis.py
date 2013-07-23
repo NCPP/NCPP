@@ -105,8 +105,16 @@ class OpenClimateGisForm1(Form):
         if (   ('datetime_start' in self.cleaned_data and self.cleaned_data['datetime_start'] is not None)
             or ('datetime_stop'  in self.cleaned_data and self.cleaned_data['datetime_stop']  is not None) ):
             if (   ('timeregion_month' in self.cleaned_data and len(self.cleaned_data['timeregion_month'])>0)
-                or ('timeregion_year'  in self.cleaned_data and hasText(self.cleaned_data['timeregion_year'])) ):
+                or ('timeregion_year' in self.cleaned_data and hasText(self.cleaned_data['timeregion_year'])) ):
                 self._errors["timeregion_year"] = self.error_class(["Please use a time range OR a time selection."])
+                
+        if 'timeregion_year' in self.cleaned_data and hasText(self.cleaned_data['timeregion_year']):
+            years = self.cleaned_data['timeregion_year'].split(',')
+            for year in years:
+                year = year.replace(" ","")
+                if not re.match('^\d{4}$', year):
+                    self._errors["timeregion_year"] = self.error_class(["Invalid year selection"])
+                    break
         
         if not self.is_valid():
             print 'VALIDATION ERRORS: %s' % self.errors
