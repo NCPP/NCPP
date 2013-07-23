@@ -1,4 +1,5 @@
 from django.db import models
+from threading import Thread
 import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS, NO_VALUE_OPTION
@@ -127,6 +128,14 @@ class OpenClimateGisJob(Job):
 		return 'Open Climate GIS Job id=%s status=%s' % (self.id, self.status)
         
     def submit(self):
+        """This method submits the job in a separate thread."""
+        
+        print 'Submitting the job'
+        runner = Runner(self)
+        runner.start()
+        
+    def _submit(self):
+        """Method that contains the logic to run the job. It may be executed in a separate thread,"""
         
         args = self.ocg.encodeArgs(self)
         self.request = self._encode_request(args)
@@ -220,3 +229,14 @@ class OpenClimateGisJob(Job):
         
     class Meta:
 		app_label= APPLICATION_LABEL
+
+class Runner(Thread):
+    """Class to execute an Open Climate GIS job in a separate thread."""
+    
+    def __init__ (self, job):
+        Thread.__init__(self)
+        self.job = job
+        
+    def run(self):
+        print "Running the job"
+        self.job._submit()
