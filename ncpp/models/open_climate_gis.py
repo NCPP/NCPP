@@ -139,6 +139,8 @@ class OpenClimateGisJob(Job):
         
         args = self.ocg.encodeArgs(self)
         self.request = self._encode_request(args)
+        self.status = JOB_STATUS.STARTED
+        self.save()
         
         try:
             # submit the job synchronously, wait for output
