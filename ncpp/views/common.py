@@ -74,7 +74,5 @@ def job_check(request, job_id, job_class):
     job.update()
     
     # redirect to job listing
-    # FIXME
-    return HttpResponseRedirect(reverse('jobs_list', args=['admin', job_class]))
-    #return HttpResponseRedirect(reverse('jobs_list', args=[request.user.username]))
+    return HttpResponseRedirect(reverse('jobs_list', args=[request.user.username, job_class]))
         

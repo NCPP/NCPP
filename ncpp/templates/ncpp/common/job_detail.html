@@ -1,5 +1,16 @@
 {% extends "ncpp/common/base.html" %}
 
+{% block extrahead %}
+	<script type="text/JavaScript">
+	<!--
+	function timedRefresh(timeoutPeriod) {
+		setTimeout("location.reload(true);", timeoutPeriod);
+	}
+	window.onload = timedRefresh(5000);
+	//   -->
+</script>
+{% endblock %}
+
 {% block main %}
   <div class="box">
 
@@ -37,11 +48,13 @@
 	&nbsp;
 	<a href="{% url job_response job.id job.class_name %}">Display Job Response</a>
 	&nbsp;
-	<a href="{% url job_check job.id job.class_name %}">Check Job Status</a>
+	<a href="{% url jobs_list user job.class_name %}">Jobs List</a>
 	&nbsp;
 	{% if job.status == 'Process Succeeded' %}
 		<a href="{{ job.url }}">Download Output</a>
 	{% endif %}	
 		
   </div>
+  <p/>
+  <div style="text-align:center">This page will automatically reload every 5 seconds.</div>
 {% endblock %}
