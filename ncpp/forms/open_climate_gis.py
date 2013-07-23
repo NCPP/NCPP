@@ -28,7 +28,7 @@ class DynamicMultipleChoiceField(MultipleChoiceField):
 class OpenClimateGisForm1(Form):
     '''Form that backs up the first selection page. 
        The argument passed to ocgisChoices must correspond to a valid key in the file OCGIS configuration file.'''
-    
+           
     # data selection
     dataset = ChoiceField(choices=ocgisChoices(Config.DATASET, nochoice=True).items(), required=True,
                           widget=Select(attrs={'onchange': 'inspectDataset();'}))

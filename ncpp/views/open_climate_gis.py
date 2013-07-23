@@ -24,7 +24,7 @@ class OpenClimateGisWizard(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         
         context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)    
-        
+                
         # before very last view: create summary of user choices
         if self.steps.current == self.steps.last:
             job_data = {}
@@ -96,8 +96,8 @@ class OpenClimateGisWizard(SessionWizardView):
         for form in form_list:
             form_data.update( form.cleaned_data )
             
-        # FIXME
-        user = User.objects.get(username='admin')
+        # retrieve user from request context
+        user = self.request.user
             
         # persist job specification to database
         job = OpenClimateGisJob.objects.create(status=JOB_STATUS.UNKNOWN,
