@@ -65,15 +65,19 @@ class OpenClimateGisForm1(Form):
         if (hasText(self.cleaned_data['geometry']) or len(self.cleaned_data['geometry_id']) ):
             ngeometries += 1
             geometry = 'shape'
-        if (    hasText(self.cleaned_data['latmin']) or hasText(self.cleaned_data['latmax']) 
-             or hasText(self.cleaned_data['lonmin']) or hasText(self.cleaned_data['lonmax']) ):
+        # NOTE: invalid float values in form result in cleaned_data not being populated for that key
+        if (    ('latmin' in self.cleaned_data and hasText(self.cleaned_data['latmin']))
+             or ('latmax' in self.cleaned_data and hasText(self.cleaned_data['latmax']))
+             or ('lonmin' in self.cleaned_data and hasText(self.cleaned_data['lonmin']))
+             or ('lonmax' in self.cleaned_data and hasText(self.cleaned_data['lonmax'])) ):
             ngeometries += 1
             geometry = 'box'
-        if (hasText(self.cleaned_data['lat']) or hasText(self.cleaned_data['lon'])):
+        if (   ('lat' in self.cleaned_data and hasText(self.cleaned_data['lat']))
+            or ('lon' in self.cleaned_data and hasText(self.cleaned_data['lon'])) ):
              ngeometries += 1
              geometry = 'point'
         if ngeometries > 1:
-            self._errors["geometry"] = self.error_class(["Please choose only one geometry: shape, bounding box or point"]) 
+            self._errors["geometry"] = self.error_class(["Please choose only one geometry: shape, bounding box or point."]) 
        
         elif ngeometries==1:
             if geometry =='shape':
@@ -82,19 +86,23 @@ class OpenClimateGisForm1(Form):
               if len(self.cleaned_data['geometry_id'])==0:
                   self._errors["geometry_id"] = self.error_class(["Please select a shape geometry"])
             elif geometry == 'box':
-                if (   not hasText(self.cleaned_data['latmin']) or not hasText(self.cleaned_data['latmax'])
-                    or not hasText(self.cleaned_data['lonmin']) or not hasText(self.cleaned_data['lonmax']) ):
-                    self._errors["latmin"] = self.error_class(["Invalid bounding box latitude or longitude values"])                    
+                if (   not 'latmin' in self.cleaned_data or not hasText(self.cleaned_data['latmin']) 
+                    or not 'latmax' in self.cleaned_data or not hasText(self.cleaned_data['latmax'])
+                    or not 'lonmin' in self.cleaned_data or not hasText(self.cleaned_data['lonmin']) 
+                    or not 'lonmax' in self.cleaned_data or not hasText(self.cleaned_data['lonmax']) ):
+                    self._errors["latmin"] = self.error_class(["Invalid bounding box latitude or longitude values."])                    
             elif geometry == 'point':
-                if not hasText(self.cleaned_data['lat']):
-                    self._errors["lat"] = self.error_class(["Invalid point latitude"])   
-                if not hasText(self.cleaned_data['lon']):
-                     self._errors["lon"] = self.error_class(["Invalid point longitude"])   
+                if not 'lat' in self.cleaned_data or not hasText(self.cleaned_data['lat']):
+                    self._errors["lat"] = self.error_class(["Invalid point latitude."])   
+                if not 'lon' in self.cleaned_data or not hasText(self.cleaned_data['lon']):
+                     self._errors["lon"] = self.error_class(["Invalid point longitude."])   
                      
         # validate times
-        if self.cleaned_data['datetime_start'] is not None or self.cleaned_data['datetime_stop']:
-            if len(self.cleaned_data['timeregion_month'])>0 or hasText(self.cleaned_data['timeregion_year']):
-                self._errors["timeregion_year"] = self.error_class(["Please select a time range OR a time region"])
+        if (   ('datetime_start' in self.cleaned_data and self.cleaned_data['datetime_start'] is not None)
+            or ('datetime_stop'  in self.cleaned_data and self.cleaned_data['datetime_stop']  is not None) ):
+            if (   ('timeregion_month' in self.cleaned_data and len(self.cleaned_data['timeregion_month'])>0)
+                or ('timeregion_year'  in self.cleaned_data and hasText(self.cleaned_data['timeregion_year'])) ):
+                self._errors["timeregion_year"] = self.error_class(["Please use a time range OR a time selection."])
         
         if not self.is_valid():
             print 'VALIDATION ERRORS: %s' % self.errors
@@ -126,7 +134,7 @@ class OpenClimateGisForm2(Form):
         
         if hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
             if len( self.cleaned_data['calc_group'] ) == 0:
-                self._errors["calc_group"] = self.error_class(["Calculation Group(s) not selected"]) 
+                self._errors["calc_group"] = self.error_class(["Calculation Group(s) not selected."]) 
         
         # return cleaned data
         return self.cleaned_data
