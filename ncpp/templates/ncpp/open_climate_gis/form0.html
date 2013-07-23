@@ -233,10 +233,9 @@
 		<tr>
 			<th>Time Range: Start</th>
 			<td>
-				{{ wizard.form.datetime_start }} &nbsp; {{ wizard.form.datetime_start.errors }}
-				<b>Stop</b>
-				{{ wizard.form.datetime_stop }} &nbsp; {{ wizard.form.datetime_stop.errors }}
-				&nbsp;[Format: YYYY-MM-DD HH:MM:SS]
+				{{ wizard.form.datetime_start }} <b>Stop</b> {{ wizard.form.datetime_stop }} &nbsp; [Format: YYYY-MM-DD HH:MM:SS]
+				<br/>
+				<span class="error">{{ wizard.form.datetime_start.errors }} &nbsp; {{ wizard.form.datetime_stop.errors }}
 			</td>
 		</tr>
 		<tr>
