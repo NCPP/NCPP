@@ -18,18 +18,24 @@
 	<body>
 	
 		<!-- header -->
-		<!-- login/logout -->
-		<div style="text-align:right">
-			{% if user.is_authenticated %}
-				Welcome, {{ user.username }}. &nbsp;
-				<a href="{% url logout %}?next=/ncpp/">Logout</a>
-			{% else %}
-				<a href="{% url login %}?next=/ncpp/">Login</a> 
-			{% endif %}
-		</div>
-		<!-- title -->
 		<div style="text-align:center; padding:10px">
+		
+			<!-- login/logout -->
+			<span style="float:left">
+				<a href="{% url home %}">Home</a>
+			</span>
+			<span style="float:right">
+				{% if user.is_authenticated %}
+					Welcome, {{ user.username }}.
+					<a href="{% url logout %}?next=/ncpp/">Logout</a>
+				{% else %}
+					<a href="{% url login %}?next=/ncpp/">Login</a> 
+				{% endif %}
+			</span>
+			<br/>
+			<!-- title -->
 			<h1>NCPP (National Climate Predictions and Projections platform)</h1>
+			
 		</div>
 	
 		<!-- main body content -->
