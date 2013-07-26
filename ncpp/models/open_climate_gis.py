@@ -3,13 +3,14 @@ from threading import Thread
 import os, ConfigParser
 from ncpp.models.common import Job
 from ncpp.constants import APPLICATION_LABEL, JOB_STATUS, NO_VALUE_OPTION
+from ncpp.config import ocgisDatasets
 from ncpp.utils import str2bool, get_month_string, hasText
 from ncpp.ocg import OCG
 import json
 #from collections import OrderedDict
 
 # read choices from configuration when module is first loaded (once per application)
-from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, NO_VALUE_OPTION
+from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, DATASETS_FILEPATH, NO_VALUE_OPTION
 
 #ocgisConfig = ConfigParser.RawConfigParser(dict_type=OrderedDict)
 ocgisConfig = ConfigParser.RawConfigParser()
@@ -65,7 +66,6 @@ class Config():
     '''Class holding keys into configuration file.'''
     
     DEFAULT = 'default'
-    DATASET = 'dataset'
     VARIABLE = 'variable'
     OUTPUT_FORMAT = 'output_format'
     CALCULATION = 'calculation'
@@ -85,6 +85,7 @@ def ocgisChoices(section, nochoice=False):
 class OpenClimateGisJob(Job):
     """Class that represents the execution of an Open Climate GIS job."""
     
+    dataset_category = models.CharField(max_length=200, verbose_name='Dataset Category', blank=False)
     dataset = models.CharField(max_length=200, verbose_name='Dataset', blank=False)
     variable = models.CharField(max_length=200, verbose_name='Variable', blank=False)
     geometry = models.CharField(max_length=200, verbose_name='Geometry', null=True, blank=True)
@@ -119,7 +120,7 @@ class OpenClimateGisJob(Job):
         super(OpenClimateGisJob, self).__init__(*args, **kwargs)
                 
         # instantiate Open Climate GIS adapter
-        self.ocg = OCG(ocgisGeometries,
+        self.ocg = OCG(ocgisDatasets, ocgisGeometries,
                        ocgisConfig.get(Config.DEFAULT, "rootDir"),
                        ocgisConfig.get(Config.DEFAULT, "rootUrl"),
                        debug=str2bool( ocgisConfig.get(Config.DEFAULT, "debug")) )
@@ -183,7 +184,8 @@ class OpenClimateGisJob(Job):
         """Returns an ordered list of (choice label, choice value) for display to the user."""
         
         job_data = []
-        job_data.append( ('Dataset', ocgisChoices(Config.DATASET)[self.dataset]) )
+        job_data.append( ('Dataset Category', self.dataset_category) )
+        job_data.append( ('Dataset', self.dataset) )
         job_data.append( ('Variable', self.variable) )
         if hasText(self.geometry):
             job_data.append( ('Shape Type', self.geometry) )

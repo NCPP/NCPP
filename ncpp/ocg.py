@@ -6,9 +6,11 @@ from ncpp.utils import hasText
 SLEEP_SECONDS = 1
 
 class OCG(object):
-    """Adapter class that invokes the ocgis library."""
+    """Adapter class that invokes the OCGIS library."""
     
-    def __init__(self, geometries, rootDir, rootUrl, debug=False):
+    def __init__(self, datasets, geometries, rootDir, rootUrl, debug=False):
+        # object holding datasets
+        self.datasets = datasets
         # object holding geometries
         self.geometries = geometries
         # root directory where output is written
@@ -24,8 +26,11 @@ class OCG(object):
         args = {}
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
-        args['uri'] = openClimateGisJob.dataset
-        args['variable'] = openClimateGisJob.variable
+        # retrieve dataset URIs, variable from configuration JSON data
+        jsonObject = self.datasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset][openClimateGisJob.variable]
+        print "jsonObject=%s" % jsonObject
+        args['uri'] = jsonObject["uri"]
+        args['variable'] = jsonObject["variable"]
         
         # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
         #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 

@@ -2,6 +2,7 @@ from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleCh
                           TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
 from ncpp.models.open_climate_gis import ocgisChoices, Config, ocgisGeometries
+from ncpp.config.open_climate_gis import ocgisDatasets
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
 import re
@@ -34,10 +35,14 @@ class OpenClimateGisForm1(Form):
        The argument passed to ocgisChoices must correspond to a valid key in the file OCGIS configuration file.'''
            
     # data selection
-    dataset = ChoiceField(choices=ocgisChoices(Config.DATASET, nochoice=True).items(), required=True,
-                          widget=Select(attrs={'onchange': 'inspectDataset();'}))
+    dataset_category = ChoiceField(choices=ocgisDatasets.getDatasetCategories(), required=True,
+                          widget=Select(attrs={'onchange': 'populateDatasets();'}))
+    # no initial values for 'datasets' widget. The choices are assigned dynamically through Ajax
+    dataset = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
+                          widget=Select(attrs={'onchange': 'populateVariables();'}))
     # no initial values for 'variables' widget. The choices are assigned dynamically through Ajax
-    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True)
+    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
+                                  widget=Select(attrs={'onchange': 'populateDateTimes();'}))
     
     # geometry selection
     geometry = ChoiceField(choices=ocgisGeometries.getCategories(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))

@@ -6,11 +6,13 @@ from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
 from ncpp.models.open_climate_gis import OpenClimateGisJob, ocgisChoices, Config, ocgisConfig, ocgisGeometries
+from ncpp.config import ocgisDatasets
 from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
 
 from datetime import datetime
+import json
 
 
 
@@ -23,17 +25,23 @@ class OpenClimateGisWizard(SessionWizardView):
     # overridden here to aggregate user choices from all steps before the last one
     def get_context_data(self, form, **kwargs):
         
-        context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)    
-                
+        context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)
+          
+        # first form: send data and geometry choices 
+        if self.steps.current == self.steps.first:
+            context.update({'datasets':  json.dumps(ocgisDatasets.datasets) })
+                 
         # before very last view: create summary of user choices
-        if self.steps.current == self.steps.last:
+        elif self.steps.current == self.steps.last:
             job_data = {}
             # retrieve form data for all previous views
             for step in self.steps.all:
                 if step != self.steps.current:                    
                     cleaned_data = self.get_cleaned_data_for_step(step)   
+                    if cleaned_data.has_key("dataset_category"):
+                        job_data['dataset_category'] = cleaned_data['dataset_category'] 
                     if cleaned_data.has_key("dataset"):
-                        job_data['dataset'] = ocgisChoices(Config.DATASET)[cleaned_data['dataset']]
+                        job_data['dataset'] = cleaned_data['dataset'] 
                     if cleaned_data.has_key('variable'):
                         job_data['variable'] = cleaned_data['variable']  
                     if cleaned_data.has_key('geometry') and hasText(cleaned_data['geometry']):
@@ -81,8 +89,7 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('prefix'):
                         job_data['prefix'] = cleaned_data['prefix']    
                     if cleaned_data.has_key('with_auxiliary_files'):
-                        job_data['with_auxiliary_files'] = bool(cleaned_data['with_auxiliary_files'])       
-                       
+                        job_data['with_auxiliary_files'] = bool(cleaned_data['with_auxiliary_files'])                       
                             
             context.update({'job_data': job_data})
         
@@ -102,6 +109,7 @@ class OpenClimateGisWizard(SessionWizardView):
         # persist job specification to database
         job = OpenClimateGisJob.objects.create(status=JOB_STATUS.UNKNOWN,
                                                user=user,
+                                               dataset_category=form_data['dataset_category'],
                                                dataset=form_data['dataset'],
                                                variable=form_data['variable'],
                                                geometry=form_data['geometry'],

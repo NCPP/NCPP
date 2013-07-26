@@ -8,6 +8,75 @@
 <!-- custom javascript code -->
 <script language="javascript">
 
+	// function to unescape HTML entities
+	String.prototype.unescapeHtml = function () {
+	    var temp = document.createElement("div");
+	    temp.innerHTML = this;
+	    var result = temp.childNodes[0].nodeValue;
+	    temp.removeChild(temp.firstChild);
+	    return result;
+	}
+
+	// function to populate the form widget with the dataset choices
+	function populateDatasets() {
+
+		// dataset options
+		var options = new Array();
+		options[0] = ["","-- Please Select --"];
+		
+		// retrieve current dataset category selection
+		datasetCategorySelect = document.getElementById("id_0-dataset_category");
+		if (datasetCategorySelect.value!=null && datasetCategorySelect.value!='') {
+			
+			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
+			jsonData = datasets[datasetCategorySelect.value];
+			for (var dt in jsonData) {
+				options.push( [dt, dt] )
+			}
+	
+		} 
+		
+		showOptions("id_0-dataset", options);
+		
+	}
+	
+	// function to populate the form widget with the variable choices
+	function populateVariables() {
+
+		// variable options
+		var options = new Array();
+		options[0] = ["","-- Please Select --"];
+		
+		// retrieve current selection for dataset category  and dataset
+		datasetCategorySelect = document.getElementById("id_0-dataset_category");
+		datasetSelect = document.getElementById("id_0-dataset");
+		if (   datasetCategorySelect.value!=null && datasetCategorySelect.value!='' 
+			&& datasetSelect.value!=null && datasetSelect.value!='') {
+			
+			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
+			jsonData = datasets[datasetCategorySelect.value][datasetSelect.value];
+			for (var variable in jsonData) {
+				options.push( [variable, variable] )
+			}
+	
+		} 
+		
+		showOptions("id_0-variable", options);
+		
+	}
+	
+	
+	// function to populate a select widget with options
+	function showOptions(widgetId, options) {
+		
+		selectWidget = document.getElementById(widgetId);
+		selectWidget.options.length = 0;
+		for (var i = 0; i < options.length; i++) {
+			selectWidget.add( new Option(options[i][1], options[i][0]) ); // label, value
+		}
+				
+	}
+
 	// function to populate the form widget with dataset-specific choices
 	function inspectDataset() {
 		
@@ -94,16 +163,27 @@
 	}
 	
 	// function to populate the start, stop times
-	function showDateTimes(datetime_start, datetime_stop) {
+	function populateDateTimes(datetime_start, datetime_stop) {
 		
-		if (datetime_start!=null) {
-			startDateTimeText = document.getElementById("id_0-datetime_start");
-			startDateTimeText.value = datetime_start
-		}
 		
-		if (datetime_stop!=null) {
-			stopDateTimeText = document.getElementById("id_0-datetime_stop");
-			stopDateTimeText.value = datetime_stop
+		// retrieve current selection for dataset category  and dataset
+		datasetCategorySelect = document.getElementById("id_0-dataset_category");
+		datasetSelect = document.getElementById("id_0-dataset");
+		variableSelect = document.getElementById("id_0-variable");
+		if (   datasetCategorySelect.value!=null && datasetCategorySelect.value!='' 
+			&& datasetSelect.value!=null && datasetSelect.value!=''
+			&& variableSelect.value!=null && variableSelect.value!='') {
+			
+			var datasets = JSON.parse("{{datasets}}".unescapeHtml());
+			jsonData = jsonData = datasets[datasetCategorySelect.value][datasetSelect.value][variableSelect.value]["time_range"];
+		
+			if (jsonData!=null) {
+				startDateTimeText = document.getElementById("id_0-datetime_start");
+				startDateTimeText.value = jsonData[0];
+				stopDateTimeText = document.getElementById("id_0-datetime_stop");
+				stopDateTimeText.value = jsonData[1];
+			}
+		
 		}
 
 	}
@@ -155,10 +235,15 @@
        
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Data Selection</legend>	
-	Please select a <i>dataset</i>, then a <i>variable</i>.
+	Please select a <i>dataset category</i>, a <i>dataset</i>, and a <i>variable</i>.
 	<p/>&nbsp;
 	
 	<table class="horizontalTable">
+		<tr>
+			<th>Dataset Category</th>
+			<td>{{ wizard.form.dataset_category }}
+				<br/>&nbsp;<span class="error">{{ wizard.form.dataset_category.errors }}</span></td>
+		</tr>
 		<tr>
 			<th>Dataset</th>
 			<td>{{ wizard.form.dataset }}
