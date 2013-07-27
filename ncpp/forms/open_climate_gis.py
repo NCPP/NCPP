@@ -1,7 +1,7 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
                           TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
-from ncpp.models.open_climate_gis import ocgisChoices, Config, ocgisGeometries
+from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisGeometries
 from ncpp.config.open_climate_gis import ocgisDatasets
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText

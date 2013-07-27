@@ -10,9 +10,9 @@ class OCG(object):
     
     def __init__(self, datasets, geometries, rootDir, rootUrl, debug=False):
         # object holding datasets
-        self.datasets = datasets
+        self.ocgisDatasets = datasets
         # object holding geometries
-        self.geometries = geometries
+        self.ocgisGeometries = geometries
         # root directory where output is written
         self.rootDir = rootDir
         # root URL for generated products
@@ -27,8 +27,7 @@ class OCG(object):
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
         # retrieve dataset URIs, variable from configuration JSON data
-        jsonObject = self.datasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset][openClimateGisJob.variable]
-        print "jsonObject=%s" % jsonObject
+        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset][openClimateGisJob.variable]
         args['uri'] = jsonObject["uri"]
         args['variable'] = jsonObject["variable"]
         
@@ -41,11 +40,11 @@ class OCG(object):
         args['geom'] = None
         args['select_ugid'] = None
         if hasText(openClimateGisJob.geometry):
-            args['geom'] = self.geometries.getCategoryKey( openClimateGisJob.geometry )
+            args['geom'] = self.ocgisGeometries.getCategoryKey( openClimateGisJob.geometry )
             args['select_ugid'] = []
             # must transform back from string to list of integers
             for geom in openClimateGisJob.geometry_id.split(","):
-                args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
+                args['select_ugid'].append( self.ocgisGeometries.getGuid(openClimateGisJob.geometry, geom))
         elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
               and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
             args['geom'] = [openClimateGisJob.lonmin, openClimateGisJob.lonmax, openClimateGisJob.latmin,  openClimateGisJob.latmax]
