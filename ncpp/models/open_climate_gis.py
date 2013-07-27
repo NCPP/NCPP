@@ -7,7 +7,7 @@ from ncpp.utils import str2bool, get_month_string, hasText
 from ncpp.ocg import OCG
 import json
 
-from ncpp.config import ocgisDatasets, ocgisGeometries, ocgisConfig
+from ncpp.config import ocgisDatasets, ocgisGeometries, ocgisConfig, Config, ocgisChoices
 
 class OpenClimateGisJob(Job):
     """Class that represents the execution of an Open Climate GIS job."""

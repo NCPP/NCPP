@@ -8,7 +8,7 @@
 <!-- custom javascript code -->
 <script language="javascript">
 
-	// function to unescape HTML entities
+	// FIXME: function to unescape HTML entities
 	String.prototype.unescapeHtml = function () {
 	    var temp = document.createElement("div");
 	    temp.innerHTML = this;
@@ -28,6 +28,7 @@
 		datasetCategorySelect = document.getElementById("id_0-dataset_category");
 		if (datasetCategorySelect.value!=null && datasetCategorySelect.value!='') {
 			
+			// FIXME: parse only once ?
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
 			jsonData = datasets[datasetCategorySelect.value];
 			for (var dt in jsonData) {
@@ -76,57 +77,27 @@
 		}
 				
 	}
-
-	// function to populate the form widget with dataset-specific choices
-	function inspectDataset() {
-		
-		// retrieve current dataset selection
-		datasetSelect = document.getElementById("id_0-dataset");
-		if (datasetSelect.value!=null && datasetSelect.value!='') {
-			
-			// execute ajax call to inspect the dataset
-			url = '/ncpp/open_climate_gis/dataset?uri='+encodeURIComponent(datasetSelect.value);
-			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, datasetCallback, null);
-
-		} else {
-			
-			// populate variables widget with no options
-			var variables = new Array();
-			variables[0] = ["","-- Please Select --"];
-			showVariables( variables );
-			
-		}
-		
-	}
 	
 	// function to populate the geometries widget
 	function populateGeometries() {
 		
-		// retrieve current dataset selection
+		// geometry options
+		var options = new Array();
+		
+		// retrieve current selection for geometry type
 		geometryTypeSelect = document.getElementById("id_0-geometry");
 		if (geometryTypeSelect.value!=null && geometryTypeSelect.value!='') {
 			
-			// execute ajax call to inspect the dataset
-			url = '/ncpp/open_climate_gis/geometries?type='+encodeURIComponent(geometryTypeSelect.value);
-			var transaction = YAHOO.util.Connect.asyncRequest('GET', url, geometryCallback, null);
-
-		} else {
-			
-			// populate variables widget with no options
-			var variables = new Array();
-			variables[0] = ["","-- Please Select --"];
-			showVariables( variables );
-			
-		}
-		
-	}
+			var geometries = JSON.parse("{{geometries}}".unescapeHtml());			
+			jsonData = geometries[geometryTypeSelect.value]["geometries"];
+			for (var geom in jsonData) {
+				options.push( [geom, geom] )
+			}
 	
-	// function to initialize the selection widgets via Ajax calls
-	function init() {
+		} 
 		
-		inspectDataset();
-		
-		populateGeometries();
+		showOptions("id_0-geometry_id", options);
+
 		
 	}
 	
@@ -228,9 +199,6 @@
 	  argument: [],
 	};
 	
-    // initialize widgets at page loading
-    window.onload = init;
-
 </script>
        
 <fieldset class="fieldset_box">

@@ -15,8 +15,6 @@ from django.utils import simplejson
 from datetime import datetime
 import json
 
-
-
 class OpenClimateGisWizard(SessionWizardView):
     '''Set of views to submit an Open Climate GIS request.'''
     
@@ -28,9 +26,10 @@ class OpenClimateGisWizard(SessionWizardView):
         
         context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)
           
-        # first form: send data and geometry choices 
+        # before rendering of first form: send data and geometry choices 
         if self.steps.current == self.steps.first:
             context.update({'datasets':  json.dumps(ocgisDatasets.datasets) })
+            context.update({'geometries':  json.dumps(ocgisGeometries.geometries) })
                  
         # before very last view: create summary of user choices
         elif self.steps.current == self.steps.last:
@@ -141,61 +140,4 @@ class OpenClimateGisWizard(SessionWizardView):
         job.submit()
         
         # FIXME: pass OCG as additional argument to select jobs
-        return HttpResponseRedirect(reverse('job_detail', args=[job.id, get_full_class_name(job)]))
-    
-def inspect_dataset(request):
-    """View called from Ajax request to inspect a dataset."""
-    
-    uri = request.GET.get('uri', None)
-    debug = str2bool( ocgisConfig.get(Config.DEFAULT, "debug"))
-    response_data = {}
-    response_data['variables'] = []
-    
-    if debug:
-        # return synthetic data
-        response_data['variables'].append( ('rhs','Relative Surface Humidity') )
-        #response_data['datetime_start'] = datetime.strptime('2011-01-01 12:00:00', '%Y-%m-%d %H:%M:%S')
-        #response_data['datetime_stop'] = datetime.strptime('2020-12-31 12:00:00', '%Y-%m-%d %H:%M:%S') 
-        response_data['datetime_start'] = "2011-01-01 12:00:00"
-        response_data['datetime_stop'] = "2020-12-31 12:00:00"
-
-    else:
-        # inspect dataset dynamially
-        import ocgis
-        
-        rd = ocgis.RequestDataset(uri)
-        ret = rd.inspect_as_dct()
-        
-        # retrieve variables
-        for key, value in ret['variables'].items():
-            # exclude coordinates
-            if (not 'lat' in key and not 'lon' in key and not 'time' in key and not 'height' in key):
-                label = key
-                attrs = value['attrs']
-                if attrs.get('long_name', None):
-                    label = attrs['long_name']
-                elif attrs.get('standard_name', None):
-                    label = attrs['standard_name']
-                elif attrs.get('name', None):
-                    label = attrs['name']
-                response_data['variables'].append( (key,label) )
-                
-        # retrieve start, end dates
-        try:
-            response_data['datetime_start'] = ret['derived']['Start Date']
-            response_data['datetime_stop'] = ret['derived']['End Date']
-        except Exception as e:
-            pass        
-                
-    return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')  
-    
-def get_geometries(request):
-    
-    type = request.GET.get('type', None)
-    
-    response_data = {}
-    response_data['geometries'] = ocgisGeometries.getGeometries(type)
-    
-    return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')
-    
-    
+        return HttpResponseRedirect(reverse('job_detail', args=[job.id, get_full_class_name(job)]))    
