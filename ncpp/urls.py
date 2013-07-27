@@ -18,6 +18,7 @@ urlpatterns = patterns('',
        
     # open climate GIS use case
     url(r'^open_climate_gis/$', OpenClimateGisWizard.as_view([OpenClimateGisForm1, OpenClimateGisForm2, OpenClimateGisForm3]), name='open_climate_gis' ),
+    url(r'^open_climate_gis/geometries/$', 'ncpp.views.open_climate_gis.get_geometries', name='get_geometries'),
     
     # job display pages
     url(r'^jobs/(?P<username>.+)/(?P<job_class>.+)/$', 'ncpp.views.jobs_list', name='jobs_list' ),

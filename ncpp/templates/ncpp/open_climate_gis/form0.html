@@ -69,22 +69,21 @@
 	// function to populate the geometries widget
 	function populateGeometries() {
 		
-		// geometry options
-		var options = new Array();
-		
-		// retrieve current selection for geometry type
 		geometryTypeSelect = document.getElementById("id_0-geometry");
-		if (geometryTypeSelect.value!=null && geometryTypeSelect.value!='') {
-			
-			var geometries = JSON.parse("{{geometries}}".unescapeHtml());			
-			jsonData = geometries[geometryTypeSelect.value]["geometries"];
-			for (var geom in jsonData) {
-				options.push( [geom, geom] )
-			}
+	    if (geometryTypeSelect.value!=null && geometryTypeSelect.value!='') {
+	       
+	      // execute ajax call to retrieve the available geometries
+	      url = '/ncpp/open_climate_gis/geometries?type='+encodeURIComponent(geometryTypeSelect.value);
+	      var transaction = YAHOO.util.Connect.asyncRequest('GET', url, geometryCallback, null);
 	
-		} 
-		
-		showOptions("id_0-geometry_id", options.sort());
+	    } else {
+	      
+	      // populate geometry widget with no options
+	      var options = new Array();
+	      options[0] = ["","-- Please Select --"];
+	      showOptions("id_0-geometry_id", options);
+	      
+	    }
 	
 	}
 	
@@ -124,6 +123,44 @@
 		}
 
 	}
+	
+	// function to populate the geometry choices
+	function showGeometries(geometries) {
+
+		geometryIdSelect = document.getElementById("id_0-geometry_id");
+		geometryIdSelect.options.length = 0;
+		for (var i = 0; i < geometries.length; i++) {
+			geometryIdSelect.add( new Option(geometries[i][1], geometries[i][0]) );
+		}
+
+	}
+	
+	// function called if Ajax request failed
+	var handleFailure = function(o) {
+		alert("An Error Occurred!"
+		     +"\nHTTP Status Code: "+o.status
+		     +"\nMessage: "+o.statusText);
+	}
+	
+	// function called if Ajax request to inspect dataset succeded
+	var handleGeometrySuccess = function(o) {
+
+		// parse JSON response into object		
+		var jsonResponse = eval('(' + o.responseText + ')');
+
+		// populate geometry choices
+		showGeometries(jsonResponse.geometries);
+
+	}
+
+	// function called after geometry Ajax request returns
+	var geometryCallback = {
+	  success: handleGeometrySuccess,
+	  failure: handleFailure,
+	  cache: false,
+	  timeout: 5000,
+	  argument: [],
+	};
 		
 </script>
        

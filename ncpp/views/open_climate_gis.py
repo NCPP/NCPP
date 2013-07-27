@@ -141,3 +141,12 @@ class OpenClimateGisWizard(SessionWizardView):
         
         # FIXME: pass OCG as additional argument to select jobs
         return HttpResponseRedirect(reverse('job_detail', args=[job.id, get_full_class_name(job)]))    
+    
+def get_geometries(request):
+    
+    type = request.GET.get('type', None)
+    
+    response_data = {}
+    response_data['geometries'] = ocgisGeometries.getGeometries(type)
+    
+    return HttpResponse(simplejson.dumps(response_data), mimetype='application/json')
