@@ -65,19 +65,7 @@
 		showOptions("id_0-variable", options);
 		
 	}
-	
-	
-	// function to populate a select widget with options
-	function showOptions(widgetId, options) {
 		
-		selectWidget = document.getElementById(widgetId);
-		selectWidget.options.length = 0;
-		for (var i = 0; i < options.length; i++) {
-			selectWidget.add( new Option(options[i][1], options[i][0]) ); // label, value
-		}
-				
-	}
-	
 	// function to populate the geometries widget
 	function populateGeometries() {
 		
@@ -97,42 +85,20 @@
 		} 
 		
 		showOptions("id_0-geometry_id", options);
-
-		
+	
 	}
 	
-	// function called if Ajax request failed
-	var handleFailure = function(o) {
-		alert("An Error Occurred!"
-		     +"\nHTTP Status Code: "+o.status
-		     +"\nMessage: "+o.statusText);
-	}
-	
-	// function called if Ajax request to inspect dataset succeded
-	var handleDatasetSuccess = function(o) {
+	// function to populate a select widget with options
+	function showOptions(widgetId, options) {
 		
-		// parse JSON response into object		
-		var jsonResponse = eval('(' + o.responseText + ')');
-		
-		// populate variable choices
-		showVariables(jsonResponse.variables);
-		
-		// populate start, stop times
-		showDateTimes(jsonResponse.datetime_start, jsonResponse.datetime_stop);
-
-	}
-	
-	// function to populate the variable choices
-	function showVariables(variables) {
-		
-		variableSelect = document.getElementById("id_0-variable");
-		variableSelect.options.length = 0;
-		for (var i = 0; i < variables.length; i++) {
-			variableSelect.add( new Option(variables[i][1], variables[i][0]) );
+		selectWidget = document.getElementById(widgetId);
+		selectWidget.options.length = 0;
+		for (var i = 0; i < options.length; i++) {
+			selectWidget.add( new Option(options[i][1], options[i][0]) ); // label, value
 		}
 				
 	}
-	
+		
 	// function to populate the start, stop times
 	function populateDateTimes(datetime_start, datetime_stop) {
 		
@@ -158,47 +124,7 @@
 		}
 
 	}
-	
-	// function called after dataset Ajax request returns
-	var datasetCallback = {
-	  success: handleDatasetSuccess,
-	  failure: handleFailure,
-	  cache: false,
-	  timeout: 5000,
-	  argument: [],
-	};
-	
-	// function to populate the geometry choices
-	function showGeometries(geometries) {
 		
-		geometryIdSelect = document.getElementById("id_0-geometry_id");
-		geometryIdSelect.options.length = 0;
-		for (var i = 0; i < geometries.length; i++) {
-			geometryIdSelect.add( new Option(geometries[i][1], geometries[i][0]) );
-		}
-				
-	}
-	
-	// function called if Ajax request to inspect dataset succeded
-	var handleGeometrySuccess = function(o) {
-		
-		// parse JSON response into object		
-		var jsonResponse = eval('(' + o.responseText + ')');
-		
-		// populate geometry choices
-		showGeometries(jsonResponse.geometries);
-
-	}
-	
-	// function called after geometry Ajax request returns
-	var geometryCallback = {
-	  success: handleGeometrySuccess,
-	  failure: handleFailure,
-	  cache: false,
-	  timeout: 5000,
-	  argument: [],
-	};
-	
 </script>
        
 <fieldset class="fieldset_box">
