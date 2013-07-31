@@ -108,7 +108,7 @@ def write_json_from_csv(out_path,in_csv):
     session = Session()
     
     with open(in_csv,'r') as f:
-        reader = csv.DictReader(f)
+        reader = csv.DictReader(f,delimiter=';')
         for row in reader:
             category = get_or_create(session,Category,name=row['Category'])
             subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
