@@ -1,4 +1,0 @@
-Category,Subcategory,Directory Path,Dataset Group,Filename,Variable
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhs
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhsmin_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhsmin
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhsmax_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhsmax
