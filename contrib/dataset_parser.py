@@ -114,8 +114,8 @@ def write_json_from_csv(out_path,in_csv):
             subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
             if row['Dataset Group'] != '':
                 raise(NotImplementedError)
-#            uri = os.path.join(row['Directory Path'],row['Filename'])
-            uri = os.path.join('/usr/local/climate_data/CanCM4',row['Filename'])
+            uri = os.path.join(row['Directory Path'],row['Filename'])
+#            uri = os.path.join('/usr/local/climate_data/CanCM4',row['Filename'])
             rd = ocgis.RequestDataset(uri,row['Variable'])
             variable = get_or_create(session,Variable,name=rd.variable,long_name=rd.ds.metadata['variables'][rd.variable]['attrs']['long_name'])
             time_start,time_stop = rd.ds.temporal.extent
