@@ -6,11 +6,13 @@ from ncpp.utils import hasText
 SLEEP_SECONDS = 1
 
 class OCG(object):
-    """Adapter class that invokes the ocgis library."""
+    """Adapter class that invokes the OCGIS library."""
     
-    def __init__(self, geometries, rootDir, rootUrl, debug=False):
+    def __init__(self, datasets, geometries, rootDir, rootUrl, debug=False):
+        # object holding datasets
+        self.ocgisDatasets = datasets
         # object holding geometries
-        self.geometries = geometries
+        self.ocgisGeometries = geometries
         # root directory where output is written
         self.rootDir = rootDir
         # root URL for generated products
@@ -24,8 +26,10 @@ class OCG(object):
         args = {}
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
-        args['uri'] = openClimateGisJob.dataset
-        args['variable'] = openClimateGisJob.variable
+        # retrieve dataset URIs, variable from configuration JSON data
+        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset][openClimateGisJob.variable]
+        args['uri'] = jsonObject["uri"]
+        args['variable'] = jsonObject["variable"]
         
         # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
         #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 
@@ -36,11 +40,11 @@ class OCG(object):
         args['geom'] = None
         args['select_ugid'] = None
         if hasText(openClimateGisJob.geometry):
-            args['geom'] = self.geometries.getCategoryKey( openClimateGisJob.geometry )
+            args['geom'] = self.ocgisGeometries.getCategoryKey( openClimateGisJob.geometry )
             args['select_ugid'] = []
             # must transform back from string to list of integers
             for geom in openClimateGisJob.geometry_id.split(","):
-                args['select_ugid'].append( self.geometries.getGuid(openClimateGisJob.geometry, geom))
+                args['select_ugid'].append( self.ocgisGeometries.getGuid(openClimateGisJob.geometry, geom))
         elif (    hasText(openClimateGisJob.latmin) and hasText(openClimateGisJob.latmax) 
               and hasText(openClimateGisJob.lonmin) and hasText(openClimateGisJob.lonmax)):
             args['geom'] = [openClimateGisJob.lonmin, openClimateGisJob.lonmax, openClimateGisJob.latmin,  openClimateGisJob.latmax]

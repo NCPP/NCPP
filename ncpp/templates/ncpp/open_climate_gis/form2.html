@@ -3,6 +3,7 @@
 <h3>Request Summary</h3>
 
 <table class="horizontalTable">
+	<tr><th nowrap="nowrap">Dataset Category:</th><td>{{ job_data.dataset_category }}</td></tr>
 	<tr><th nowrap="nowrap">Dataset:</th><td>{{ job_data.dataset }}</td></tr>
 	<tr><th nowrap="nowrap">Variable:</th><td>{{ job_data.variable }}</td></tr>
 	{% if job_data.geometry %}

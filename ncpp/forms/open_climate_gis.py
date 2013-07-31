@@ -1,7 +1,8 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
                           TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
-from ncpp.models.open_climate_gis import ocgisChoices, Config, ocgisGeometries
+from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisGeometries
+from ncpp.config.open_climate_gis import ocgisDatasets
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
 import re
@@ -11,7 +12,7 @@ INVALID_CHARS = "[^a-zA-Z0-9_\-]"
 
 class DynamicChoiceField(ChoiceField):
    """ Class that extends the ChoiceField to suppress validation on valid choices, 
-       to support the case when they are assigned dynamically through Ajax calls."""
+       to support the case when they are assigned dynamically."""
        
    def validate(self, value):
        """This method only checks that a value exist, not which value it is."""
@@ -21,7 +22,7 @@ class DynamicChoiceField(ChoiceField):
        
 class DynamicMultipleChoiceField(MultipleChoiceField):
    """ Class that extends MultipleChoiceField to suppress validation on valid choices, 
-       to support the case when they are assigned dynamically through Ajax calls."""
+       to support the case when they are assigned dynamically."""
        
    def validate(self, value):
        """This method only checks that a value exist, not which value it is."""
@@ -34,13 +35,18 @@ class OpenClimateGisForm1(Form):
        The argument passed to ocgisChoices must correspond to a valid key in the file OCGIS configuration file.'''
            
     # data selection
-    dataset = ChoiceField(choices=ocgisChoices(Config.DATASET, nochoice=True).items(), required=True,
-                          widget=Select(attrs={'onchange': 'inspectDataset();'}))
+    dataset_category = ChoiceField(choices=ocgisDatasets.getDatasetCategories(), required=True,
+                          widget=Select(attrs={'onchange': 'populateDatasets();'}))
+    # no initial values for 'datasets' widget. The choices are assigned dynamically through Ajax
+    dataset = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
+                          widget=Select(attrs={'onchange': 'populateVariables();'}))
     # no initial values for 'variables' widget. The choices are assigned dynamically through Ajax
-    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True)
+    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
+                                  widget=Select(attrs={'onchange': 'populateDateTimes();'}))
     
     # geometry selection
-    geometry = ChoiceField(choices=ocgisGeometries.getCategories(), required=False, widget=Select(attrs={'onchange': 'populateGeometries();'}))
+    geometry = ChoiceField(choices=ocgisGeometries.getCategories(), required=False, 
+                           widget=Select(attrs={'onchange': 'populateGeometries();'}))
     geometry_id = DynamicMultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
     
     latmin = FloatField(required=False, min_value=-90, max_value=+90, widget=TextInput(attrs={'size':6}))
