@@ -118,7 +118,13 @@ def write_json_from_csv(out_path,in_csv):
             print('processing URI: {0}'.format(uri))
 #            uri = os.path.join('/usr/local/climate_data/CanCM4',row['Filename'])
             rd = ocgis.RequestDataset(uri,row['Variable'])
-            variable = get_or_create(session,Variable,name=rd.variable,long_name=rd.ds.metadata['variables'][rd.variable]['attrs']['long_name'])
+            try:
+                long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
+            except KeyError:
+                long_name = row['Long Name'].strip()
+                assert(long_name != '')
+            variable = get_or_create(session,Variable,name=rd.variable,
+                                     long_name=long_name)
             time_start,time_stop = rd.ds.temporal.extent
             dataset = Dataset(variable=variable,subcategory=subcategory,time_start=time_start,time_stop=time_stop)
             uris = rd.uri

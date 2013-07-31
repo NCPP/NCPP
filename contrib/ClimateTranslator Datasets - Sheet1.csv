@@ -1,9 +1,0 @@
-Category,Subcategory,Directory Path,Dataset Group,Filename,Variable
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhs
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhsmin_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhsmin
-Decadal Simulations,CanCM4,/usr/local/ocgis/bin/nc,,rhsmax_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc,rhsmax
-Observational Datasets,Maurer 2010,/data/maurer/concatenated,,Maurer02new_OBS_dtr_daily.1971-2000.nc,dtr
-Observational Datasets,Maurer 2010,/data/maurer/concatenated,,Maurer02new_OBS_tas_daily.1971-2000.nc,tas
-Observational Datasets,Maurer 2010,/data/maurer/concatenated,,Maurer02new_OBS_tasmin_daily.1971-2000.nc,tasmin
-Observational Datasets,Maurer 2010,/data/maurer/concatenated,,Maurer02new_OBS_pr_daily.1971-2000.nc,pr
-Observational Datasets,Maurer 2010,/data/maurer/concatenated,,Maurer02new_OBS_tasmax_daily.1971-2000.nc,tasmax
