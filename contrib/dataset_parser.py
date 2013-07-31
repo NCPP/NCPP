@@ -15,6 +15,7 @@ from sqlalchemy.orm import relationship, backref
 from tempfile import NamedTemporaryFile, mkstemp
 import os
 import csv
+from argparse import ArgumentParser
 
 
 '''
@@ -198,3 +199,14 @@ def test():
     ret = json.dumps(data)
     
     session.close()
+    
+    
+if __name__ == '__main__':
+    parser = ArgumentParser()
+    parser.add_argument('out_path',help='Path to the output JSON file.')
+    parser.add_argument('in_csv',help='Path to the input CSV file.')
+    
+    pargs = parser.parse_args()
+    
+    write_json_from_csv(pargs.out_path,pargs.in_csv)
+    
