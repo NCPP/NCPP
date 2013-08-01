@@ -28,8 +28,12 @@
 					var keyword = calc["keywords"][i];
 					var name = keyword["name"];
 					var type = keyword["type"];
-					var j = i+1
-					html2 += name + ':' + '<input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value=""/> &nbsp';
+					var j = i+1;
+					var value = "";
+					     if (j==1) value = "{{ wizard.form.par1.value }}";
+					else if (j==2) value = "{{ wizard.form.par2.value }}";
+					else if (j==3) value = "{{ wizard.form.par3.value }}";
+					html2 += name + ':' + '<input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value="'+value+'"/> &nbsp';
 				}
 			}
 		
@@ -44,9 +48,6 @@
 	window.onload = populateParameters;
 
 </script>
-
-request=
-{{ request }}
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Calculation</legend>	

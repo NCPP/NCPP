@@ -78,16 +78,16 @@ class OCG(object):
             # loop over keywords in order
             if "keywords" in calc:
                 for i, keyword in enumerate(calc["keywords"]):
-                    print 'keyword=%s' % keyword
-                    print i
-                    
                     if i==0:
                         val = openClimateGisJob.par1
                     elif i==1:
                         val = openClimateGisJob.par2
                     elif i==2:
                         val = openClimateGisJob.par3
-                    print "val=%s" % val
+                    if keyword["type"] == "float":
+                        val = float(val)
+                    elif keyword["type"] == "string":
+                        val = str(val).lower()
                     args['calc'][0]['kwds'][str(keyword[u'name'])] = val 
             
         args['calc_raw'] = openClimateGisJob.calc_raw

@@ -133,8 +133,9 @@ class OpenClimateGisForm2(Form):
     
     calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=True, initial='none',
                        widget=Select(attrs={'onchange': 'populateParameters();'}))
-    par1 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
-    par2 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
+    par1 = CharField(required=False, widget=TextInput(attrs={'size':6}), initial="")
+    par2 = CharField(required=False, widget=TextInput(attrs={'size':6}), initial="")
+    par3 = CharField(required=False, widget=TextInput(attrs={'size':6}), initial="")
     calc_group = MultipleChoiceField(choices=ocgisChoices(Config.CALCULATION_GROUP).items(), required=False)
     calc_raw = BooleanField(initial=False, required=False)
     aggregate = BooleanField(initial=True, required=False)
@@ -150,10 +151,29 @@ class OpenClimateGisForm2(Form):
         # invoke superclass cleaning method
         super(OpenClimateGisForm2, self).clean()
         
+        # validate calculation
         if hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
+            
+            # calculation group must be selected
             if len( self.cleaned_data['calc_group'] ) == 0:
                 self._errors["calc_group"] = self.error_class(["Calculation Group(s) not selected."]) 
-                
+            
+            # validate keyword values
+            func = self.cleaned_data['calc']
+            calc = ocgisCalculations.getCalc(func)
+            if 'keywords' in calc:
+                for i, keyword in enumerate(calc["keywords"]):
+                    parN = 'par%s' % (i+1)
+                    value = self.cleaned_data[parN]
+                    if keyword["type"]=="float":
+                        try:
+                            x = float(value)
+                        except ValueError:
+                            self._errors[parN] = self.error_class(["Invalid float value for keyword: "+keyword["name"]])
+                    elif keyword["type"] == "string":
+                        if "values" in keyword:
+                            if not value.lower() in keyword["values"]:
+                                self._errors[parN] = self.error_class(["Invalid string value for keyword: "+keyword["name"]])
         if 'prefix' in self.cleaned_data and re.search(INVALID_CHARS, self.cleaned_data['prefix']):
             self._errors['prefix'] = self.error_class(["The prefix contains invalid characters."])
         

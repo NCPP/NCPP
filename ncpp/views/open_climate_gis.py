@@ -76,9 +76,11 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('calc'):
                         job_data['calc'] = ocgisCalculations.getCalc(cleaned_data['calc'])["name"]             
                     if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:
-                        job_data['par1'] = float( cleaned_data['par1'] )
+                        job_data['par1'] = cleaned_data['par1']
                     if cleaned_data.has_key('par2') and cleaned_data['par2'] is not None:
-                        job_data['par2'] = float( cleaned_data['par2'] )
+                        job_data['par2'] = cleaned_data['par2']
+                    if cleaned_data.has_key('par3') and cleaned_data['par3'] is not None:
+                        job_data['par3'] = cleaned_data['par3']
                     if cleaned_data.has_key('calc_group'):
                         job_data['calc_group'] =[]
                         for group in cleaned_data['calc_group']:
@@ -97,9 +99,7 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['with_auxiliary_files'] = bool(cleaned_data['with_auxiliary_files'])                       
                             
             context.update({'job_data': job_data})
-            
-        context.update( {'request':RequestContext(self.request)} )
-        
+                    
         return context
     
     # method called after all forms have been processed and validated
