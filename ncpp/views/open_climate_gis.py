@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 from ncpp.models.common import JOB_STATUS
 from ncpp.models.open_climate_gis import OpenClimateGisJob
-from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisConfig, ocgisGeometries
+from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisConfig, ocgisGeometries, ocgisCalculations
 from ncpp.config import ocgisDatasets
 from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
@@ -69,7 +69,7 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('timeregion_year') and cleaned_data['timeregion_year'] is not None:
                         job_data['timeregion_year'] = cleaned_data['timeregion_year']
                     if cleaned_data.has_key('calc'):
-                        job_data['calc'] = ocgisChoices(Config.CALCULATION)[cleaned_data['calc']]                   
+                        job_data['calc'] = ocgisCalculations.getCalc(cleaned_data['calc']).name                
                     if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:
                         job_data['par1'] = float( cleaned_data['par1'] )
                     if cleaned_data.has_key('par2') and cleaned_data['par2'] is not None:

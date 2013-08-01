@@ -1,5 +1,5 @@
 # module containing configuration classes for Open Climate GIS application
-from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, DATASETS_FILEPATH, NO_VALUE_OPTION
+from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, DATASETS_FILEPATH, CALCULATIONS_FILEPATH, NO_VALUE_OPTION
 import json
 import os, ConfigParser
 
@@ -19,7 +19,6 @@ class Config():
     DEFAULT = 'default'
     VARIABLE = 'variable'
     OUTPUT_FORMAT = 'output_format'
-    CALCULATION = 'calculation'
     CALCULATION_GROUP = 'calculation_group'
     SPATIAL_OPERATION = 'spatial_operation'
     
@@ -31,6 +30,74 @@ def ocgisChoices(section, nochoice=False):
         choices[ NO_VALUE_OPTION[0] ] = NO_VALUE_OPTION[1]
     choices.update( dict( ocgisConfig.items(section) ) )
     return choices
+
+class Calc(object):
+    """Class holding the specification for a single OCGIS calculation."""
+    
+    def __init__(self, func, name, order, description, kwds={}):
+        self.func = func
+        self.name = name
+        self.order = order
+        self.description = description
+        self.kwds = kwds
+        
+    def _print(self):
+        print "Calculation func=%s name=%s order=%s" % (self.func, self.name, self.order)
+        print "\tdescription=%s" % self.description
+        print "\tkeywords=%s" % self.kwds
+
+class Calculations(object):
+    """Class holding OCGIS calculation choices."""
+    
+    def __init__(self):
+        parser = ConfigParser.RawConfigParser()
+        # must set following line explicitely to preserve the case of configuration keys
+        parser.optionxform = str 
+        try:
+            parser.read( os.path.expanduser(CALCULATIONS_FILEPATH) )
+            self._parse(parser)
+        except Exception as e:
+            print "Configuration file %s not found" % CALCULATIONS_FILEPATH
+            raise e
+        
+    def _parse(self, parser):
+        
+        self.calcs = {}
+        
+        # loop over sections
+        for section in parser.sections():
+            
+            # parse section header
+            # example: ['6', 'threshold', 'Threshold', 'desc']
+            parts = section.split("|")
+            order = int(parts[0])
+            func = parts[1]
+            name = parts[2]
+            description = parts[3]
+            
+            # parse section options
+            kwds = {}
+            for option in parser.options(section):
+                kwds[option] = parser.get(section, option)
+            
+            # store dictionary of calculations
+            self.calcs[ func ] = Calc(func, name, order, description, kwds=kwds) 
+            
+    def getChoices(self):
+        choices = []
+        for key in sorted( self.calcs, key=lambda key: self.calcs[key].order ):
+            calc = self.calcs[key]
+            choices.append( (calc.func, calc.name) )
+        return choices
+    
+    def getCalc(self, key):
+        return self.calcs[key]
+    
+    def _print(self):
+        for key in sorted( self.calcs, key=lambda key: self.calcs[key] ):
+            self.calcs[key]._print()
+        
+ocgisCalculations = Calculations()   
 
 class Geometries(object):
     """Class holding OCGIS geometries."""

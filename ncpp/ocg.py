@@ -8,11 +8,13 @@ SLEEP_SECONDS = 1
 class OCG(object):
     """Adapter class that invokes the OCGIS library."""
     
-    def __init__(self, datasets, geometries, rootDir, rootUrl, debug=False):
+    def __init__(self, datasets, geometries, calculations, rootDir, rootUrl, debug=False):
         # object holding datasets
         self.ocgisDatasets = datasets
         # object holding geometries
         self.ocgisGeometries = geometries
+        # object holding calculations
+        self.ocgisCalculations = calculations
         # root directory where output is written
         self.rootDir = rootDir
         # root URL for generated products
@@ -70,11 +72,23 @@ class OCG(object):
         
         args['calc'] = None
         if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':
-            args['calc'] = [ {'func':str(openClimateGisJob.calc), 'name':str(openClimateGisJob.calc)} ] 
-            if openClimateGisJob.calc == 'threshold':
-                args['calc'][0]['kwds'] = {'threshold':openClimateGisJob.par1, 'operation':'gte'}
-            elif openClimateGisJob.calc == 'between':
-                args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
+            calc = self.ocgisCalculations.getCalc(str(openClimateGisJob.calc))
+            args['calc'] = [ {'func':calc.func, 'name':calc.name} ] 
+            args['calc'][0]['kwds'] = {}
+            for key in calc.kwds:
+                # use fixed keyword value, or replace with value from form
+                val = calc.kwds[key]
+                if val == '$1':
+                    val = openClimateGisJob.par1
+                elif val == '$2':
+                    val = openClimateGisJob.par2
+                elif val == '$3':
+                    val = openClimateGisJob.par3
+                args['calc'][0]['kwds'][key] = val 
+            #if openClimateGisJob.calc == 'threshold':
+            #    args['calc'][0]['kwds'] = {'threshold':openClimateGisJob.par1, 'operation':'gte'}
+            #elif openClimateGisJob.calc == 'between':
+            #    args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
             
         args['calc_raw'] = openClimateGisJob.calc_raw
         if hasText(openClimateGisJob.calc_group):

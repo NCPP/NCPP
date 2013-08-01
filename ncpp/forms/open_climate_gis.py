@@ -1,8 +1,7 @@
 from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleChoiceField, SelectMultiple, FloatField,
                           TextInput, RadioSelect, DateTimeField, Select, CheckboxSelectMultiple, ValidationError)
 
-from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisGeometries
-from ncpp.config.open_climate_gis import ocgisDatasets
+from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisGeometries, ocgisDatasets, ocgisCalculations
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
 import re
@@ -132,7 +131,7 @@ class OpenClimateGisForm1(Form):
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''
     
-    calc = ChoiceField(choices=ocgisChoices(Config.CALCULATION).items(), required=True, initial='none')
+    calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=True, initial='none')
     par1 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
     par2 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
     calc_group = MultipleChoiceField(choices=ocgisChoices(Config.CALCULATION_GROUP).items(), required=False)
