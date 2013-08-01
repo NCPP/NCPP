@@ -1,0 +1,58 @@
+{
+    "mean": {
+        "func":"mean",
+        "order": 0,
+        "name": "Mean",
+        "description": []
+    },
+    "median": {
+        "func":"median",
+        "order": 1,
+        "name": "Median",
+        "description": []
+    },
+    "min": {
+        "func":"min",
+        "order": 3,
+        "name": "Min",
+        "description": []
+    },
+    "max": {
+        "func":"max",
+        "order": 4,
+        "name": "Max",
+        "description": []
+    },
+    "std": {
+        "func":"std",
+        "order": 5,
+        "name": "Standard Deviation",
+        "description": []
+    },
+    "threshold": {
+        "func":"threshold",
+        "order": 6,
+        "name": "Threshold",
+        "description": [
+                "Count of values where the logical operation returns TRUE",
+		"Treshold(threshold=float, operation='gt'|'lt'|'gte'|'lte')"
+                ],
+        "keywords": [
+            {"name":"threshold", "type":"float"},
+            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] }
+        ]
+    },
+    "between": {
+        "func":"between",
+        "order": 7,
+        "name": "Between",
+        "description": [
+                "Count of values falling within the limits lower and upper (inclusive)",
+ 		"Between(lower=float, upper=float)"
+		],
+        "keywords": [
+            {"name":"lower", "type":"float"},
+            {"name":"upper", "type":"float"}
+        ]
+    }
+}
