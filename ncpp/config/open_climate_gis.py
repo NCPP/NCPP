@@ -54,8 +54,10 @@ class Calculations(object):
         # must set following line explicitely to preserve the case of configuration keys
         parser.optionxform = str 
         try:
-            parser.read( os.path.expanduser(CALCULATIONS_FILEPATH) )
+            print 'parsing %s' % CALCULATIONS_FILEPATH
+            parser.read( CALCULATIONS_FILEPATH )
             self._parse(parser)
+            self._print()
         except Exception as e:
             print "Configuration file %s not found" % CALCULATIONS_FILEPATH
             raise e
