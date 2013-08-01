@@ -42,36 +42,13 @@ class Calculations(object):
         except Exception as e:
             print "Error reading calculations file: %s" % CALCULATIONS_FILEPATH
             raise e
-        
-    def _parse(self, parser):
-        
-        self.calcs = {}
-        
-        # loop over sections
-        for section in parser.sections():
-            
-            # parse section header
-            # example: ['6', 'threshold', 'Threshold', 'desc']
-            parts = section.split("|")
-            order = int(parts[0])
-            func = parts[1]
-            name = parts[2]
-            description = parts[3]
-            
-            # parse section options
-            kwds = {}
-            for option in parser.options(section):
-                kwds[option] = parser.get(section, option)
-            
-            # store dictionary of calculations
-            self.calcs[ func ] = Calc(func, name, order, description, kwds=kwds) 
             
     def getChoices(self):
         
         # no option selected
         choices = [ NO_VALUE_OPTION ]
         # then all US counties
-        for key in sorted( self.calcs.keys() ):
+        for key in sorted( self.calcs, key=lambda key: self.calcs[key]["order"] ):
             calc = self.calcs[key]
             choices.append( (key, calc["name"]) )
         return choices
@@ -80,8 +57,8 @@ class Calculations(object):
         return self.calcs[key]
     
     def _print(self):
-        for key in sorted( self.calcs, key=lambda key: self.calcs[key] ):
-            self.calcs[key]._print()
+        for key in sorted( self.calcs, key=lambda key: self.calcs[key]["order"] ):
+            print "calculation=%s" % self.calcs[key]
         
 ocgisCalculations = Calculations()   
 

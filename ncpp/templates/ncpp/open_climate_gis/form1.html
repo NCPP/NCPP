@@ -4,27 +4,72 @@
 <script language="javascript">
 
 	function populateParameters() {
-		//descElement = document.getElementById(SELECT_ID);
-		//descElement.value = feature.attributes.id;
+		
+		// parse calculations JSON from server
+		calculations = JSON.parse("{{calculations}}".unescapeHtml());
+		
+		calcSelect = document.getElementById("id_1-calc");
+		var html1 = ""	
+		var html2 = ""
+		if (calcSelect.value!=null && calcSelect.value!='') {
+		
+			// update calculation description					
+			var calc = calculations[calcSelect.value]
+			calcDescription = document.getElementById("calcDescription")
+			for (i=0; i<calc["description"].length; i++) {
+				html1 += calc["description"][i] +"</br>";
+			}
+		
+			// update calculation parameters
+			// parameter 1: <input id="id_1-par1" type="text" name="1-par1" size="6" />			
+			calcParameters = document.getElementById("calcParameters");
+			if (calc["keywords"]!=null) {
+				for (var i=0; i<calc["keywords"].length; i++) {
+					var keyword = calc["keywords"][i];
+					var name = keyword["name"];
+					var type = keyword["type"];
+					var j = i+1
+					html2 += name + ':' + '<input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value=""/> &nbsp';
+				}
+			}
+		
+		} // calcultaion != None
+		
+		calcDescription.innerHTML = html1;
+		calcParameters.innerHTML = html2;
+		
 	}
+	
+	// load parameters widget every time
+	window.onload = populateParameters;
 
 </script>
+
+request=
+{{ request }}
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Calculation</legend>	
 	Optionally, you may select a calculation to be executed on the data.
-	<br/>For <i>Mean</i>, specify no parameters.
-	<br/>For <i>Threshold</i>, please use <i>par1</i> as the lower bound.
-	<br/>For <i>Between</i>, please use <i>par1</i> as the lower bound and <i>par2</i> as the upper bound.
 	<p/>&nbsp;
          
 	<table class="horizontalTable">
 		<tr>
 			<th>Calculation</th>
-			<td>{{ wizard.form.calc }}
-			    parameter 1: {{ wizard.form.par1 }} parameter 2: {{ wizard.form.par2 }}
-			     <br/>
-			     <span class="error">{{ wizard.form.calc.errors }} &nbsp; {{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }}</span>
+			<td>
+				<div style="float:left">
+				<table>
+					<tr>
+						<td class="head">{{ wizard.form.calc }}</td>
+						<td class="long">
+							<span id="calcDescription"></span>
+							<span id="calcParameters"></span>
+				    		
+				     		<span class="error">{{ wizard.form.calc.errors }} &nbsp; {{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }}</span>
+						</td>
+					</tr>
+				</table>
+			    </div>
 			 </td>
 		</tr>
 		<tr>

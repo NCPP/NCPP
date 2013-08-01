@@ -75,20 +75,20 @@ class OCG(object):
             calc = self.ocgisCalculations.getCalc(str(openClimateGisJob.calc))
             args['calc'] = [ {'func':str(calc["func"]), 'name':str(calc["name"])} ] 
             args['calc'][0]['kwds'] = {}
-            for key in calc["keywords"]:
-                # use fixed keyword value, or replace with value from form
-                val = str(calc["keywords"][key])
-                if val == '$1':
-                    val = openClimateGisJob.par1
-                elif val == '$2':
-                    val = openClimateGisJob.par2
-                elif val == '$3':
-                    val = openClimateGisJob.par3
-                args['calc'][0]['kwds'][str(key)] = val 
-            #if openClimateGisJob.calc == 'threshold':
-            #    args['calc'][0]['kwds'] = {'threshold':openClimateGisJob.par1, 'operation':'gte'}
-            #elif openClimateGisJob.calc == 'between':
-            #    args['calc'][0]['kwds'] = {'lower':openClimateGisJob.par1, 'upper':openClimateGisJob.par2}
+            # loop over keywords in order
+            if "keywords" in calc:
+                for i, keyword in enumerate(calc["keywords"]):
+                    print 'keyword=%s' % keyword
+                    print i
+                    
+                    if i==0:
+                        val = openClimateGisJob.par1
+                    elif i==1:
+                        val = openClimateGisJob.par2
+                    elif i==2:
+                        val = openClimateGisJob.par3
+                    print "val=%s" % val
+                    args['calc'][0]['kwds'][str(keyword[u'name'])] = val 
             
         args['calc_raw'] = openClimateGisJob.calc_raw
         if hasText(openClimateGisJob.calc_group):

@@ -11,6 +11,8 @@ from ncpp.config import ocgisDatasets
 from ncpp.utils import get_full_class_name, str2bool, hasText
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
+from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.template import RequestContext
 
 from datetime import datetime
 import json
@@ -25,12 +27,15 @@ class OpenClimateGisWizard(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         
         context = super(OpenClimateGisWizard, self).get_context_data(form=form, **kwargs)
-          
+                  
         # before rendering of first form: send data and geometry choices 
         if self.steps.current == self.steps.first:
             context.update({'datasets':  json.dumps(ocgisDatasets.datasets) })
             context.update({'geometries':  json.dumps(ocgisGeometries.geometries) })
-                 
+            
+        elif self.steps.current == "1":  # note: string type
+            context.update({'calculations':  json.dumps(ocgisCalculations.calcs) }) 
+                
         # before very last view: create summary of user choices
         elif self.steps.current == self.steps.last:
             job_data = {}
@@ -92,6 +97,8 @@ class OpenClimateGisWizard(SessionWizardView):
                         job_data['with_auxiliary_files'] = bool(cleaned_data['with_auxiliary_files'])                       
                             
             context.update({'job_data': job_data})
+            
+        context.update( {'request':RequestContext(self.request)} )
         
         return context
     
