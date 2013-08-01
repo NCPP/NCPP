@@ -54,5 +54,32 @@
             {"name":"lower", "type":"float"},
             {"name":"upper", "type":"float"}
         ]
+    },
+    "duration": {
+        "func":"duration",
+        "order": 8,
+        "name": "Duration",
+        "description": [
+                "Summarizes consecutive occurrences in a sequence where the logical operation returns TRUE. The summary operation is applied to the sequences within a temporal aggregation.",
+                "Duration(threshold=float, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')"
+                ],
+        "keywords": [
+            {"name":"threshold", "type":"float"},
+            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] },
+            {"name":"summary", "type":"string", "values":["mean","median","std","max","min"] }
+        ]
+    },
+    "frew_duration": {
+        "func":"freq_duration",
+        "order": 9,
+        "name": "Frequency Duration",
+        "description": [
+                "Counts the frequency of spell durations within the temporal aggregation.",
+                "FrequencyDuration(threshold=float, operation='gt'|'lt'|'gte'|'lte')"
+                ],
+        "keywords": [
+            {"name":"threshold", "type":"float"},
+            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] }
+        ]
     }
 }
