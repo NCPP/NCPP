@@ -4,6 +4,8 @@ from shutil import rmtree
 from ncpp.utils import hasText
 
 SLEEP_SECONDS = 1
+HEADERS_NOCALC = ['did','ugid','gid','time','year','month','day','variable','value']
+HEADERS_CALC = ['did','ugid','gid','year','month','day','variable','calc_name','value']
 
 class OCG(object):
     """Adapter class that invokes the OCGIS library."""
@@ -89,6 +91,9 @@ class OCG(object):
                     elif keyword["type"] == "string":
                         val = str(val).lower()
                     args['calc'][0]['kwds'][str(keyword[u'name'])] = val 
+            args['headers'] = HEADERS_CALC
+        else:
+            args['headers'] = HEADERS_NOCALC
             
         args['calc_raw'] = openClimateGisJob.calc_raw
         if hasText(openClimateGisJob.calc_group):
