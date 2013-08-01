@@ -69,7 +69,7 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('timeregion_year') and cleaned_data['timeregion_year'] is not None:
                         job_data['timeregion_year'] = cleaned_data['timeregion_year']
                     if cleaned_data.has_key('calc'):
-                        job_data['calc'] = ocgisCalculations.getCalc(cleaned_data['calc']).name                
+                        job_data['calc'] = ocgisCalculations.getCalc(cleaned_data['calc'])["name"]             
                     if cleaned_data.has_key('par1') and cleaned_data['par1'] is not None:
                         job_data['par1'] = float( cleaned_data['par1'] )
                     if cleaned_data.has_key('par2') and cleaned_data['par2'] is not None:

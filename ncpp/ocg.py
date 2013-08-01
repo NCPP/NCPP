@@ -73,18 +73,18 @@ class OCG(object):
         args['calc'] = None
         if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':
             calc = self.ocgisCalculations.getCalc(str(openClimateGisJob.calc))
-            args['calc'] = [ {'func':calc.func, 'name':calc.name} ] 
+            args['calc'] = [ {'func':str(calc["func"]), 'name':str(calc["name"])} ] 
             args['calc'][0]['kwds'] = {}
-            for key in calc.kwds:
+            for key in calc["keywords"]:
                 # use fixed keyword value, or replace with value from form
-                val = calc.kwds[key]
+                val = str(calc["keywords"][key])
                 if val == '$1':
                     val = openClimateGisJob.par1
                 elif val == '$2':
                     val = openClimateGisJob.par2
                 elif val == '$3':
                     val = openClimateGisJob.par3
-                args['calc'][0]['kwds'][key] = val 
+                args['calc'][0]['kwds'][str(key)] = val 
             #if openClimateGisJob.calc == 'threshold':
             #    args['calc'][0]['kwds'] = {'threshold':openClimateGisJob.par1, 'operation':'gte'}
             #elif openClimateGisJob.calc == 'between':

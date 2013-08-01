@@ -131,7 +131,8 @@ class OpenClimateGisForm1(Form):
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''
     
-    calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=True, initial='none')
+    calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=True, initial='none',
+                       widget=Select(attrs={'onchange': 'populateParameters();'}))
     par1 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
     par2 = FloatField(required=False, widget=TextInput(attrs={'size':6}))
     calc_group = MultipleChoiceField(choices=ocgisChoices(Config.CALCULATION_GROUP).items(), required=False)

@@ -31,35 +31,16 @@ def ocgisChoices(section, nochoice=False):
     choices.update( dict( ocgisConfig.items(section) ) )
     return choices
 
-class Calc(object):
-    """Class holding the specification for a single OCGIS calculation."""
-    
-    def __init__(self, func, name, order, description, kwds={}):
-        self.func = func
-        self.name = name
-        self.order = order
-        self.description = description
-        self.kwds = kwds
-        
-    def _print(self):
-        print "Calculation func=%s name=%s order=%s" % (self.func, self.name, self.order)
-        print "\tdescription=%s" % self.description
-        print "\tkeywords=%s" % self.kwds
-
 class Calculations(object):
     """Class holding OCGIS calculation choices."""
     
     def __init__(self):
-        parser = ConfigParser.RawConfigParser()
-        # must set following line explicitely to preserve the case of configuration keys
-        parser.optionxform = str 
+        # read calculations from JSON file
         try:
-            print 'parsing %s' % CALCULATIONS_FILEPATH
-            parser.read( CALCULATIONS_FILEPATH )
-            self._parse(parser)
-            self._print()
+            with open(CALCULATIONS_FILEPATH,'r') as f:
+                self.calcs = json.load(f)
         except Exception as e:
-            print "Configuration file %s not found" % CALCULATIONS_FILEPATH
+            print "Error reading calculations file: %s" % CALCULATIONS_FILEPATH
             raise e
         
     def _parse(self, parser):
@@ -86,10 +67,13 @@ class Calculations(object):
             self.calcs[ func ] = Calc(func, name, order, description, kwds=kwds) 
             
     def getChoices(self):
-        choices = []
-        for key in sorted( self.calcs, key=lambda key: self.calcs[key].order ):
+        
+        # no option selected
+        choices = [ NO_VALUE_OPTION ]
+        # then all US counties
+        for key in sorted( self.calcs.keys() ):
             calc = self.calcs[key]
-            choices.append( (calc.func, calc.name) )
+            choices.append( (key, calc["name"]) )
         return choices
     
     def getCalc(self, key):
