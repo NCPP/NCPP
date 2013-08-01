@@ -135,6 +135,7 @@ class OpenClimateGisWizard(SessionWizardView):
                                                calc=form_data['calc'],
                                                par1=form_data['par1'],
                                                par2=form_data['par2'],
+                                               par3=form_data['par3'],
                                                calc_raw=form_data['calc_raw'],
                                                calc_group=",".join(form_data['calc_group']),
                                                spatial_operation=form_data['spatial_operation'],

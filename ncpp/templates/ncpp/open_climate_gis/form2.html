@@ -39,7 +39,8 @@
 	{% if job_data.par1 != None %}
 		<tr><th nowrap="nowrap">Calculation Parameters:</th>
 		<td>{{ job_data.par1 }}
-		{% if job_data.par2 != None %} , {{ job_data.par2 }}{% endif %}
+		{% if job_data.par2 != None and job_data.pa23 != '' %} , {{ job_data.par2 }}{% endif %}
+		{% if job_data.par3 != None and job_data.par3 != '' %} , {{ job_data.par3 }}{% endif %}
 		</td></tr>
 	{% endif %}
 	{% if job_data.calc_group %}

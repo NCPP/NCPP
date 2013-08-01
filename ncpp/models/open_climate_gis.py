@@ -146,6 +146,8 @@ class OpenClimateGisJob(Job):
             job_data.append( ('Calculation Parameter 1', self.par1) )
         if self.par2 is not None:
             job_data.append( ('Calculation Parameter 2', self.par2) )
+        if self.par3 is not None:
+            job_data.append( ('Calculation Parameter 3', self.par3) )
             
         if self.calc_group is not None and len(self.calc_group)>0:
             job_data.append( ('Calculation Group', self.calc_group.replace(",",", ")) )
