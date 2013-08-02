@@ -17,24 +17,45 @@
 			var calc = calculations[calcSelect.value]
 			calcDescription = document.getElementById("calcDescription")
 			for (i=0; i<calc["description"].length; i++) {
-				html1 += calc["description"][i] +"</br>";
+				if (i==0) html1 += "<b>"+calc["description"][i] +"</b></br>";
+				else html1 += calc["description"][i] +"</br>";
 			}
 		
 			// update calculation parameters
 			// parameter 1: <input id="id_1-par1" type="text" name="1-par1" size="6" />			
 			calcParameters = document.getElementById("calcParameters");
 			if (calc["keywords"]!=null) {
-				for (var i=0; i<calc["keywords"].length; i++) {
+				html2 += "<div style='float:left'><table>"
+				for (var i=0; i<calc["keywords"].length; i++) {					
 					var keyword = calc["keywords"][i];
 					var name = keyword["name"];
 					var type = keyword["type"];
+					
+					html2 += "<tr>";
+					if (i==0) html2 += "<td>Parameters:</td>";
+					else html2 += "<td>&nbsp;</td>";
+					html2 += "<th>"+name+":</th>"
 					var j = i+1;
 					var value = "";
-					     if (j==1) value = "{{ wizard.form.par1.value }}";
-					else if (j==2) value = "{{ wizard.form.par2.value }}";
-					else if (j==3) value = "{{ wizard.form.par3.value }}";
-					html2 += name + ':' + '<input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value="'+value+'"/> &nbsp';
+					var errors = "";
+					// only show previous values, errors if calc selection hasn't changed
+					if (calcSelect.value=='{{ wizard.form.calc.value }}') {
+					    if (j==1) {
+					    	 value = '{{ wizard.form.par1.value }}';
+					    	 errors = '{{ wizard.form.par1.errors }}';
+					    } else if (j==2) {
+					    	value = '{{ wizard.form.par2.value }}';
+					    	errors = '{{ wizard.form.par2.errors }}';
+					    } else if (j==3) {
+					    	value = '{{ wizard.form.par3.value }}';
+					    	errors = '{{ wizard.form.par3.errors }}';
+						}
+					}
+					html2 += '<td><input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value="'+value+'"/></td>';
+					html2 += '<td><span class="error">'+errors+'</span>';
+					html2 += "</tr>"
 				}
+				html2 += "</table></div>"
 			}
 		
 		} // calcultaion != None
@@ -65,9 +86,6 @@
 						<td class="long">
 							<span id="calcDescription"></span>
 							<span id="calcParameters"></span>
-				    		
-				     		<span class="error">{{ wizard.form.calc.errors }} &nbsp; 
-				     							{{ wizard.form.par1.errors }} {{ wizard.form.par2.errors }} {{ wizard.form.par3.errors }}</span>
 						</td>
 					</tr>
 				</table>
