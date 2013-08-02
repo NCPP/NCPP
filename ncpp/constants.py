@@ -2,9 +2,9 @@
 
 APPLICATION_LABEL = 'ncpp'
 CONFIG_FILEPATH = '/usr/local/ocgis/ocgis.cfg'
-GEOMETRIES_FILEPATH = 'ncpp/config/ocgis_geometries.json'
-DATASETS_FILEPATH = 'ncpp/config/ocgis_datasets.json'
-CALCULATIONS_FILEPATH = 'ncpp/config/ocgis_calc.json'
+GEOMETRIES_FILEPATH = '/usr/local/ocgis/ocgis_geometries.json'
+DATASETS_FILEPATH = '/usr/local/ocgis/ocgis_datasets.json'
+CALCULATIONS_FILEPATH = '/usr/local/ocgis/ocgis_calc.json'
 
 def enum(**enums):
     return type('Enum', (), enums)
