@@ -36,7 +36,7 @@
 	{% if job_data.calc %}
 		<tr><th nowrap="nowrap">Calculation:</th><td>{{ job_data.calc }}</td></tr>
 	{% endif %}
-	{% if job_data.par1 != None %}
+	{% if job_data.par1 != None and job_data.par1 != '' %}
 		<tr><th nowrap="nowrap">Calculation Parameters:</th>
 		<td>{{ job_data.par1 }}
 		{% if job_data.par2 != None and job_data.pa23 != '' %} , {{ job_data.par2 }}{% endif %}
