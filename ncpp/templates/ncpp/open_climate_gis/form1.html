@@ -30,6 +30,7 @@
 					var keyword = calc["keywords"][i];
 					var name = keyword["name"];
 					var type = keyword["type"];
+					var values = keyword["values"];
 					
 					html2 += "<tr>";
 					if (i==0) html2 += "<td>Parameters:</td>";
@@ -51,7 +52,19 @@
 					    	errors = '{{ wizard.form.par3.errors }}';
 						}
 					}
-					html2 += '<td><input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value="'+value+'"/></td>';
+					if (values) {
+						// use select widget						
+						html2 += '<td><select id="id_1-par'+j+'" name="1-par'+j+'">';
+						for (var k=0; k<values.length; k++) {
+							var selected = "";
+							if (values[k]==value) selected = ' selected="selected"';
+							html2 += '<option value="'+values[k]+'"'+selected+'>'+values[k]+'</option>';
+						}
+						html2 += '</select></td>';
+					} else {
+						// use text widget
+						html2 += '<td><input id="id_1-par'+j+'" type="text" name="1-par'+j+'" size="6" value="'+value+'"/></td>';
+					}
 					html2 += '<td><span class="error">'+errors+'</span>';
 					html2 += "</tr>"
 				}
