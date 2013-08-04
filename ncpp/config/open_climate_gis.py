@@ -2,6 +2,19 @@
 from ncpp.constants import CONFIG_FILEPATH, GEOMETRIES_FILEPATH, DATASETS_FILEPATH, CALCULATIONS_FILEPATH, NO_VALUE_OPTION
 import json
 import os, ConfigParser
+import abc
+
+class ConfigBase(object):
+    """Abstract Base Class for Climate Translator configuration."""
+    
+    __metaclass__ = abc.ABCMeta
+    
+    @abc.abstractmethod
+    def getChoices(self):
+        """Returns a list of choices for selection in the web interface.
+           Each tuple has the form (choice value, choice label).""" 
+        return []
+    
 
 #ocgisConfig = ConfigParser.RawConfigParser(dict_type=OrderedDict)
 ocgisConfig = ConfigParser.RawConfigParser()
@@ -31,8 +44,8 @@ def ocgisChoices(section, nochoice=False):
     choices.update( dict( ocgisConfig.items(section) ) )
     return choices
 
-class Calculations(object):
-    """Class holding OCGIS calculation choices."""
+class Calculations(ConfigBase):
+    """Class holding Climate Translator choices for calculations."""
     
     def __init__(self):
         # read calculations from JSON file
@@ -62,8 +75,8 @@ class Calculations(object):
         
 ocgisCalculations = Calculations()   
 
-class Geometries(object):
-    """Class holding OCGIS geometries."""
+class Geometries(ConfigBase):
+    """Class holding Climate Translator supported geometries."""
     
     def __init__(self, filepath):
         
@@ -75,7 +88,7 @@ class Geometries(object):
             print "Error reading geometry file: %s" % GEOMETRIES_FILEPATH
             raise e
         
-    def getCategories(self):
+    def getChoices(self):
         # no option selected
         tuples = [ NO_VALUE_OPTION ]
         # first option is US States
@@ -102,8 +115,8 @@ class Geometries(object):
 
 ocgisGeometries = Geometries(GEOMETRIES_FILEPATH)     
 
-class Datasets(object):
-    """Class holding OCGIS dataset choices."""
+class Datasets(ConfigBase):
+    """Class holding Climate Translator dataset choices."""
     
     def __init__(self, filepath):
         
@@ -115,7 +128,7 @@ class Datasets(object):
             print "Error reading datasets file: %s" % DATASETS_FILEPATH
             raise e
         
-    def getDatasetCategories(self):
+    def getChoices(self):
         # no option selected
         tuples = [ NO_VALUE_OPTION ]
         # read all keys from JSON file

@@ -34,7 +34,7 @@ class OpenClimateGisForm1(Form):
        The argument passed to ocgisChoices must correspond to a valid key in the file OCGIS configuration file.'''
            
     # data selection
-    dataset_category = ChoiceField(choices=ocgisDatasets.getDatasetCategories(), required=True,
+    dataset_category = ChoiceField(choices=ocgisDatasets.getChoices(), required=True,
                           widget=Select(attrs={'onchange': 'populateDatasets();'}))
     # no initial values for 'datasets' widget. The choices are assigned dynamically through Ajax
     dataset = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
@@ -44,7 +44,7 @@ class OpenClimateGisForm1(Form):
                                   widget=Select(attrs={'onchange': 'populateDateTimes();'}))
     
     # geometry selection
-    geometry = ChoiceField(choices=ocgisGeometries.getCategories(), required=False, 
+    geometry = ChoiceField(choices=ocgisGeometries.getChoices(), required=False, 
                            widget=Select(attrs={'onchange': 'populateGeometries();'}))
     geometry_id = DynamicMultipleChoiceField(choices=[ NO_VALUE_OPTION ], required=False, widget=SelectMultiple(attrs={'size':6}))
     
