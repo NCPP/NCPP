@@ -114,12 +114,18 @@ class OpenClimateGisForm1(Form):
                 self._errors["timeregion_year"] = self.error_class(["Please use a time range OR a time selection."])
                 
         if 'timeregion_year' in self.cleaned_data and hasText(self.cleaned_data['timeregion_year']):
-            years = self.cleaned_data['timeregion_year'].split(',')
-            for year in years:
-                year = year.replace(" ","")
-                if not re.match('^\d{4}$', year):
-                    self._errors["timeregion_year"] = self.error_class(["Invalid year selection"])
-                    break
+            years = str(self.cleaned_data['timeregion_year'].replace(" ","")) # remove blanks
+            if re.match('^\d{4}-\d{4}', years):
+                year1 = int(years[0:4])
+                year2 = int(years[5:9])
+                if year1 >= year2:
+                    self._errors["timeregion_year"] = self.error_class(["Invalid year selection: must be year1 < year2"])
+            else:
+                years = years.split(',')
+                for year in years:
+                    if not re.match('^\d{4}$', year):
+                        self._errors["timeregion_year"] = self.error_class(["Invalid year selection"])
+                        break
         
         if not self.is_valid():
             print 'VALIDATION ERRORS: %s' % self.errors
@@ -131,7 +137,7 @@ class OpenClimateGisForm1(Form):
 class OpenClimateGisForm2(Form):
     '''Form that backs up the second selection page.'''
     
-    calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=True, initial='none',
+    calc = ChoiceField(choices=ocgisCalculations.getChoices(), required=False, initial='none',
                        widget=Select(attrs={'onchange': 'populateParameters();'}))
     par1 = CharField(required=False, widget=TextInput(attrs={'size':6}), initial="")
     par2 = CharField(required=False, widget=TextInput(attrs={'size':6}), initial="")
@@ -152,7 +158,7 @@ class OpenClimateGisForm2(Form):
         super(OpenClimateGisForm2, self).clean()
         
         # validate calculation
-        if hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
+        if 'calc' in self.cleaned_data and hasText(self.cleaned_data['calc']) and self.cleaned_data['calc'].lower() != 'none':
             
             # calculation group must be selected
             if len( self.cleaned_data['calc_group'] ) == 0:
@@ -177,6 +183,9 @@ class OpenClimateGisForm2(Form):
         if 'prefix' in self.cleaned_data and re.search(INVALID_CHARS, self.cleaned_data['prefix']):
             self._errors['prefix'] = self.error_class(["The prefix contains invalid characters."])
         
+        if not self.is_valid():
+            print 'VALIDATION ERRORS: %s' % self.errors
+
         # return cleaned data
         return self.cleaned_data
 
