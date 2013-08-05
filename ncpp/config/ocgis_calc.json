@@ -34,7 +34,7 @@
         "order": 6,
         "name": "Threshold",
         "description": [
-		"Treshold(threshold=float, operation='gt'|'lt'|'gte'|'lte')",
+		"Treshold(threshold=number, operation='gt'|'lt'|'gte'|'lte')",
                 "Count of values where the logical operation returns TRUE"
                 ],
         "keywords": [
@@ -47,7 +47,7 @@
         "order": 7,
         "name": "Between",
         "description": [
- 		"Between(lower=float, upper=float)",
+ 		"Between(lower=number, upper=number)",
                 "Count of values falling within the limits lower and upper (inclusive)"
 		],
         "keywords": [
@@ -60,7 +60,7 @@
         "order": 8,
         "name": "Duration",
         "description": [
-                "Duration(threshold=float, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')",
+                "Duration(threshold=number, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')",
                 "Summarizes consecutive occurrences in a sequence where the logical operation returns TRUE. The summary operation is applied to the sequences within a temporal aggregation."
                 ],
         "keywords": [
@@ -74,7 +74,7 @@
         "order": 9,
         "name": "Frequency Duration",
         "description": [
-                "FrequencyDuration(threshold=float, operation='gt'|'lt'|'gte'|'lte')",
+                "FrequencyDuration(threshold=number, operation='gt'|'lt'|'gte'|'lte')",
                 "Counts the frequency of spell durations within the temporal aggregation."
                 ],
         "keywords": [
