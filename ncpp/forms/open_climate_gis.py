@@ -143,7 +143,7 @@ class OpenClimateGisForm2(Form):
                                     widget=RadioSelect, initial='intersects')
     output_format = ChoiceField(choices=ocgisChoices(Config.OUTPUT_FORMAT).items(), required=True, initial='csv')
     prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
-    with_auxiliary_files = BooleanField(initial=False, required=False)
+    with_auxiliary_files = BooleanField(initial=True, required=False)
     
     # custom validation
     def clean(self):
