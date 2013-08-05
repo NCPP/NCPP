@@ -2,6 +2,7 @@ import time
 import os
 from shutil import rmtree
 from ncpp.utils import hasText
+import re
 
 SLEEP_SECONDS = 1
 HEADERS_NOCALC = ['did','ugid','gid','time','year','month','day','variable','value']
@@ -69,8 +70,16 @@ class OCG(object):
                     args['time_region']['month'].append(i)
             if hasText(openClimateGisJob.timeregion_year):
                 args['time_region']['year'] = []
-                for i in map(int, openClimateGisJob.timeregion_year.split(",")):
-                    args['time_region']['year'].append(i)
+                years = openClimateGisJob.timeregion_year.replace(" ","")
+                if re.match('^\d{4}-\d{4}', years):
+                    year1 = int(years[0:4])
+                    year2 = int(years[5:9])
+                    args['time_region']['year'] = range(year1, year2+1)
+                else:
+                    for i in map(int, openClimateGisJob.timeregion_year.split(",")):
+                        args['time_region']['year'].append(i)
+                # FIXME
+                print "YEARS=%s" % years
         
         args['calc'] = None
         if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':

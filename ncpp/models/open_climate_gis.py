@@ -140,13 +140,13 @@ class OpenClimateGisJob(Job):
         if self.timeregion_year is not None and hasText(self.timeregion_year):
             job_data.append( ('Time Region: Years', self.timeregion_year) )
         
-        if self.calc is not None:
+        if self.calc is not None and self.calc != '':
             job_data.append( ('Calculation', self.calc) )
-        if self.par1 is not None:
+        if self.par1 is not None and self.par1 != '':
             job_data.append( ('Calculation Parameter 1', self.par1) )
-        if self.par2 is not None:
+        if self.par2 is not None and self.par2 != '':
             job_data.append( ('Calculation Parameter 2', self.par2) )
-        if self.par3 is not None:
+        if self.par3 is not None and self.par3 != '':
             job_data.append( ('Calculation Parameter 3', self.par3) )
             
         if self.calc_group is not None and len(self.calc_group)>0:
