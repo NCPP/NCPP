@@ -129,7 +129,8 @@ class OCG(object):
             if os.path.exists(dir_output):
                 rmtree(dir_output)
             # generate empty directory
-            os.makedirs(dir_output)                
+            os.makedirs(dir_output)   
+            print 'dir_output=%s' % dir_output             
                                     
             # define dataset
             rd = ocgis.RequestDataset(uri=args['uri'],
