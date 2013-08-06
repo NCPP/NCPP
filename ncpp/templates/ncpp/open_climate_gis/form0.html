@@ -47,10 +47,16 @@
 			
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
 			jsonData = datasets[datasetCategorySelect.value][datasetSelect.value];
-			for (var variable in jsonData) {
-				if (variable != 'type') {
-					options.push( [variable, variable] )
+			if (jsonData['type']=='datasets') {
+				// datasets: must make variable selection
+				for (var variable in jsonData) {
+					if (variable != 'type') {
+						options.push( [variable, variable] )
+					}
 				}
+			} else if (jsonData['type']=='package') {
+				// package: no variable selection necessary
+				options[0] = ["","-- No selection necessary --"];
 			}
 	
 		} 
@@ -159,7 +165,8 @@
        
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Data Selection</legend>	
-	Please select a <i>dataset category</i>, a <i>dataset</i>, and a <i>variable</i>.
+	Please select a <i>dataset category</i>, a <i>dataset</i>, and a <i>variable</i>
+	<br/>(when selecting a <i>dataset package</i>, a <i>variable</i> selection is not necessary).
 	<p/>&nbsp;
 	
 	<table class="horizontalTable">

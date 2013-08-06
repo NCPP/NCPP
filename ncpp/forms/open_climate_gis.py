@@ -41,7 +41,7 @@ class OpenClimateGisForm1(Form):
     dataset = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
                           widget=Select(attrs={'onchange': 'populateVariables();'}))
     # no initial values for 'variables' widget. The choices are assigned dynamically through Ajax
-    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=True,
+    variable = DynamicChoiceField(choices=[ NO_VALUE_OPTION ], required=False,
                                   widget=Select(attrs={'onchange': 'populateDateTimes();'}))
     
     # geometry selection
@@ -68,6 +68,14 @@ class OpenClimateGisForm1(Form):
         
         # invoke superclass cleaning method
         super(OpenClimateGisForm1, self).clean()
+        
+        # validate data selection
+        if 'dataset_category' in self.cleaned_data and hasText(self.cleaned_data['dataset_category']):
+            if 'dataset' in self.cleaned_data and hasText(self.cleaned_data['dataset']):
+                jsonData = ocgisDatasets.datasets[self.cleaned_data['dataset_category']][self.cleaned_data['dataset']] 
+                if jsonData['type'] == 'datasets':
+                    if not 'variable' in self.cleaned_data or not hasText(self.cleaned_data['variable']):
+                         self._errors["variable"] = self.error_class(["A variable must be selected when the dataset is not a package."]) 
                 
         # validate geometry
         ngeometries = 0

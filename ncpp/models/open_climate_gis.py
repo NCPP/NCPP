@@ -14,7 +14,7 @@ class OpenClimateGisJob(Job):
     
     dataset_category = models.CharField(max_length=200, verbose_name='Dataset Category', blank=False)
     dataset = models.CharField(max_length=200, verbose_name='Dataset', blank=False)
-    variable = models.CharField(max_length=200, verbose_name='Variable', blank=False)
+    variable = models.CharField(max_length=200, verbose_name='Variable', blank=True, null=True)
     geometry = models.CharField(max_length=200, verbose_name='Geometry', null=True, blank=True)
     geometry_id = models.CharField(max_length=200, verbose_name='Geometry ID', null=True, blank=True)
     latmin = models.FloatField(verbose_name='Latitude Minimum', blank=True, null=True)
