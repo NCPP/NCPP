@@ -23,12 +23,12 @@
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
 			jsonData = datasets[datasetCategorySelect.value];
 			for (var dt in jsonData) {
-				options.push( [dt, dt] )
+				options.push( [dt, dt] );
 			}
 	
 		} 
 		
-		showOptions("id_0-dataset", options);
+		showOptions("id_0-dataset", options, [ "{{wizard.form.dataset.value}}" ]);
 		
 	}
 	
@@ -60,8 +60,8 @@
 			}
 	
 		} 
-		
-		showOptions("id_0-variable", options);
+				
+		showOptions("id_0-variable", options, [ "{{wizard.form.variable.value}}" ]);
 		
 	}
 		
@@ -80,19 +80,24 @@
 	      // populate geometry widget with no options
 	      var options = new Array();
 	      options[0] = ["","-- Please Select --"];
-	      showOptions("id_0-geometry_id", options);
+	      showOptions("id_0-geometry_id", options, []);
 	      
 	    }
 	
 	}
 	
-	// function to populate a select widget with options
-	function showOptions(widgetId, options) {
-		
+	// function to populate a select widget with options,
+	// and maintain any previous selection
+	function showOptions(widgetId, options, selectedValues) {
+		//alert(selectedValues);
 		selectWidget = document.getElementById(widgetId);
 		selectWidget.options.length = 0;
 		for (var i = 0; i < options.length; i++) {
-			selectWidget.add( new Option(options[i][1], options[i][0]) ); // label, value
+			var option = new Option(options[i][1], options[i][0]); // label, value
+			for (var j=0; j<selectedValues.length; j++) {
+				if (options[i][0] == selectedValues[j]) option.selected = true;	
+			}
+			selectWidget.add( option );
 		}
 				
 	}
@@ -126,11 +131,24 @@
 	// function to populate the geometry choices
 	function showGeometries(geometries) {
 
-		geometryIdSelect = document.getElementById("id_0-geometry_id");
-		geometryIdSelect.options.length = 0;
-		for (var i = 0; i < geometries.length; i++) {
-			geometryIdSelect.add( new Option(geometries[i][1], geometries[i][0]) );
+		var options = new Array();
+		for (var i = 0; i < geometries.length; i++) {			
+			options.push( [geometries[i][1], geometries[i][0]] );
 		}
+		// must parse current selection of shapes (a concatenated string) into array of strings
+		var selectedValues = new Array();
+		var shapes = "{{wizard.form.geometry_id.value}}";
+		if (shapes!="None") {
+			shapes = shapes.unescapeHtml();
+			shapes = shapes.substring(1,shapes.length-1);
+			shapes = shapes.split(",");
+			for (var i=0; i<shapes.length; i++) {
+				// u'Arkansas'
+				shape =  shapes[i].trim();
+				selectedValues[i] = shape.substring(2, shape.length-1);
+			}
+		}
+		showOptions("id_0-geometry_id", options, selectedValues);
 
 	}
 	
@@ -160,6 +178,18 @@
 	  timeout: 5000,
 	  argument: [],
 	};
+	
+	function init() {
+				
+		populateDatasets();
+		populateVariables();
+		populateGeometries();
+		
+	}
+	
+	// reload all widgets every time
+	window.onload = init;
+
 		
 </script>
        
