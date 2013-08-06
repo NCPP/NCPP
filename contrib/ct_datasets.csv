@@ -1,9 +1,12 @@
-Category;Subcategory;Directory Path;Dataset Group;Filename;Variable;Long Name
-Decadal Simulations;CanCM4;/usr/local/ocgis/bin/nc;;rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhs;
-Decadal Simulations;CanCM4;/usr/local/ocgis/bin/nc;;rhsmin_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmin;
-Decadal Simulations;CanCM4;/usr/local/ocgis/bin/nc;;rhsmax_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmax;
-Observational Datasets;Maurer 2010;/data/maurer/concatenated;;Maurer02new_OBS_dtr_daily.1971-2000.nc;dtr;
-Observational Datasets;Maurer 2010;/data/maurer/concatenated;;Maurer02new_OBS_tas_daily.1971-2000.nc;tas;Air Temperature
-Observational Datasets;Maurer 2010;/data/maurer/concatenated;;Maurer02new_OBS_tasmin_daily.1971-2000.nc;tasmin;Minimum Air Temperature
-Observational Datasets;Maurer 2010;/data/maurer/concatenated;;Maurer02new_OBS_pr_daily.1971-2000.nc;pr;Precipitation
-Observational Datasets;Maurer 2010;/data/maurer/concatenated;;Maurer02new_OBS_tasmax_daily.1971-2000.nc;tasmax;Maximum Air Temperature
+Order;Debug;Category;Subcategory;Package Name;Directory Path;Filename;Variable;Long Name;Calendar;Units
+1;0;Decadal Simulations;CanCM4 Decadal Datasets;CanCM4 Decadal Package;/usr/local/ocgis/bin/nc;rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhs;;;
+1;0;Decadal Simulations;CanCM4 Decadal Datasets;CanCM4 Decadal Package;/usr/local/ocgis/bin/nc;rhsmin_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmin;;;
+1;0;Decadal Simulations;CanCM4 Decadal Datasets;CanCM4 Decadal Package;/usr/local/ocgis/bin/nc;rhsmax_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmax;;;
+2;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;tmx;;standard;
+2;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;tmn;;standard;
+2;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;ppt;;standard;
+3;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_dtr_daily.1971-2000.nc;dtr;Daily Temperature Range;;
+3;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tas_daily.1971-2000.nc;tas;Air Temperature;;
+3;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tasmin_daily.1971-2000.nc;tasmin;Minimum Air Temperature;;
+3;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_pr_daily.1971-2000.nc;pr;Precipitation;;
+3;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tasmax_daily.1971-2000.nc;tasmax;Maximum Air Temperature;;
