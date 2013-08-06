@@ -32,26 +32,17 @@ class OCG(object):
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
         # retrieve dataset URIs, variable from configuration JSON data
-        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset]
-        print 'jsonObject=%s' % jsonObject
-        if jsonObject['type'] == 'datasets':   
-            print "\nDATASET SELECTED"
-            args['uri'] = jsonObject[openClimateGisJob.variable]["uri"]
-            args['variable'] = jsonObject[openClimateGisJob.variable]["variable"]
-            args['t_calendar'] = jsonObject[openClimateGisJob.variable]["t_calendar"]
-            args['t_units'] = jsonObject[openClimateGisJob.variable]["t_units"]
+        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset]     
+        if jsonObject['type'] == 'datasets': 
+            # must sub-select data structure by variable
+            jsonData =jsonObject[openClimateGisJob.variable]
         elif jsonObject['type'] == 'package':
-            print "\nPACKAGE SELECTED"
-            args['uri'] = jsonObject["uri"]
-            args['variable'] = jsonObject["variable"]
-            args['t_calendar'] = jsonObject["t_calendar"]
-            args['t_units'] = jsonObject["t_units"]
-            
-        print 'uri=%s' % args['uri']
-        print 'variable=%s' % args['variable']
-        print 't_calendar=%s' % args['t_calendar']
-        print 't_units=%s' % args['t_units']
-        
+            jsonData = jsonObject
+        args['uri'] = jsonData['uri']
+        args['variable'] = jsonData["variable"]
+        args['t_calendar'] = jsonData["t_calendar"]
+        args['t_units'] = jsonData["t_units"]
+                    
         # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
         #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 
         #                           abstraction='polygon', snippet=False, backend='ocg', prefix=None, 
