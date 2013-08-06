@@ -47,6 +47,7 @@
 			
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
 			jsonData = datasets[datasetCategorySelect.value][datasetSelect.value];
+			
 			if (jsonData['type']=='datasets') {
 				// datasets: must make variable selection
 				for (var variable in jsonData) {
@@ -55,8 +56,15 @@
 					}
 				}
 			} else if (jsonData['type']=='package') {
+				
 				// package: no variable selection necessary
 				options[0] = ["","-- No selection necessary --"];
+				
+				// but populate date/times from package information
+				datetime_start = jsonData["time_range"][0];
+				datetime_stop = jsonData["time_range"][1];
+				_populateDateTimes(datetime_start, datetime_stop);
+			
 			}
 	
 		} 
@@ -103,7 +111,7 @@
 	}
 		
 	// function to populate the start, stop times
-	function populateDateTimes(datetime_start, datetime_stop) {
+	function populateDateTimes() {
 		
 		
 		// retrieve current selection for dataset category  and dataset
@@ -115,17 +123,20 @@
 			&& variableSelect.value!=null && variableSelect.value!='') {
 			
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());
-			jsonData = jsonData = datasets[datasetCategorySelect.value][datasetSelect.value][variableSelect.value]["time_range"];
-		
+			jsonData = jsonData = datasets[datasetCategorySelect.value][datasetSelect.value][variableSelect.value]["time_range"];		
 			if (jsonData!=null) {
-				startDateTimeText = document.getElementById("id_0-datetime_start");
-				startDateTimeText.value = jsonData[0];
-				stopDateTimeText = document.getElementById("id_0-datetime_stop");
-				stopDateTimeText.value = jsonData[1];
+				_populateDateTimes(jsonData[0], jsonData[1]);
 			}
 		
 		}
 
+	}
+	
+	function _populateDateTimes(datetime_start, datetime_stop) {
+		startDateTimeText = document.getElementById("id_0-datetime_start");
+		startDateTimeText.value = datetime_start;
+		stopDateTimeText = document.getElementById("id_0-datetime_stop");
+		stopDateTimeText.value = datetime_stop;
 	}
 	
 	// function to populate the geometry choices
