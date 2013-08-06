@@ -136,6 +136,8 @@ def write_json_from_csv(out_path,in_csv,debug=False):
         for row in reader:
             if debug and row['Debug'] != '1':
                 continue
+            if row['Enable'] != '1':
+                continue
             category = get_or_create(session,Category,name=row['Category'])
             subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
             if row['Package Name'] != '':
