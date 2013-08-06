@@ -78,8 +78,6 @@ class OCG(object):
                 else:
                     for i in map(int, openClimateGisJob.timeregion_year.split(",")):
                         args['time_region']['year'].append(i)
-                # FIXME
-                print "YEARS=%s" % years
         
         args['calc'] = None
         if hasText(openClimateGisJob.calc) and openClimateGisJob.calc.lower() != 'none':

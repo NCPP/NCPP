@@ -4,6 +4,7 @@ from django.forms import (Form, CharField, ChoiceField, BooleanField, MultipleCh
 from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisGeometries, ocgisDatasets, ocgisCalculations
 from ncpp.constants import MONTH_CHOICES, NO_VALUE_OPTION
 from ncpp.utils import hasText
+from contrib.helpers import validate_time_subset
 import re
 
 # list of invalid characters for 'prefix' field
@@ -106,13 +107,26 @@ class OpenClimateGisForm1(Form):
                 if not 'lon' in self.cleaned_data or not hasText(self.cleaned_data['lon']):
                      self._errors["lon"] = self.error_class(["Invalid point longitude."])   
                      
-        # validate times
-        if (   ('datetime_start' in self.cleaned_data and self.cleaned_data['datetime_start'] is not None)
-            or ('datetime_stop'  in self.cleaned_data and self.cleaned_data['datetime_stop']  is not None) ):
-            if (   ('timeregion_month' in self.cleaned_data and len(self.cleaned_data['timeregion_month'])>0)
-                or ('timeregion_year' in self.cleaned_data and hasText(self.cleaned_data['timeregion_year'])) ):
-                self._errors["timeregion_year"] = self.error_class(["Please use a time range OR a time selection."])
+        # validate time range
+        datetime_start = None
+        datetime_stop = None
+        if 'datetime_start' in self.cleaned_data and hasText(self.cleaned_data['datetime_start']):
+            datetime_start = self.cleaned_data['datetime_start']
+        if 'datetime_stop' in self.cleaned_data and hasText(self.cleaned_data['datetime_stop']):
+            datetime_stop = self.cleaned_data['datetime_stop']
+        if datetime_start is not None and datetime_stop is None:
+            self._errors["datetime_stop"] = self.error_class(["Invalid value for 'Time Range Stop'"])
+        if datetime_start is  None and datetime_stop is not None:
+            self._errors["datetime_start"] = self.error_class(["Invalid value for 'Time Range Start'"])
+        if datetime_start is not None and datetime_stop is not None:
+            if datetime_start > datetime_stop:
+                self._errors["datetime_start"] = self.error_class(["'Time Range Start' must be less than 'Time Range Stop'"])
+            time_range = [datetime_start, datetime_stop]
+        else:
+            time_range = None
                 
+        # validate years time region 
+        time_region = {}
         if 'timeregion_year' in self.cleaned_data and hasText(self.cleaned_data['timeregion_year']):
             years = str(self.cleaned_data['timeregion_year'].replace(" ","")) # remove blanks
             if re.match('^\d{4}-\d{4}', years):
@@ -120,13 +134,25 @@ class OpenClimateGisForm1(Form):
                 year2 = int(years[5:9])
                 if year1 >= year2:
                     self._errors["timeregion_year"] = self.error_class(["Invalid year selection: must be year1 < year2"])
+                time_region['year'] = range(year1, year2+1)
             else:
                 years = years.split(',')
+                time_region['year'] = []
                 for year in years:
                     if not re.match('^\d{4}$', year):
                         self._errors["timeregion_year"] = self.error_class(["Invalid year selection"])
                         break
+                    time_region['year'].append( int(year) )
         
+        # validate months time region
+        if 'timeregion_month' in self.cleaned_data and len(self.cleaned_data['timeregion_month'])>0:
+            time_region['month'] = map(int, self.cleaned_data['timeregion_month'])
+
+        # validate time range + time region
+        if not validate_time_subset(time_range, time_region):
+            self._errors["timeregion_year"] = self.error_class(["Time Range must contain Time Region."])
+                    
+         
         if not self.is_valid():
             print 'VALIDATION ERRORS: %s' % self.errors
         

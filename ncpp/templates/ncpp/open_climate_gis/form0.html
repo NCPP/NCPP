@@ -181,8 +181,8 @@
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Geo-Spatial Selection</legend>	
-	Optionally, please select either a <i>shape</i> geometry, a <i>bounding box</i>, or a <i>point</i>.
-	<br/>If no selection is made,the full dataset geo-spatial extent will be returned.
+	Optionally, you may select either a <i>shape</i> geometry, a <i>bounding box</i>, or a <i>point</i>.
+	<br/>If no selection is made,the full dataset geo-spatial extent will be processed.
 	<p/>&nbsp;
 	
 	<table class="horizontalTable">
@@ -231,9 +231,10 @@
 
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Temporal Selection</legend>
-	Optionally, please select either a <i>time range</i> (i.e. a start and stop time), 
-	or a <i>time region</i> (one or more months, and/or one or more years).
-	No selection will result in the full dataset time extent.
+	Optionally, you may select a <i>time range</i> (i.e. a start and stop time), 
+	and/or a <i>time region</i> (one or more months, and/or one or more years).
+	If both are specified, <i>time range</i> must contain <i>time region</i>.
+	<br/>If neither <i>time range</i> or <i>time region</i> is specified,the full dataset temporal extent will be processed.
 	<p/>&nbsp;
 	
 	<table class="horizontalTable">
