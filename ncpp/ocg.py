@@ -32,9 +32,25 @@ class OCG(object):
         # ocgis.RequestDataset(uri=None, variable=None, alias=None, time_range=None, time_region=None, 
         #                      level_range=None, s_proj=None, t_units=None, t_calendar=None, did=None, meta=None)
         # retrieve dataset URIs, variable from configuration JSON data
-        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset][openClimateGisJob.variable]
-        args['uri'] = jsonObject["uri"]
-        args['variable'] = jsonObject["variable"]
+        jsonObject = self.ocgisDatasets.datasets[openClimateGisJob.dataset_category][openClimateGisJob.dataset]
+        print 'jsonObject=%s' % jsonObject
+        if jsonObject['type'] == 'datasets':   
+            print "\nDATASET SELECTED"
+            args['uri'] = jsonObject[openClimateGisJob.variable]["uri"]
+            args['variable'] = jsonObject[openClimateGisJob.variable]["variable"]
+            args['t_calendar'] = jsonObject[openClimateGisJob.variable]["t_calendar"]
+            args['t_units'] = jsonObject[openClimateGisJob.variable]["t_units"]
+        elif jsonObject['type'] == 'package':
+            print "\nPACKAGE SELECTED"
+            args['uri'] = jsonObject["uri"]
+            args['variable'] = jsonObject["variable"]
+            args['t_calendar'] = jsonObject["t_calendar"]
+            args['t_units'] = jsonObject["t_units"]
+            
+        print 'uri=%s' % args['uri']
+        print 'variable=%s' % args['variable']
+        print 't_calendar=%s' % args['t_calendar']
+        print 't_units=%s' % args['t_units']
         
         # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
         #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 
@@ -136,14 +152,17 @@ class OCG(object):
             if os.path.exists(dir_output):
                 rmtree(dir_output)
             # generate empty directory
-            os.makedirs(dir_output)   
-           
+            os.makedirs(dir_output)             
                                     
-            # define dataset
-            rd = ocgis.RequestDataset(uri=args['uri'],
-                                      variable=str(args['variable']), 
-                                      time_range=args['time_range'],
-                                      time_region=args['time_region'])
+            # build up the list of request datasets
+            dataset = []
+            iter_tuple = [args[key] for key in ['uri', 'variable', 't_calendar', 't_units']]
+            time_range=args['time_range']
+            time_region=args['time_region']
+            for uri,variable,t_calendar,t_units in zip(*iter_tuple):
+                rd = ocgis.RequestDataset(uri=uri,variable=variable,t_calendar=t_calendar,t_units=t_units,
+                                  time_range=time_range,time_region=time_region)
+                dataset.append(rd)
 
             ## construct the operations call
             ops = ocgis.OcgOperations(dataset=rd, 

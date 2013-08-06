@@ -48,7 +48,9 @@
 			var datasets = JSON.parse("{{datasets}}".unescapeHtml());			
 			jsonData = datasets[datasetCategorySelect.value][datasetSelect.value];
 			for (var variable in jsonData) {
-				options.push( [variable, variable] )
+				if (variable != 'type') {
+					options.push( [variable, variable] )
+				}
 			}
 	
 		} 

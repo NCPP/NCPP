@@ -149,8 +149,9 @@ class OpenClimateGisForm1(Form):
             time_region['month'] = map(int, self.cleaned_data['timeregion_month'])
 
         # validate time range + time region
-        if not validate_time_subset(time_range, time_region):
-            self._errors["timeregion_year"] = self.error_class(["Time Range must contain Time Region."])
+        if time_range is not None and len(time_region)>0:
+            if not validate_time_subset(time_range, time_region):
+                self._errors["timeregion_year"] = self.error_class(["Time Range must contain Time Region."])
                     
          
         if not self.is_valid():
