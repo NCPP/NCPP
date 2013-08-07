@@ -156,7 +156,7 @@ class OCG(object):
                 dataset.append(rd)
 
             ## construct the operations call
-            ops = ocgis.OcgOperations(dataset=rd, 
+            ops = ocgis.OcgOperations(dataset=dataset, 
                                       geom=args['geom'],
                                       select_ugid=args['select_ugid'],
                                       aggregate=args['aggregate'], 
