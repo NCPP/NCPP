@@ -26,10 +26,10 @@
 		<tr><th nowrap="nowrap">Stop Date Time:</th><td>{{ job_data.datetime_stop }}</td></tr>
 	{% endif %}
 	{% if job_data.timeregion_month|length > 0 %}
-		<tr><th nowrap="nowrap">Time Region: Months</th><td>{{ job_data.timeregion_month }}</td></tr>
+		<tr><th nowrap="nowrap">Time Selection: Months</th><td>{{ job_data.timeregion_month }}</td></tr>
 	{% endif %}
 	{% if job_data.timeregion_year|length > 0 %}
-		<tr><th nowrap="nowrap">Time Region: Years</th><td>{{ job_data.timeregion_year }}</td></tr>
+		<tr><th nowrap="nowrap">Time Selection: Years</th><td>{{ job_data.timeregion_year }}</td></tr>
 	{% endif %}
 	<tr><th nowrap="nowrap">Aggregate:</th><td>{{ job_data.aggregate }}</td></tr>
 	
