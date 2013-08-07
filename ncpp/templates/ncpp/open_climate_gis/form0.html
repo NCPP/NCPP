@@ -97,7 +97,7 @@
 	// function to populate a select widget with options,
 	// and maintain any previous selection
 	function showOptions(widgetId, options, selectedValues) {
-		//alert(selectedValues);
+
 		selectWidget = document.getElementById(widgetId);
 		selectWidget.options.length = 0;
 		for (var i = 0; i < options.length; i++) {
@@ -112,26 +112,26 @@
 		
 	// function to populate the start, stop times
 	function populateDateTimes() {
-		
-		
+			
 		// retrieve current selection for dataset category  and dataset
 		datasetCategorySelect = document.getElementById("id_0-dataset_category");
 		datasetSelect = document.getElementById("id_0-dataset");
 		variableSelect = document.getElementById("id_0-variable");
 		if (   datasetCategorySelect.value!=null && datasetCategorySelect.value!='' 
 			&& datasetSelect.value!=null && datasetSelect.value!=''
-			&& variableSelect.value!=null && variableSelect.value!='') {
+			&& variableSelect.value!=null && variableSelect.value!='') {	
 			
-			var datasets = JSON.parse("{{datasets}}".unescapeHtml());
-			jsonData = jsonData = datasets[datasetCategorySelect.value][datasetSelect.value][variableSelect.value]["time_range"];		
-			if (jsonData!=null) {
-				_populateDateTimes(jsonData[0], jsonData[1]);
-			}
+				var datasets = JSON.parse("{{datasets}}".unescapeHtml());
+				jsonData = jsonData = datasets[datasetCategorySelect.value][datasetSelect.value][variableSelect.value]["time_range"];		
+				if (jsonData!=null) { // type='datasets'
+					_populateDateTimes(jsonData[0], jsonData[1]);
+				}
 		
 		}
 
 	}
 	
+	// function to populate the start, stop times
 	function _populateDateTimes(datetime_start, datetime_stop) {
 		startDateTimeText = document.getElementById("id_0-datetime_start");
 		startDateTimeText.value = datetime_start;
@@ -241,11 +241,9 @@
 			<td>Type:</td>
 			<td>{{ wizard.form.geometry }}</td>
 			<td>Geometry:</td>
-			<td style="width:100%; text-align:left;"> {{ wizard.form.geometry_id }}</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td colspan="4"><span class="error">{{ wizard.form.geometry_id.errors }}</span></td>
+			<td style="width:100%; text-align:left;"> {{ wizard.form.geometry_id }}
+				<br/><span class="error">{{ wizard.form.geometry_id.errors }}</span>
+			</td>
 		</tr>
 		<tr>
 			<th nowrap="nowrap">Bounding Box:</th>

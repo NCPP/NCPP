@@ -23,6 +23,7 @@
 	<!-- body -->
 	<div class="box">
 		<h2>Climate Translator Workflow: Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</h2>
+		Disclaimer: the Climate Translator and underlying Open Climate GIS software are <i>beta</i> versions.
 		<form action="" method="post">
 			{% csrf_token %}
 			{{ wizard.management_form }}
@@ -40,7 +41,7 @@
 				{% include "ncpp/open_climate_gis/form2.html" %}
 			{% endif %}
 			
-			
+			<br/>
 			{% if wizard.steps.prev %}
 				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Restart</button>
 				<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">&lt; Back</button>

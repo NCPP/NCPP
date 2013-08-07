@@ -113,8 +113,9 @@ class OpenClimateGisJob(Job):
         
         job_data = []
         job_data.append( ('Dataset Category', self.dataset_category) )
-        job_data.append( ('Dataset', self.dataset) )
-        job_data.append( ('Variable', self.variable) )
+        job_data.append( ('Dataset', self.dataset) )       
+        if hasText(self.variable):
+            job_data.append( ('Variable', self.variable) )
         if hasText(self.geometry):
             job_data.append( ('Shape Type', self.geometry) )
         if self.geometry_id is not None and len(self.geometry_id)>0:

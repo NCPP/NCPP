@@ -33,3 +33,12 @@ def get_month_string(months):
     for month in months:
         list.append(MONTH_DICT[int(month)])
     return ", ".join(list)
+
+def formatListForDisplay(values):
+    """Transform a list of unicode strings into a single string suitable for display."""
+    s = ""
+    for i, value in enumerate(values):
+        if i>0:
+            s += ", "
+        s += str(value)
+    return s

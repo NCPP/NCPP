@@ -8,7 +8,7 @@ from ncpp.models.common import JOB_STATUS
 from ncpp.models.open_climate_gis import OpenClimateGisJob
 from ncpp.config.open_climate_gis import ocgisChoices, Config, ocgisConfig, ocgisGeometries, ocgisCalculations
 from ncpp.config import ocgisDatasets
-from ncpp.utils import get_full_class_name, str2bool, hasText
+from ncpp.utils import get_full_class_name, str2bool, hasText, formatListForDisplay
 from ncpp.utils import get_month_string
 from django.utils import simplejson  
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -52,7 +52,7 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('geometry') and hasText(cleaned_data['geometry']):
                         job_data['geometry'] = cleaned_data['geometry']
                     if cleaned_data.has_key('geometry_id') and len( cleaned_data['geometry_id'] )>0:
-                        job_data['geometry_id'] = cleaned_data['geometry_id']
+                        job_data['geometry_id'] = formatListForDisplay(cleaned_data['geometry_id'])
                     if cleaned_data.has_key('latmin') and cleaned_data['latmin'] is not None:
                         job_data['latmin'] = float( cleaned_data['latmin'] )
                     if cleaned_data.has_key('latmax') and cleaned_data['latmax'] is not None:
@@ -82,9 +82,10 @@ class OpenClimateGisWizard(SessionWizardView):
                     if cleaned_data.has_key('par3') and cleaned_data['par3'] is not None:
                         job_data['par3'] = cleaned_data['par3']
                     if cleaned_data.has_key('calc_group'):
-                        job_data['calc_group'] =[]
+                        calc_groups =[]
                         for group in cleaned_data['calc_group']:
-                            job_data['calc_group'].append(ocgisChoices(Config.CALCULATION_GROUP)[group])                             
+                            calc_groups.append(ocgisChoices(Config.CALCULATION_GROUP)[group])  
+                            job_data['calc_group'] = formatListForDisplay(calc_groups)                           
                     if cleaned_data.has_key('calc_raw'):
                         job_data['calc_raw'] = bool(cleaned_data['calc_raw'])   
                     if cleaned_data.has_key('spatial_operation'):

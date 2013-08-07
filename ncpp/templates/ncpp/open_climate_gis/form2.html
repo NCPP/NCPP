@@ -5,7 +5,7 @@
 <table class="horizontalTable">
 	<tr><th nowrap="nowrap">Dataset Category:</th><td>{{ job_data.dataset_category }}</td></tr>
 	<tr><th nowrap="nowrap">Dataset:</th><td>{{ job_data.dataset }}</td></tr>
-	<tr><th nowrap="nowrap">Variable:</th><td>{{ job_data.variable }}</td></tr>
+	{% if job_data.variable %} <tr><th nowrap="nowrap">Variable:</th><td>{{ job_data.variable }}</td></tr> {% endif %}
 	{% if job_data.geometry %}
 		<tr><th nowrap="nowrap">Geometry:</th><td>{{ job_data.geometry }}: {{ job_data.geometry_id }}</td></tr>
 	{% endif %}

@@ -61,7 +61,7 @@ class OpenClimateGisForm1(Form):
     datetime_stop = DateTimeField(required=False, widget=TextInput(attrs={'size':24}))
     
     timeregion_month = MultipleChoiceField(choices=MONTH_CHOICES, required=False, widget=CheckboxSelectMultiple)                                    #initial = range(12))
-    timeregion_year = CharField(required=False, widget=TextInput(attrs={'size':60}))
+    timeregion_year = CharField(required=False, widget=TextInput(attrs={'size':50}))
     
     # custom validation
     def clean(self):
@@ -100,9 +100,9 @@ class OpenClimateGisForm1(Form):
         elif ngeometries==1:
             if geometry =='shape':
               if not hasText(self.cleaned_data['geometry']):
-                  self._errors["geometry_id"] = self.error_class(["Please select a shape type"]) 
+                  self._errors["geometry_id"] = self.error_class(["Please select a shape type."]) 
               if len(self.cleaned_data['geometry_id'])==0:
-                  self._errors["geometry_id"] = self.error_class(["Please select a shape geometry"])
+                  self._errors["geometry_id"] = self.error_class(["Please select a shape geometry."])
             elif geometry == 'box':
                 if (   not 'latmin' in self.cleaned_data or not hasText(self.cleaned_data['latmin']) 
                     or not 'latmax' in self.cleaned_data or not hasText(self.cleaned_data['latmax'])
@@ -123,12 +123,12 @@ class OpenClimateGisForm1(Form):
         if 'datetime_stop' in self.cleaned_data and hasText(self.cleaned_data['datetime_stop']):
             datetime_stop = self.cleaned_data['datetime_stop']
         if datetime_start is not None and datetime_stop is None:
-            self._errors["datetime_stop"] = self.error_class(["Invalid value for 'Time Range Stop'"])
+            self._errors["datetime_stop"] = self.error_class(["Invalid value for 'Time Range Stop'."])
         if datetime_start is  None and datetime_stop is not None:
-            self._errors["datetime_start"] = self.error_class(["Invalid value for 'Time Range Start'"])
+            self._errors["datetime_start"] = self.error_class(["Invalid value for 'Time Range Start'."])
         if datetime_start is not None and datetime_stop is not None:
             if datetime_start > datetime_stop:
-                self._errors["datetime_start"] = self.error_class(["'Time Range Start' must be less than 'Time Range Stop'"])
+                self._errors["datetime_start"] = self.error_class(["'Time Range Start' must be less than 'Time Range Stop'."])
             time_range = [datetime_start, datetime_stop]
         else:
             time_range = None
