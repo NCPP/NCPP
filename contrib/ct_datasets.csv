@@ -16,12 +16,12 @@ Order;Enable;Debug;Package Name;Category;Subcategory;Directory Path;Filename;Var
 ;1;;;Downscaled Datasets;BCCA-GFDL;/data/downscaled/bcca;bcca_gfdl_cm2_1.gregorian.20c3m.run1.tasmax.1971-2000.nc;tasmax;;;
 ;1;;;Downscaled Datasets;BCCA-CCCMA-CGCM;/data/downscaled/bcca;bcca_cccma_cgcm3_1.gregorian.20c3m.run1.pr.1971-2000.nc;pr;;;
 ;1;;;Downscaled Datasets;BCCA-GFDL;/data/downscaled/bcca;bcca_gfdl_cm2_1.gregorian.20c3m.run1.pr.1971-2000.nc;pr;;;
-;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.pr.NAm.1971-2000.nc;pr;;;
-;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.tasmax.NAm.1971-2000.nc;tasmax;;;
-;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.tasmin.NAm.1971-2000.nc;tasmin;;;
-;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.tasmax.NAm.1971-2000.nc;tasmax;;;
-;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.tasmin.NAm.1971-2000.nc;tasmin;;;
-;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.pr.NAm.1971-2000.nc;pr;;;
+;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.pr.NAm.1971-2000.nc;pr;;365_day;
+;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.tasmax.NAm.1971-2000.nc;tasmax;;365_day;
+;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.tasmin.NAm.1971-2000.nc;tasmin;;365_day;
+;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.tasmax.NAm.1971-2000.nc;tasmax;;365_day;
+;1;;;Downscaled Datasets;ARRM-CGCM (Hayhoe);/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.tasmin.NAm.1971-2000.nc;tasmin;;365_day;
+;1;;;Downscaled Datasets;ARRM-GFDL (Hayhoe);/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.pr.NAm.1971-2000.nc;pr;;365_day;
 ;1;;;QED-2013 Indices;Maurer02v2 TNx;/data/staging/jvigh;climatology_TNx_annual_median.nc;climatology_TNx_annual_median;;;
 ;1;;;QED-2013 Indices;Maurer02v2 TNx;/data/staging/jvigh;climatology_TNx_monthly_max.nc;climatology_TNx_monthly_max;;;
 ;1;;;QED-2013 Indices;Maurer02v2 TNn;/data/staging/jvigh;climatology_TNn_monthly_max.nc;climatology_TNn_monthly_max;;;
