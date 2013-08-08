@@ -8,14 +8,15 @@ logging.basicConfig(filename='_dc_info_.log',
                     filemode='w',
                     level=logging.INFO)
 
-HEADDIR = '/data'
+HEADDIRS = ['/data/ncpp','/data/downscaled','/data/staging/jvigh']
 
 
 def iter_nc():
-    for dirpath,dirnames,filenames in os.walk(HEADDIR,followlinks=True):
-        for filename in filenames:
-            if filename.endswith('.nc'):
-                yield(os.path.join(dirpath,filename))
+    for headdir in HEADDIRS:
+        for dirpath,dirnames,filenames in os.walk(headdir,followlinks=True):
+            for filename in filenames:
+                if filename.endswith('.nc'):
+                    yield(os.path.join(dirpath,filename))
             
 
 class NoMatch(Exception):
@@ -26,14 +27,14 @@ class DataCategory(object):
     
     def __init__(self,expr,category,subcategory,add_period=False):
         self.expr = re.compile(expr)
-        self.expr_period = re.compile('.*_(january|february|march|april|may|june|july|august|september|october|november|december|annual)_.*')
+        self.expr_period = re.compile('.*_(monthly|annual|seasonal)_.*')
         self.category = category
         self.subcategory = subcategory
         self.add_period = add_period
         self.count = 0
         
     def get(self,path):
-        reobj = re.match(self.expr,path)
+        reobj = re.match(self.expr,path.lower())
         if reobj is None:
             raise(NoMatch)
         else:
@@ -42,12 +43,17 @@ class DataCategory(object):
             try:
                 variable = ds.parameter
             except AttributeError:
-                variable = None
+                try:
+                    filename = os.path.splitext(os.path.split(path)[1])[0]
+                    variable = ds.variables[filename]
+                    variable = filename
+                except KeyError:
+                    variable = None
             finally:
                 ds.close()
                 
             if self.add_period:
-                match = re.match(self.expr,path)
+                match = re.match(self.expr,path.lower())
                 period = match.group(0)[0].title()
                 subcat = '{0} {1}'.format(self.subcategory,period)
             else:
@@ -64,17 +70,17 @@ class DataCategory(object):
 
 def get_categories():
     dcs = []
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/txx.*','QED-2013 Indices','Maurer02v2 txx',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/txn.*','QED-2013 Indices','Maurer02v2 txn',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/tnx.*','QED-2013 Indices','Maurer02v2 tnx',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/tnn.*','QED-2013 Indices','Maurer02v2 tnn',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/fd/.*/annual.*','QED-2013 Indices','Maurer02v2 fd',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/r20mm/.*/annual.*','QED-2013 Indices','Maurer02v2 r20mm',add_period=True))
-    dcs.append(DataCategory('/data/ncpp/eval/maurer02v2/(tasmax|tasmin|pr)/p90/.*/annual.*','QED-2013 Indices','Maurer02v2',add_period=True))
-    dcs.append(DataCategory('/data/bcca/bcca_gfdl_cm2_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-GFDL'))
-    dcs.append(DataCategory('/data/bcca/bcca_cccma_cgcm3_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-CCCMA-CGCM'))
-    dcs.append(DataCategory('/data/arrm/arrm_cgcm3.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
-    dcs.append(DataCategory('/data/arrm/arrm_gfdl.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-GFDL (Hayhoe)'))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_txx.*','QED-2013 Indices','Maurer02v2 TXx',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_txn.*','QED-2013 Indices','Maurer02v2 TXn',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_tnx.*','QED-2013 Indices','Maurer02v2 TNx',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_tnn.*','QED-2013 Indices','Maurer02v2 TNn',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_fd/.*','QED-2013 Indices','Maurer02v2 FD',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_r20mm/.*','QED-2013 Indices','Maurer02v2 R20mm',add_period=True))
+    dcs.append(DataCategory('/data/stagin/jvigh/climatology_(tasmax|tasmin|pr).*p90.*','QED-2013 Indices','Maurer02v2',add_period=True))
+    dcs.append(DataCategory('/data/downscaled/bcca/bcca_gfdl_cm2_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-GFDL'))
+    dcs.append(DataCategory('/data/downscaled/bcca/bcca_cccma_cgcm3_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-CCCMA-CGCM'))
+    dcs.append(DataCategory('/data/downscaled/arrm/arrm_cgcm3.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
+    dcs.append(DataCategory('/data/downscaled/arrm/arrm_gfdl.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-GFDL (Hayhoe)'))
     
     with open('_dc_info_.csv','w') as f:
         writer = csv.DictWriter(f,['Category','Subcategory','Directory Path','Filename','Variable'])
