@@ -209,9 +209,9 @@ Order;Enable;Debug;Package Name;Category;Subcategory;Directory Path;Filename;Var
 1;0;0;CanCM4 Decadal Package;Decadal Simulations;CanCM4 Decadal Datasets;/usr/local/ocgis/bin/nc;rhs_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhs;;;
 1;0;0;CanCM4 Decadal Package;Decadal Simulations;CanCM4 Decadal Datasets;/usr/local/ocgis/bin/nc;rhsmin_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmin;;;
 1;0;0;CanCM4 Decadal Package;Decadal Simulations;CanCM4 Decadal Datasets;/usr/local/ocgis/bin/nc;rhsmax_day_CanCM4_decadal2010_r2i1p1_20110101-20201231.nc;rhsmax;;;
-2;1;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;tmx;;standard;
-2;1;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;tmn;;standard;
-2;1;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;ppt;;standard;
+2;0;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;tmx;;standard;
+2;0;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;tmn;;standard;
+2;0;1;PRISM (GDP TDS) Package;Observational Datasets;PRISM (GDP TDS) Datasets;http://cida.usgs.gov/thredds/dodsC/prism;;ppt;;standard;
 3;1;0;;Observational Datasets;Maurer02v2 Datasets;/data/maurer/concatenated;Maurer02new_OBS_dtr_daily.1971-2000.nc;dtr;Daily Temperature Range;;
 3;1;0;Maurer02v2 Package [no dtr];Observational Datasets;Maurer02v2 Datasets;/data/maurer/concatenated;Maurer02new_OBS_tas_daily.1971-2000.nc;tas;Air Temperature;;
 3;1;0;Maurer02v2 Package [no dtr];Observational Datasets;Maurer02v2 Datasets;/data/maurer/concatenated;Maurer02new_OBS_tasmin_daily.1971-2000.nc;tasmin;Minimum Air Temperature;;
