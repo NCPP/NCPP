@@ -16,12 +16,15 @@ from tempfile import NamedTemporaryFile, mkstemp
 import os
 import csv
 from argparse import ArgumentParser
+import logging
 
 
 '''
 Module provides functionality to generate JSON representations for dataset selections
 on the CT interface.
 '''
+
+logging.basicConfig(filename='dataset_parser.log',filemode='w',level=logging.INFO)
 
 connstr = 'sqlite://'
 engine = create_engine(connstr)
@@ -129,7 +132,6 @@ def write_json_from_csv(out_path,in_csv,debug=False):
         ocgis.env.DIR_DATA = '/usr/local/climate_data'
     
     metadata.create_all()
-    session = Session()
     
     with open(in_csv,'r') as f:
         reader = csv.DictReader(f,delimiter=';')
@@ -138,46 +140,52 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                 continue
             if row['Enable'] != '1':
                 continue
-            category = get_or_create(session,Category,name=row['Category'])
-            subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
-            if row['Package Name'] != '':
-                package = get_or_create(session,Package,name=row['Package Name'],cid=category.cid)
-            else:
-                package = None
-            if debug:
-                if not row['Directory Path'].startswith('http'):
-                    uri = row['Filename']
-                else:
-                    uri = row['Directory Path']
-            else:
-                uri = os.path.join(row['Directory Path'],row['Filename'])
-            print('processing URI: {0}'.format(uri))
-            if row['Calendar'] == '':
-                t_calendar = None
-            else:
-                t_calendar = row['Calendar']
-            if row['Units'] == '':
-                t_units = None
-            else:
-                t_units = row['Units']
-            rd = ocgis.RequestDataset(uri,row['Variable'],t_calendar=t_calendar,t_units=t_units)
             try:
-                long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
-            except KeyError:
-                long_name = row['Long Name'].strip()
-                assert(long_name != '')
-            variable = get_or_create(session,Variable,name=rd.variable,
-                                     long_name=long_name.title())
-            time_start,time_stop = rd.ds.temporal.extent
-            time_calendar,time_units = rd.ds.temporal.calendar,rd.ds.temporal.units
-            dataset = Dataset(variable=variable,subcategory=subcategory,time_start=time_start,time_stop=time_stop,
-                              package=package,time_calendar=time_calendar,time_units=time_units)
-            uris = rd.uri
-            if isinstance(uris,basestring):
-                uris = [uris]
-            db_uris = [get_or_create(session,Uri,value=uri,dataset=dataset) for uri in uris]
-            session.add_all(db_uris)
-    session.commit()       
+                session = Session()
+                category = get_or_create(session,Category,name=row['Category'])
+                subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
+                if row['Package Name'].strip() != '':
+                    package = get_or_create(session,Package,name=row['Package Name'],cid=category.cid)
+                else:
+                    package = None
+                if debug:
+                    if not row['Directory Path'].startswith('http'):
+                        uri = row['Filename']
+                    else:
+                        uri = row['Directory Path']
+                else:
+                    uri = os.path.join(row['Directory Path'],row['Filename'])
+                print('processing URI: {0}'.format(uri))
+                if row['Calendar'] == '':
+                    t_calendar = None
+                else:
+                    t_calendar = row['Calendar']
+                if row['Units'] == '':
+                    t_units = None
+                else:
+                    t_units = row['Units']
+                rd = ocgis.RequestDataset(uri,row['Variable'],t_calendar=t_calendar,t_units=t_units)
+                try:
+                    long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
+                except KeyError:
+                    long_name = row['Long Name'].strip()
+                    assert(long_name != '')
+                variable = get_or_create(session,Variable,name=rd.variable,
+                                         long_name=long_name.title())
+                time_start,time_stop = rd.ds.temporal.extent
+                time_calendar,time_units = rd.ds.temporal.calendar,rd.ds.temporal.units
+                dataset = Dataset(variable=variable,subcategory=subcategory,time_start=time_start,time_stop=time_stop,
+                                  package=package,time_calendar=time_calendar,time_units=time_units)
+                uris = rd.uri
+                if isinstance(uris,basestring):
+                    uris = [uris]
+                db_uris = [get_or_create(session,Uri,value=uri,dataset=dataset) for uri in uris]
+                session.add_all(db_uris)
+                session.commit()
+                session.close()
+            except:
+                session.close()
+                logging.exception(row)
     
     data = OrderedDict()
     for cat in session.query(Category).order_by(Category.name):
@@ -195,6 +203,9 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                 dvariable['t_units'] = [dataset.time_units]
         ## now write the data packages
         for package in cat.package:
+            if len(package.dataset) == 0:
+                logging.warn('no datasets found for package: {0}'.format(package.name))
+                continue
             ## assume the time dimension is the same for all datasets
             time_range = [package.dataset[0].time_start,package.dataset[0].time_stop]
             package_name = '{0} ({1}-{2})'.format(package.name,time_range[0].year,time_range[1].year)
@@ -205,8 +216,6 @@ def write_json_from_csv(out_path,in_csv,debug=False):
             dpackage['variable'] = [dataset.variable.name for dataset in package.dataset]
             dpackage['t_calendar'] = [dataset.time_calendar for dataset in package.dataset]
             dpackage['t_units'] = [dataset.time_units for dataset in package.dataset]
-            ## assume the time dimension is the same for all datasets
-            dpackage['time_range'] = map(str,[package.dataset[0].time_start,package.dataset[0].time_stop])
     
     ret = json.dumps(data)
     
@@ -305,8 +314,8 @@ def test_parse_from_json():
     
 if __name__ == '__main__':
     parser = ArgumentParser()
-    parser.add_argument('out_path',help='Path to the output JSON file.')
     parser.add_argument('in_csv',help='Path to the input CSV file.')
+    parser.add_argument('out_path',help='Path to the output JSON file.')
     
     pargs = parser.parse_args()
     
