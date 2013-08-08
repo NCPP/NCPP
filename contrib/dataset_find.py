@@ -30,7 +30,7 @@ class DataCategory(object):
         self.expr_period = re.compile('.*_(monthly|annual|seasonal)_')
         self.category = category
         self.subcategory = subcategory
-        self.add_period = add_period
+        self.add_period = False
         self.count = 0
         
     def get(self,path):
