@@ -157,7 +157,7 @@ class OpenClimateGisJob(Job):
         job_data.append( ('Spatial Operation', ocgisChoices(Config.SPATIAL_OPERATION)[self.spatial_operation]) )
         job_data.append( ('Aggregate', self.aggregate) )
         job_data.append( ('Output Format', ocgisChoices(Config.OUTPUT_FORMAT)[self.output_format]) )
-        job_data.append( ('Prefix', self.prefix) )
+        job_data.append( ('File Output Prefix', self.prefix) )
         job_data.append( ('Include Auxiliary Files', self.with_auxiliary_files) )
                  
         return job_data				  
