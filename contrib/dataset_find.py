@@ -79,10 +79,10 @@ def get_categories():
     dcs.append(DataCategory('/data/staging/jvigh/climatology_tasmax.*p90.*','QED-2013 Indices','Maurer02v2 TasMax p90',add_period=True))
     dcs.append(DataCategory('/data/staging/jvigh/climatology_tasmin.*p90.*','QED-2013 Indices','Maurer02v2 TasMin p90',add_period=True))
     dcs.append(DataCategory('/data/staging/jvigh/climatology_pr.*p90.*','QED-2013 Indices','Maurer02v2 Pr p90',add_period=True))
-    dcs.append(DataCategory('/data/downscaled/bcca/bcca_gfdl_cm2_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-GFDL'))
-    dcs.append(DataCategory('/data/downscaled/bcca/bcca_cccma_cgcm3_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-CCCMA-CGCM'))
-    dcs.append(DataCategory('/data/downscaled/arrm/arrm_cgcm3.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
-    dcs.append(DataCategory('/data/downscaled/arrm/arrm_gfdl.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-GFDL (Hayhoe)'))
+    dcs.append(DataCategory('/data/downscaled/bcca/bcca_gfdl_.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-GFDL'))
+    dcs.append(DataCategory('/data/downscaled/bcca/bcca_cccma_.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-CCCMA-CGCM'))
+    dcs.append(DataCategory('/data/downscaled/arrm/arrm_cgcm3_.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
+    dcs.append(DataCategory('/data/downscaled/arrm/arrm_gfdl_.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-GFDL (Hayhoe)'))
     
     with open('_dc_info_.csv','w') as f:
         writer = csv.DictWriter(f,['Category','Subcategory','Directory Path','Filename','Variable'])
