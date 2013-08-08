@@ -26,6 +26,7 @@ class NoMatch(Exception):
 class DataCategory(object):
     
     def __init__(self,expr,category,subcategory,add_period=False):
+        self._raw_expr = expr
         self.expr = re.compile(expr)
         self.expr_period = re.compile('.*_(monthly|annual|seasonal)_')
         self.category = category
@@ -98,7 +99,7 @@ def get_categories():
     
     for dc in dcs:
         if dc.count == 0:
-            logging.error('no datasets found for expr: {0}'.format(dc.expr))
+            logging.error('no datasets found for expr: {0}'.format(dc._raw_expr))
 
 
 def test_DataCategory():
