@@ -86,6 +86,7 @@
 <fieldset class="fieldset_box">
 	<legend class="fieldset_legend">Calculation</legend>	
 	Optionally, you may select a calculation to be executed on the data.
+	<br/>If no calculation is selected, a subset of the data will be returned.
 	<p/>&nbsp;
          
 	<table class="horizontalTable">
@@ -113,7 +114,7 @@
 		</tr>
 		<tr>
 			<th>Aggregate</th>
-			<td>{{ wizard.form.aggregate }} Check to combine selected geometries into a single geometry
+			<td>{{ wizard.form.aggregate }} Check to combine selected geometries into a single geometry using area-weighted spatial aggregation.
 			<br/><span class="error">{{ wizard.form.aggregate.errors }}</span></td>
 		</tr>
 		<tr>
@@ -147,7 +148,7 @@
 			<td>{{ wizard.form.output_format }}<br/><span class="error">{{ wizard.form.output_format.errors }}</span></td>
 		</tr>
 		<tr>
-			<th><b>Prefix</b></th>
+			<th><b>File Output Prefix</b></th>
 			<td>{{ wizard.form.prefix }}
 			<br/>Optionally, change the prefix for the output data file (use only letters, numbers and '_').
 			<br/><span class="error">{{ wizard.form.prefix.errors }}</span></td>

@@ -181,7 +181,7 @@ class OpenClimateGisForm2(Form):
     calc_raw = BooleanField(initial=False, required=False)
     aggregate = BooleanField(initial=True, required=False)
     spatial_operation = ChoiceField(required=True, choices=ocgisChoices(Config.SPATIAL_OPERATION).items(),
-                                    widget=RadioSelect, initial='intersects')
+                                    widget=RadioSelect, initial='clip')
     output_format = ChoiceField(choices=ocgisChoices(Config.OUTPUT_FORMAT).items(), required=True, initial='csv')
     prefix = CharField(required=True, widget=TextInput(attrs={'size':20}), initial='ocgis_output')
     with_auxiliary_files = BooleanField(initial=True, required=False)
