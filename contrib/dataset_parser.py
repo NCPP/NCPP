@@ -75,7 +75,7 @@ class Package(Base):
     
 class Variable(Base):
     __tablename__ = 'variable'
-    __table_args__ = (UniqueConstraint('name'),)
+#    __table_args__ = (UniqueConstraint('name'),)
     
     vid = Column(Integer,primary_key=True)
     name = Column(String,nullable=False)
