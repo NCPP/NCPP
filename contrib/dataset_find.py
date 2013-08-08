@@ -27,7 +27,7 @@ class DataCategory(object):
     
     def __init__(self,expr,category,subcategory,add_period=False):
         self.expr = re.compile(expr)
-        self.expr_period = re.compile('.*_(monthly|annual|seasonal)_.*')
+        self.expr_period = re.compile('.*_(monthly|annual|seasonal)_')
         self.category = category
         self.subcategory = subcategory
         self.add_period = add_period
@@ -53,7 +53,7 @@ class DataCategory(object):
                 ds.close()
                 
             if self.add_period:
-                match = re.match(self.expr,path.lower())
+                match = re.search(self.expr,path.lower())
                 period = match.group(0)[0].title()
                 subcat = '{0} {1}'.format(self.subcategory,period)
             else:
