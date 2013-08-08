@@ -8,7 +8,7 @@ logging.basicConfig(filename='_dc_info_.log',
                     filemode='w',
                     level=logging.INFO)
 
-HEADDIRS = ['/data/ncpp','/data/downscaled','/data/staging/jvigh']
+HEADDIRS = ['/data/ncpp/eval','/data/downscaled','/data/staging/jvigh']
 
 
 def iter_nc():
