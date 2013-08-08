@@ -8,7 +8,7 @@ logging.basicConfig(filename='_dc_info_.log',
                     filemode='w',
                     level=logging.INFO)
 
-HEADDIRS = ['/data/ncpp/eval','/data/downscaled','/data/staging/jvigh']
+HEADDIRS = ['/data/downscaled','/data/staging/jvigh']
 
 
 def iter_nc():
@@ -76,7 +76,7 @@ def get_categories():
     dcs.append(DataCategory('/data/staging/jvigh/climatology_tnn.*','QED-2013 Indices','Maurer02v2 TNn',add_period=True))
     dcs.append(DataCategory('/data/staging/jvigh/climatology_fd/.*','QED-2013 Indices','Maurer02v2 FD',add_period=True))
     dcs.append(DataCategory('/data/staging/jvigh/climatology_r20mm/.*','QED-2013 Indices','Maurer02v2 R20mm',add_period=True))
-    dcs.append(DataCategory('/data/stagin/jvigh/climatology_(tasmax|tasmin|pr).*p90.*','QED-2013 Indices','Maurer02v2',add_period=True))
+    dcs.append(DataCategory('/data/staging/jvigh/climatology_(tasmax|tasmin|pr).*p90.*','QED-2013 Indices','Maurer02v2',add_period=True))
     dcs.append(DataCategory('/data/downscaled/bcca/bcca_gfdl_cm2_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-GFDL'))
     dcs.append(DataCategory('/data/downscaled/bcca/bcca_cccma_cgcm3_1.*(tasmax|tasmin|pr).*','Downscaled Datasets','BCCA-CCCMA-CGCM'))
     dcs.append(DataCategory('/data/downscaled/arrm/arrm_cgcm3.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
