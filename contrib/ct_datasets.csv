@@ -5,8 +5,12 @@ Order;Enable;Debug;Category;Subcategory;Package Name;Directory Path;Filename;Var
 2;0;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;tmx;;standard;
 2;0;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;tmn;;standard;
 2;0;1;Observational Datasets;PRISM Datasets;PRISM Package;http://cida.usgs.gov/thredds/dodsC/prism;;ppt;;standard;
-3;1;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_dtr_daily.1971-2000.nc;dtr;Daily Temperature Range;;
-3;1;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tas_daily.1971-2000.nc;tas;Air Temperature;;
-3;1;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tasmin_daily.1971-2000.nc;tasmin;Minimum Air Temperature;;
-3;1;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_pr_daily.1971-2000.nc;pr;Precipitation;;
-3;1;0;Observational Datasets;Maurer 2010 Datasets;Maurer 2010 Package;/data/maurer/concatenated;Maurer02new_OBS_tasmax_daily.1971-2000.nc;tasmax;Maximum Air Temperature;;
+3;1;0;Observational Datasets;Maurer02v2 Datasets;;/data/maurer/concatenated;Maurer02new_OBS_dtr_daily.1971-2000.nc;dtr;Daily Temperature Range;;
+3;1;0;Observational Datasets;Maurer02v2 Datasets;Maurer02v2 Package [no DTR];/data/maurer/concatenated;Maurer02new_OBS_tas_daily.1971-2000.nc;tas;Air Temperature;;
+3;1;0;Observational Datasets;Maurer02v2 Datasets;Maurer02v2 Package [no DTR];/data/maurer/concatenated;Maurer02new_OBS_tasmin_daily.1971-2000.nc;tasmin;Minimum Air Temperature;;
+3;1;0;Observational Datasets;Maurer02v2 Datasets;Maurer02v2 Package [no DTR];/data/maurer/concatenated;Maurer02new_OBS_pr_daily.1971-2000.nc;pr;Precipitation;;
+3;1;0;Observational Datasets;Maurer02v2 Datasets;Maurer02v2 Package [no DTR];/data/maurer/concatenated;Maurer02new_OBS_tasmax_daily.1971-2000.nc;tasmax;Maximum Air Temperature;;
+;;;QED 2013 Indices;Maurer02v2 Evaluation;;/data/ncpp/eval/maurer02v2/rx1day/min/rx1dayamina/annual/1971-2000/us48;maurer02v2_min_rx1dayamina_annual_1971-2000.nc;rx1dayamina;;;
+;;;QED 2013 Indices;Maurer02v2 Evaluation;;/data/ncpp/eval/maurer02v2/rx1day/median/rx1dayameda/annual/1971-2000/us48;maurer02v2_median_rx1dayameda_annual_1971-2000.nc;rx1dayameda;;;
+;;;QED 2013 Indices;Maurer02v2 Evaluation;;/data/ncpp/eval/maurer02v2/rx1day/max/rx1dayamaxa/annual/1971-2000/us48;maurer02v2_max_rx1dayamaxa_annual_1971-2000.nc;rx1dayamaxa;;;
+;;;QED 2013 Indices;Maurer02v2 Evaluation;;/data/ncpp/eval/maurer02v2/rx1day/mean/rx1dayaavga/annual/1971-2000/us48;maurer02v2_mean_rx1dayaavga_annual_1971-2000.nc;rx1dayaavga;;;
