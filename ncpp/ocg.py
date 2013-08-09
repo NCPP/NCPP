@@ -166,7 +166,8 @@ class OCG(object):
                                       calc_raw=args['calc_raw'],
                                       prefix=args['prefix'],
                                       output_format=args['output_format'], 
-                                      dir_output=dir_output)
+                                      dir_output=dir_output,
+                                      headers=args['headers'])
 
             # execute the operation
             # 'path' points to the top-level folder containing the output data
