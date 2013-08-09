@@ -4,7 +4,7 @@ import netCDF4 as nc
 import csv
 import logging
 
-logging.basicConfig(filename='_dc_info_.log',
+logging.basicConfig(filename='log_df_info.log',
                     filemode='w',
                     level=logging.INFO)
 
@@ -85,7 +85,7 @@ def get_categories():
     dcs.append(DataCategory('/data/downscaled/arrm/arrm_cgcm3_.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-CGCM (Hayhoe)'))
     dcs.append(DataCategory('/data/downscaled/arrm/arrm_gfdl_.*(tasmax|tasmin|pr).*','Downscaled Datasets','ARRM-GFDL (Hayhoe)'))
     
-    with open('_dc_info_.csv','w') as f:
+    with open('df_info.csv','w') as f:
         writer = csv.DictWriter(f,['Category','Subcategory','Directory Path','Filename','Variable'])
         writer.writeheader()
         for nc_path in iter_nc():
