@@ -48,8 +48,8 @@
       }
     ], 
     "description": [
-      "FrequencyDuration(percentile=90|92.5|95|97.5, operation='gt'|'lt'|'gte'|'lte')", 
-      "Counts the number of occurrences where the logical operations returns True compared to static dynamic percentiles. Only applicate for Maurer02v2 tasmax or tasmin for QED City Centroids, North Carolina, or North Carolina counties. Intersects spatial operation only."
+      "QEDDynamicPercentile(percentile=90|92.5|95|97.5, operation='gt'|'lt'|'gte'|'lte')", 
+      "Counts the number of occurrences where the logical operations returns True compared to static dynamic percentiles. Only applicate for Maurer02v2 tasmax or tasmin for QED City Centroids, North Carolina, or North Carolina counties. Intersects spatial operation with no aggregation only."
     ], 
     "order": 9, 
     "func": "qed_dynamic_percentile_threshold", 
