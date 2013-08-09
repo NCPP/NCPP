@@ -1,85 +1,163 @@
 {
-    "mean": {
-        "func":"mean",
-        "order": 0,
-        "name": "Mean",
-        "description": []
-    },
-    "median": {
-        "func":"median",
-        "order": 1,
-        "name": "Median",
-        "description": []
-    },
-    "min": {
-        "func":"min",
-        "order": 3,
-        "name": "Min",
-        "description": []
-    },
-    "max": {
-        "func":"max",
-        "order": 4,
-        "name": "Max",
-        "description": []
-    },
-    "std": {
-        "func":"std",
-        "order": 5,
-        "name": "Standard Deviation",
-        "description": []
-    },
-    "threshold": {
-        "func":"threshold",
-        "order": 6,
-        "name": "Threshold",
-        "description": [
-		"Treshold(threshold=number, operation='gt'|'lt'|'gte'|'lte')",
-                "Count of values where the logical operation returns TRUE"
-                ],
-        "keywords": [
-            {"name":"threshold", "type":"float"},
-            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] }
-        ]
-    },
-    "between": {
-        "func":"between",
-        "order": 7,
-        "name": "Between",
-        "description": [
- 		"Between(lower=number, upper=number)",
-                "Count of values falling within the limits lower and upper (inclusive)"
-		],
-        "keywords": [
-            {"name":"lower", "type":"float"},
-            {"name":"upper", "type":"float"}
-        ]
-    },
-    "duration": {
-        "func":"duration",
-        "order": 8,
-        "name": "Duration",
-        "description": [
-                "Duration(threshold=number, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')",
-                "Summarizes consecutive occurrences in a sequence where the logical operation returns TRUE. The summary operation is applied to the sequences within a temporal aggregation."
-                ],
-        "keywords": [
-            {"name":"threshold", "type":"float"},
-            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] },
-            {"name":"summary", "type":"string", "values":["mean","median","std","max","min"] }
-        ]
-    },
-    "frew_duration": {
-        "func":"freq_duration",
-        "order": 9,
-        "name": "Frequency Duration",
-        "description": [
-                "FrequencyDuration(threshold=number, operation='gt'|'lt'|'gte'|'lte')",
-                "Counts the frequency of spell durations within the temporal aggregation."
-                ],
-        "keywords": [
-            {"name":"threshold", "type":"float"},
-            {"name":"operation", "type":"string", "values":["gt","gte","lt","lte"] }
-        ]
-    }
+  "std": {
+    "description": [], 
+    "order": 5, 
+    "func": "std", 
+    "name": "Standard Deviation"
+  }, 
+  "freq_duration": {
+    "keywords": [
+      {
+        "type": "float", 
+        "name": "threshold"
+      }, 
+      {
+        "values": [
+          "gt", 
+          "gte", 
+          "lt", 
+          "lte"
+        ], 
+        "type": "string", 
+        "name": "operation"
+      }
+    ], 
+    "description": [
+      "FrequencyDuration(threshold=number, operation='gt'|'lt'|'gte'|'lte')", 
+      "Counts the frequency of spell durations within the temporal aggregation."
+    ], 
+    "order": 9, 
+    "func": "freq_duration", 
+    "name": "Frequency Duration"
+  }, 
+  "qed_dynamic_percentile_threshold": {
+    "keywords": [
+      {
+        "type": "int", 
+        "name": "percentile"
+      }, 
+      {
+        "values": [
+          "gt", 
+          "gte", 
+          "lt", 
+          "lte"
+        ], 
+        "type": "string", 
+        "name": "operation"
+      }
+    ], 
+    "description": [
+      "FrequencyDuration(percentile=90|92.5|95|97.5, operation='gt'|'lt'|'gte'|'lte')", 
+      "Counts the number of occurrences where the logical operations returns True compared to static dynamic percentiles. Only applicate for Maurer02v2 tasmax or tasmin for QED City Centroids, North Carolina, or North Carolina counties. Intersects spatial operation only."
+    ], 
+    "order": 9, 
+    "func": "qed_dynamic_percentile_threshold", 
+    "name": "QED Dynamic Percentiles Threshold"
+  }, 
+  "min": {
+    "description": [], 
+    "order": 3, 
+    "func": "min", 
+    "name": "Min"
+  }, 
+  "max": {
+    "description": [], 
+    "order": 4, 
+    "func": "max", 
+    "name": "Max"
+  }, 
+  "median": {
+    "description": [], 
+    "order": 1, 
+    "func": "median", 
+    "name": "Median"
+  }, 
+  "duration": {
+    "keywords": [
+      {
+        "type": "float", 
+        "name": "threshold"
+      }, 
+      {
+        "values": [
+          "gt", 
+          "gte", 
+          "lt", 
+          "lte"
+        ], 
+        "type": "string", 
+        "name": "operation"
+      }, 
+      {
+        "values": [
+          "mean", 
+          "median", 
+          "std", 
+          "max", 
+          "min"
+        ], 
+        "type": "string", 
+        "name": "summary"
+      }
+    ], 
+    "description": [
+      "Duration(threshold=number, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')", 
+      "Summarizes consecutive occurrences in a sequence where the logical operation returns TRUE. The summary operation is applied to the sequences within a temporal aggregation."
+    ], 
+    "order": 8, 
+    "func": "duration", 
+    "name": "Duration"
+  }, 
+  "between": {
+    "keywords": [
+      {
+        "type": "float", 
+        "name": "lower"
+      }, 
+      {
+        "type": "float", 
+        "name": "upper"
+      }
+    ], 
+    "description": [
+      "Between(lower=number, upper=number)", 
+      "Count of values falling within the limits lower and upper (inclusive)"
+    ], 
+    "order": 7, 
+    "func": "between", 
+    "name": "Between"
+  }, 
+  "threshold": {
+    "keywords": [
+      {
+        "type": "float", 
+        "name": "threshold"
+      }, 
+      {
+        "values": [
+          "gt", 
+          "gte", 
+          "lt", 
+          "lte"
+        ], 
+        "type": "string", 
+        "name": "operation"
+      }
+    ], 
+    "description": [
+      "Treshold(threshold=number, operation='gt'|'lt'|'gte'|'lte')", 
+      "Count of values where the logical operation returns TRUE"
+    ], 
+    "order": 6, 
+    "func": "threshold", 
+    "name": "Threshold"
+  }, 
+  "mean": {
+    "description": [], 
+    "order": 0, 
+    "func": "mean", 
+    "name": "Mean"
+  }
 }
+
