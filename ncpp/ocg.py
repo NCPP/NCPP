@@ -42,6 +42,7 @@ class OCG(object):
         args['variable'] = jsonData["variable"]
         args['t_calendar'] = jsonData["t_calendar"]
         args['t_units'] = jsonData["t_units"]
+        args['alias'] = jsonData["alias"]
                     
         # class ocgis.OcgOperations(dataset=None, spatial_operation='intersects', geom=None, 
         #                           aggregate=False, calc=None, calc_grouping=None, calc_raw=False, 
