@@ -80,6 +80,12 @@ class Variable(Base):
     vid = Column(Integer,primary_key=True)
     name = Column(String,nullable=False)
     long_name = Column(String,nullable=False)
+    alias = Column(String,nullable=True)
+    
+    def __init__(self,*args,**kwds):
+        if kwds['alias'].strip() in (None,''):
+            kwds['alias'] = kwds.get('name')
+        super(self.__class__,self).__init__(*args,**kwds)
     
     
 class Dataset(Base):
@@ -136,14 +142,19 @@ def write_json_from_csv(out_path,in_csv,debug=False):
     with open(in_csv,'r') as f:
         reader = csv.DictReader(f,delimiter=';')
         for row in reader:
-            if debug and row['Debug'] != '1':
-                continue
-            if row['Enable'] != '1':
-                continue
+            if debug:
+                if row['Debug'] != '1':
+                    continue
+            else:
+                if row['Enable'] != '1':
+                    continue
             try:
                 session = Session()
                 category = get_or_create(session,Category,name=row['Category'])
-                subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
+                if row['Subcategory'].strip() == '':
+                    subcategory = None
+                else:
+                    subcategory = get_or_create(session,Subcategory,name=row['Subcategory'],cid=category.cid)
                 if row['Package Name'].strip() != '':
                     package = get_or_create(session,Package,name=row['Package Name'],cid=category.cid)
                 else:
@@ -171,7 +182,8 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                     long_name = row['Long Name'].strip()
                     assert(long_name != '')
                 variable = get_or_create(session,Variable,name=rd.variable,
-                                         long_name=long_name.title())
+                                         long_name=long_name.title(),
+                                         alias=row['Alias'])
                 time_start,time_stop = rd.ds.temporal.extent
                 time_calendar,time_units = rd.ds.temporal.calendar,rd.ds.temporal.units
                 dataset = Dataset(variable=variable,subcategory=subcategory,time_start=time_start,time_stop=time_stop,
@@ -186,8 +198,12 @@ def write_json_from_csv(out_path,in_csv,debug=False):
             except:
                 session.close()
                 logging.exception(row)
+                raise
+            finally:
+                session.close()
     
     data = OrderedDict()
+    session = Session()
     for cat in session.query(Category).order_by(Category.name):
         dcat = get_or_create_dict(data,cat.name)
         ## write the subcategories of datasets first
@@ -201,6 +217,7 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                 dvariable['uri'] = [[uri.value for uri in dataset.uri]]
                 dvariable['t_calendar'] = [dataset.time_calendar]
                 dvariable['t_units'] = [dataset.time_units]
+                dvariable['alias'] = [dataset.variable.alias]
         ## now write the data packages
         for package in cat.package:
             if len(package.dataset) == 0:
@@ -216,6 +233,12 @@ def write_json_from_csv(out_path,in_csv,debug=False):
             dpackage['variable'] = [dataset.variable.name for dataset in package.dataset]
             dpackage['t_calendar'] = [dataset.time_calendar for dataset in package.dataset]
             dpackage['t_units'] = [dataset.time_units for dataset in package.dataset]
+            aliases = [dataset.variable.alias for dataset in package.dataset]
+            try:
+                assert(len(set(aliases)) == len(aliases))
+            except AssertionError:
+                raise(AssertionError(package.name,aliases))
+            dpackage['alias'] = aliases
     
     ret = json.dumps(data)
     
@@ -314,10 +337,11 @@ def test_parse_from_json():
     
 if __name__ == '__main__':
     parser = ArgumentParser()
+    parser.add_argument('--debug',default=False,action='store_true')
     parser.add_argument('in_csv',help='Path to the input CSV file.')
     parser.add_argument('out_path',help='Path to the output JSON file.')
     
     pargs = parser.parse_args()
     
-    write_json_from_csv(pargs.out_path,pargs.in_csv)
+    write_json_from_csv(pargs.out_path,pargs.in_csv,debug=pargs.debug)
     
