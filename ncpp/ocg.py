@@ -5,8 +5,8 @@ from ncpp.utils import hasText
 import re
 
 SLEEP_SECONDS = 1
-HEADERS_NOCALC = ['did','ugid','gid','time','year','month','day','variable','value']
-HEADERS_CALC = ['did','ugid','gid','year','month','day','variable','calc_name','value']
+HEADERS_NOCALC = ['did','ugid','gid','time','year','month','day','variable','alias','value']
+HEADERS_CALC = ['did','ugid','gid','year','month','day','variable','alias','calc_name','value']
 
 class OCG(object):
     """Adapter class that invokes the OCGIS library."""
@@ -147,12 +147,12 @@ class OCG(object):
                                     
             # build up the list of request datasets
             dataset = []
-            iter_tuple = [args[key] for key in ['uri', 'variable', 't_calendar', 't_units']]
+            iter_tuple = [args[key] for key in ['uri', 'variable', 't_calendar', 't_units', 'alias']]
             time_range=args['time_range']
             time_region=args['time_region']
-            for uri,variable,t_calendar,t_units in zip(*iter_tuple):
+            for uri,variable,t_calendar,t_units,alias in zip(*iter_tuple):
                 rd = ocgis.RequestDataset(uri=uri,variable=variable,t_calendar=t_calendar,t_units=t_units,
-                                  time_range=time_range,time_region=time_region)
+                                  time_range=time_range,time_region=time_region,alias=alias)
                 dataset.append(rd)
 
             ## construct the operations call
