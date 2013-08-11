@@ -179,7 +179,7 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                 try:
                     long_name = row['Long Name'].strip()
                     assert(long_name != '')
-                except KeyError:
+                except (KeyError,AssertionError):
                     long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
                 variable = get_or_create(session,Variable,name=rd.variable,
                                          long_name=long_name.title(),
