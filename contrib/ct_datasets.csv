@@ -96,3 +96,6 @@ Order;Enable;Debug;Package Name;Category;Subcategory;Directory Path;Filename;Var
 ;1;;Pr Data Package;Variable-Level Data Packages;;/data/downscaled/bcca;bcca_gfdl_cm2_1.gregorian.20c3m.run1.pr.1971-2000.nc;pr;pr_bcca_gfdl;;;
 ;1;;Pr Data Package;Variable-Level Data Packages;;/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.pr.NAm.1971-2000.nc;pr;pr_arrm_cgcm;;365_day;
 ;1;;Pr Data Package;Variable-Level Data Packages;;/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.pr.NAm.1971-2000.nc;pr;pr_arrm_gfdl;;365_day;
+;1;;Snowfall Water Equivalent Package (Mauer02v2);QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;sfwe.nc;sfwe;;Maurer02v2 Snowfall Water Equivalent (mm/month);;
+;1;;Snowfall Water Equivalent Package (Mauer02v2);QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;pr.nc;p;;Maurer02v2 Total Precipitation (mm/month);;
+;1;;Snowfall Water Equivalent Package (Mauer02v2);QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;sfwe_p.nc;sfwe_p;;Maurer02v2 Ratio SFWE/P;;
