@@ -177,10 +177,10 @@ def write_json_from_csv(out_path,in_csv,debug=False):
                     t_units = row['Units']
                 rd = ocgis.RequestDataset(uri,row['Variable'],t_calendar=t_calendar,t_units=t_units)
                 try:
-                    long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
-                except KeyError:
                     long_name = row['Long Name'].strip()
                     assert(long_name != '')
+                except KeyError:
+                    long_name = rd.ds.metadata['variables'][rd.variable]['attrs']['long_name']
                 variable = get_or_create(session,Variable,name=rd.variable,
                                          long_name=long_name.title(),
                                          alias=row['Alias'])
