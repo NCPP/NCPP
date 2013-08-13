@@ -97,7 +97,7 @@ Order;Enable;Debug;Package Name;Category;Subcategory;Directory Path;Filename;Var
 ;1;;Pr Data Package;Variable-Level Data Packages;;/data/downscaled/arrm;arrm_cgcm3_t63.20c3m.pr.NAm.1971-2000.nc;pr;pr_arrm_cgcm;;365_day;
 ;1;;Pr Data Package;Variable-Level Data Packages;;/data/downscaled/arrm;arrm_gfdl_2.1.20c3m.pr.NAm.1971-2000.nc;pr;pr_arrm_gfdl;;365_day;
 ;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;sfwe.nc;sfwe;sfwe_maurer02v2;Maurer02v2 Snowfall Water Equivalent (mm/month);;
-;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;pr.nc;p;sfwe_p_maurer02v2;Maurer02v2 Total Precipitation (mm/month);;
+;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;pr.nc;p;p_maurer02v2;Maurer02v2 Total Precipitation (mm/month);;
 ;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/maurer02v2;sfwe_p.nc;sfwe_p;sfwe_p_maurer02v2;Maurer02v2 Ratio SFWE/P;;
 ;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/sfwe_other;pr_arrm_cgcm3.nc;p;p_arrm_cgcm;ARRM-CGCM Total Precipitation (mm/month);365_day;
 ;1;;Snowfall Water Equivalent Package;QED-2013 Indices;Snowfall Water Equivalent (Month/Year);/data/qed_2013/sfwe/sfwe_other;pr_arrm_gfdl.nc;p;p_arrm_gfdl;ARMM-GFDL Total Precipitation (mm/month);365_day;
