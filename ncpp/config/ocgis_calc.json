@@ -1,9 +1,9 @@
 {
   "std": {
-    "description": [], 
     "order": 5, 
+    "name": "Standard Deviation", 
     "func": "std", 
-    "name": "Standard Deviation"
+    "description": []
   }, 
   "freq_duration": {
     "keywords": [
@@ -22,13 +22,13 @@
         "name": "operation"
       }
     ], 
+    "order": 9, 
+    "name": "Frequency Duration", 
+    "func": "freq_duration", 
     "description": [
       "FrequencyDuration(threshold=number, operation='gt'|'lt'|'gte'|'lte')", 
       "Counts the frequency of spell durations within the temporal aggregation."
-    ], 
-    "order": 9, 
-    "func": "freq_duration", 
-    "name": "Frequency Duration"
+    ]
   }, 
   "qed_dynamic_percentile_threshold": {
     "keywords": [
@@ -47,31 +47,31 @@
         "name": "operation"
       }
     ], 
+    "order": 9, 
+    "name": "QED Dynamic Percentiles Threshold", 
+    "func": "qed_dynamic_percentile_threshold", 
     "description": [
       "QEDDynamicPercentile(percentile=90|92.5|95|97.5, operation='gt'|'lt'|'gte'|'lte')", 
       "Counts the number of occurrences where the logical operations returns True compared to static dynamic percentiles. Only applicate for Maurer02v2 tasmax or tasmin for QED City Centroids, North Carolina, or North Carolina counties. Intersects spatial operation with no aggregation only."
-    ], 
-    "order": 9, 
-    "func": "qed_dynamic_percentile_threshold", 
-    "name": "QED Dynamic Percentiles Threshold"
+    ]
   }, 
   "min": {
-    "description": [], 
     "order": 3, 
+    "name": "Min", 
     "func": "min", 
-    "name": "Min"
+    "description": []
   }, 
   "max": {
-    "description": [], 
     "order": 4, 
+    "name": "Max", 
     "func": "max", 
-    "name": "Max"
+    "description": []
   }, 
   "median": {
-    "description": [], 
     "order": 1, 
+    "name": "Median", 
     "func": "median", 
-    "name": "Median"
+    "description": []
   }, 
   "duration": {
     "keywords": [
@@ -101,13 +101,28 @@
         "name": "summary"
       }
     ], 
+    "order": 8, 
+    "name": "Duration", 
+    "func": "duration", 
     "description": [
       "Duration(threshold=number, operation='gt'|'lt'|'gte'|'lte', summary='mean'|'median'|'std'|'max'|'min')", 
       "Summarizes consecutive occurrences in a sequence where the logical operation returns TRUE. The summary operation is applied to the sequences within a temporal aggregation."
+    ]
+  }, 
+  "percentile": {
+    "keywords": [
+      {
+        "type": "float", 
+        "name": "percentile"
+      }
     ], 
-    "order": 8, 
-    "func": "duration", 
-    "name": "Duration"
+    "order": 5, 
+    "name": "Percentile", 
+    "func": "freq_perc", 
+    "description": [
+      "Percentile(percentile=number[0,100].", 
+      "Return percentile value using NumPy's built-in function."
+    ]
   }, 
   "between": {
     "keywords": [
@@ -120,13 +135,13 @@
         "name": "upper"
       }
     ], 
+    "order": 7, 
+    "name": "Between", 
+    "func": "between", 
     "description": [
       "Between(lower=number, upper=number)", 
       "Count of values falling within the limits lower and upper (inclusive)"
-    ], 
-    "order": 7, 
-    "func": "between", 
-    "name": "Between"
+    ]
   }, 
   "threshold": {
     "keywords": [
@@ -145,19 +160,19 @@
         "name": "operation"
       }
     ], 
+    "order": 6, 
+    "name": "Threshold", 
+    "func": "threshold", 
     "description": [
       "Treshold(threshold=number, operation='gt'|'lt'|'gte'|'lte')", 
       "Count of values where the logical operation returns TRUE"
-    ], 
-    "order": 6, 
-    "func": "threshold", 
-    "name": "Threshold"
+    ]
   }, 
   "mean": {
-    "description": [], 
     "order": 0, 
+    "name": "Mean", 
     "func": "mean", 
-    "name": "Mean"
+    "description": []
   }
 }
 
