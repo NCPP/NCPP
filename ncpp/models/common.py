@@ -11,8 +11,8 @@ class Job(models.Model):
     request = models.TextField(blank=True, null=True, help_text='Generic string containing job request')
     response = models.TextField(blank=True, null=True, help_text='Generic string containing job response')
     error = models.TextField(blank=True, null=True, help_text='Generic string containing possible error message')
-    statusLocation = models.URLField('URL', help_text='URL to monitor the job status', blank=True, verify_exists=False, max_length=1000)
-    url = models.URLField('URL', help_text='URL to retrieve the job output', blank=True, verify_exists=False, max_length=1000)
+    statusLocation = models.URLField('URL', help_text='URL to monitor the job status', blank=True, max_length=1000)
+    url = models.URLField('URL', help_text='URL to retrieve the job output', blank=True, max_length=1000)
     submissionDateTime = models.DateTimeField('Date Submitted', auto_now_add=True, default=datetime.now())
     updateDateTime = models.DateTimeField('Date Updated', auto_now=True, default=datetime.now())
 

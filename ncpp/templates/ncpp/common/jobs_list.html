@@ -28,7 +28,7 @@
 				</tr>
 				{% for job in jobs %}
 					<tr>
-						<td nowrap="nowrap"><a href="{% url job_detail job.id job.class_name %}">{{job.id}}</a></td>
+						<td nowrap="nowrap"><a href="{% url 'job_detail' job.id job.class_name %}">{{job.id}}</a></td>
 						<td nowrap="nowrap" nowrap="nowrap">{{ job.submissionDateTime|date:"SHORT_DATETIME_FORMAT" }}</td>
 						<td nowrap="nowrap">{{ job.updateDateTime|date:"SHORT_DATETIME_FORMAT" }}</td>
 						<td nowrap="nowrap">{{ job.status }}</td>
@@ -36,7 +36,7 @@
 							{% if job.status == 'ProcessSucceeded' %}
 								<a href="{{ job.url }}">Download Output</a>
 							{% else %}
-								<a href="{% url job_check job.id job.class_name %}">Check Status</a>
+								<a href="{% url 'job_check' job.id job.class_name %}">Check Status</a>
 							{% endif %}
 						</td>
 					</tr>

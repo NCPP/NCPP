@@ -22,14 +22,14 @@
 		
 			<!-- login/logout -->
 			<span style="float:left">
-				<a href="{% url home %}">Home</a>
+				<a href="{% url 'home' %}">Home</a>
 			</span>
 			<span style="float:right">
 				{% if user.is_authenticated %}
 					Welcome, {{ user.username }}.
-					<a href="{% url logout %}?next=/ncpp/">Logout</a>
+					<a href="{% url 'logout' %}?next=/ncpp/">Logout</a>
 				{% else %}
-					<a href="{% url login %}?next=/ncpp/">Login</a> 
+					<a href="{% url 'login' %}?next=/ncpp/">Login</a> 
 				{% endif %}
 			</span>
 			<br/>

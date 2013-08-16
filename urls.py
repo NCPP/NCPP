@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import redirect_to
+from django.views.generic import RedirectView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     
     # site home
-    url(r'^$', redirect_to, {'url': '/ncpp/'} ),
+    url(r'^$', RedirectView.as_view(url='/ncpp/') ),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),

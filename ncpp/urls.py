@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import redirect_to
+from django.views.generic import RedirectView
 from django.contrib.auth.decorators import login_required
 
 from ncpp.forms import ClimateIndexesForm1, ClimateIndexesForm2, ClimateIndexesForm3
@@ -9,8 +9,8 @@ from ncpp.views import ClimateIndexesWizard, OpenClimateGisWizard
 
 urlpatterns = patterns('',
     
-    # top-level url
-    url(r'^$', 'django.views.generic.simple.redirect_to', { 'url': '/ncpp/open_climate_gis/'}, name='home' ),
+    # top-level url    
+    url(r'^$', RedirectView.as_view(url='/ncpp/open_climate_gis/'), name='home' ),
     
     # climate indexes use case
     # note use of 'login_required' decorator directly in URL configuration

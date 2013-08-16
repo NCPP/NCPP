@@ -42,11 +42,11 @@
 	<p/>
 	
 	<!-- links -->
-	<a href="{% url job_request job.id job.class_name %}">Display Job Request</a>
+	<a href="{% url 'job_request' job.id job.class_name %}">Display Job Request</a>
 	&nbsp;
-	<a href="{% url job_response job.id job.class_name %}">Display Job Response</a>
+	<a href="{% url 'job_response' job.id job.class_name %}">Display Job Response</a>
 	&nbsp;
-	<a href="{% url jobs_list user job.class_name %}">Jobs List</a>
+	<a href="{% url 'jobs_list' user job.class_name %}">Jobs List</a>
 	&nbsp;
 	{% if job.status == 'Process Succeeded' %}
 		<a href="{{ job.url }}">Download Output</a>
