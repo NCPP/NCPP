@@ -26,6 +26,7 @@ class MaurerTas(AbstractMaurerDataset):
 
 
 class MaurerTasmax(AbstractMaurerDataset):
+    _uri = 'Maurer02new_OBS_tasmax_daily.1971-2000.nc'
     variables = ['tasmax']
     clean_units = base.UNITS_CELSIUS
     clean_variable = [base.VAR_AIR_TEMPERATURE_MAX]
