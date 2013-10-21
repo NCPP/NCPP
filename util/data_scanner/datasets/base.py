@@ -1,6 +1,6 @@
 import abc
 from ocgis.api.request.nc import NcRequestDataset
-from ocgis.util.data_scanner import db
+from .. import db
 
 
 class AbstractHarvestDataset(object):

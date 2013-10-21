@@ -1,13 +1,13 @@
 from ocgis.test.base import TestBase
-from ocgis.util.data_scanner.datasets.base import AbstractHarvestDataset
+from datasets.base import AbstractHarvestDataset
 import datetime
 import db
 import query
 import os
 from unittest.case import SkipTest
-from ocgis.util.data_scanner.db import get_or_create
 from sqlalchemy.orm.exc import NoResultFound
 import ocgis
+from db import get_or_create
 
 
 tdata = TestBase.get_tdata()
