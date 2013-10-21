@@ -9,7 +9,6 @@ from sqlalchemy.orm.exc import NoResultFound
 from contextlib import contextmanager
 import inspect
 from sqlalchemy.orm.attributes import InstrumentedAttribute
-from sqlalchemy.orm.mapper import validates
 
 
 metadata = MetaData()

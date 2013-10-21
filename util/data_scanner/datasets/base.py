@@ -3,6 +3,11 @@ from ocgis.api.request.nc import NcRequestDataset
 from .. import db
 
 
+UNITS_CELSIUS = [{'standard_name':'C','long_name':'Celsius'}]
+
+VAR_AIR_TEMPERATURE = dict(standard_name='air_temperature',long_name='Air Temperature',description='Fill it in!')
+VAR_AIR_TEMPERATURE_MAX = dict(standard_name='air_temperature',long_name='Maximum Air Temperature',description='Fill it in!')
+
 class AbstractHarvestDataset(object):
     __metaclass__ = abc.ABCMeta
     @abc.abstractproperty

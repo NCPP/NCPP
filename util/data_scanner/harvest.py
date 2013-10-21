@@ -1,11 +1,21 @@
 import db
-from tempfile import mkstemp
-from sqlalchemy.engine import create_engine
-from sqlalchemy.orm.session import sessionmaker
+import datasets
+import os
+
+
+MODELS = [datasets.maurer.MaurerTas,
+          datasets.maurer.MaurerTasmax]
 
 
 def main():
-    pass
+    db_path = '/tmp/datasets.sqlite'
+    if os.path.exists(db_path):
+        os.remove(db_path)
+    db.build_database(db_path=db_path)
+    with db.session_scope(commit=True) as session:
+        for model in MODELS:
+            print('inserting model: {0}'.format(model.__class__.__name__))
+            model.insert(session)
 
 
 if __name__ == '__main__':
