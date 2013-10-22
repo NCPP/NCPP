@@ -1,5 +1,5 @@
 from ocgis.test.base import TestBase
-from datasets.base import AbstractHarvestDataset
+from datasets.base import AbstractHarvestDataset, AbstractDataPackage
 import datetime
 import db
 import query
@@ -53,11 +53,23 @@ class MaurerMultiFile(AbstractMaurerDataset):
     type = 'variable'
 
 
+class TasPackage(AbstractDataPackage):
+    name = 'Tas Package'
+    description = 'Fill it in!'
+    fields = [MaurerTasmax,MaurerTas]
+    dataset_category = dict(name='Observation Datasets',description='For the packages!')
+
+
 class Test(TestBase):
             
     def setUp(self):
         TestBase.setUp(self)
         db.build_database(in_memory=True)
+        
+    def setUp_insert_models(self):
+        models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
+        with db.session_scope() as session:
+            for m in models: m().insert(session)
         
     def test_harvest(self):
         with self.assertRaises(ValueError):
@@ -98,6 +110,11 @@ class Test(TestBase):
             
             with self.assertRaises(NoResultFound):
                 dq.get_package(time_range=[datetime.datetime(1900,2,1),datetime.datetime(1901,3,4)])
+                
+    def test_data_package_from_models(self):
+        self.setUp_insert_models()
+        with db.session_scope() as session:
+            TasPackage().insert(session)
         
     def test_data_package(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]

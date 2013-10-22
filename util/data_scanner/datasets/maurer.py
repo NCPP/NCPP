@@ -1,21 +1,13 @@
 import base
 import abc
-import os
 
 
-class AbstractMaurerDataset(base.AbstractHarvestDataset):
+class AbstractMaurerDataset(base.AbstractFolderHarvestDataset):
     __metaclass__ = abc.ABCMeta
     folder = '/data/maurer/concatenated'
     dataset_category = dict(name='Gridded Observational',description='Fill it in!')
     dataset = dict(name='Maurer 2010',description='Recent Maurer Dataset')
     type = 'variable'
-    
-    @abc.abstractproperty
-    def _uri(self): str
-    
-    @property
-    def uri(self):
-        return([os.path.join(self.folder,self._uri)])
     
 
 class MaurerTas(AbstractMaurerDataset):
@@ -42,5 +34,5 @@ class MaurerTasmin(AbstractMaurerDataset):
 class MaurerPrecip(AbstractMaurerDataset):
     _uri = 'Maurer02new_OBS_pr_daily.1971-2000.nc'
     variables = ['pr']
-    clean_units = [{'standard_name':'mm/d','long_name':'Millimeters per Day'}]
+    clean_units = base.UNITS_MM_PER_DAY
     clean_variable = [base.VAR_PRECIPITATION]

@@ -112,16 +112,17 @@ class DataPackage(Base):
     dataset_category = relationship('DatasetCategory',backref='data_package')
     
     def __init__(self,**kwds):
-        super(DataPackage,self).__init__(**kwds)
         
-        shapes = set([str(f.container.field_shape) for f in self.field])
+        shapes = set([str(f.container.field_shape) for f in kwds['field']])
         if len(shapes) > 1:
             raise(ValueError('Data package fields must have the same shape.'))
         
-        time_starts = [f.container.time_start for f in self.field]
-        time_stops = [f.container.time_stop for f in self.field]
+        time_starts = [f.container.time_start for f in kwds['field']]
+        time_stops = [f.container.time_stop for f in kwds['field']]
         self.time_start = min(time_starts)
         self.time_stop = max(time_stops)
+        
+        super(DataPackage,self).__init__(**kwds)
         
 
 class DatasetCategory(Base):

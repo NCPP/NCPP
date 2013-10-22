@@ -1,12 +1,19 @@
 import db
-from datasets import maurer
+from datasets import maurer,hayhoe
 import os
+from NCPP.util.data_scanner.datasets import packages
 
 
 MODELS = [maurer.MaurerTas,
           maurer.MaurerTasmax,
           maurer.MaurerTasmin,
-          maurer.MaurerPrecip]
+          maurer.MaurerPrecip,
+          hayhoe.HayhoeGFDLPr,
+          hayhoe.HayhoeGFDLTasmax,
+          hayhoe.HayhoeGFDLTasmin]
+
+PACKAGES = [packages.HayhoeGFDLPackage,
+            packages.MaurerPackage]
 
 
 def main():
@@ -23,3 +30,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    print('success.')
