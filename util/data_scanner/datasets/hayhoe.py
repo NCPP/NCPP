@@ -8,7 +8,7 @@ class AbstractHayhoeGFDLDataset(base.AbstractFolderHarvestDataset):
     dataset_category = dict(name='Downscaled',description='Fill it in!')
     dataset = dict(name='Hayhoe ARRM-GFDL',description='Hayhoe ARRM-GFDL')
     type = 'variable'
-    t_calendar = '365_day'
+    time_calendar = '365_day'
     
     
 class HayhoeGFDLTasmin(AbstractHayhoeGFDLDataset):

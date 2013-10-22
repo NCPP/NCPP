@@ -34,7 +34,7 @@ class AbstractHarvestDataset(object):
     
     def get_field(self,variable=None):
         variable = variable or self.variables[0]
-        field = NcRequestDataset(uri=self.uri,variable=variable).get()
+        field = NcRequestDataset(uri=self.uri,variable=variable,t_calendar=self.time_calendar).get()
         return(field)
     
     def insert(self,session):

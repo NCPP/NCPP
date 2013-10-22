@@ -26,6 +26,11 @@ def main():
             m = model()
             print('inserting model: {0}'.format(m.__class__.__name__))
             m.insert(session)
+            
+        for package in PACKAGES:
+            p = package()
+            print('inserting package: {0}'.format(p.__class__.__name__))
+            p.insert(session)
 
 
 if __name__ == '__main__':
