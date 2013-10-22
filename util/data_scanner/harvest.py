@@ -14,8 +14,9 @@ def main():
     db.build_database(db_path=db_path)
     with db.session_scope(commit=True) as session:
         for model in MODELS:
-            print('inserting model: {0}'.format(model.__class__.__name__))
-            model().insert(session)
+            m = model()
+            print('inserting model: {0}'.format(m.__class__.__name__))
+            m.insert(session)
 
 
 if __name__ == '__main__':
