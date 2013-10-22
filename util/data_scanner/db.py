@@ -218,7 +218,7 @@ class CleanUnits(Base):
 
 class CleanVariable(Base):
     __tablename__ = 'clean_variable'
-    __table_args__ = (UniqueConstraint('standard_name'),)
+    __table_args__ = (UniqueConstraint('standard_name','long_name'),)
     cvid = Column(Integer,primary_key=True)
     standard_name = Column(String,nullable=False)
     long_name = Column(String,nullable=False)
