@@ -1,10 +1,10 @@
 import db
-import datasets
+from datasets import maurer
 import os
 
 
-MODELS = [datasets.maurer.MaurerTas,
-          datasets.maurer.MaurerTasmax]
+MODELS = [maurer.MaurerTas,
+          maurer.MaurerTasmax]
 
 
 def main():
