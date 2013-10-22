@@ -4,7 +4,9 @@ import os
 
 
 MODELS = [maurer.MaurerTas,
-          maurer.MaurerTasmax]
+          maurer.MaurerTasmax,
+          maurer.MaurerTasmin,
+          maurer.MaurerPrecip]
 
 
 def main():
