@@ -59,8 +59,9 @@ class Test(TestBase):
         TestBase.setUp(self)
         db.build_database(in_memory=True)
         
-#    class test_harvest():
-#        harvest.main()
+    def test_harvest(self):
+        with self.assertRaises(ValueError):
+            harvest.main()
         
     def test_query_data_package(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
