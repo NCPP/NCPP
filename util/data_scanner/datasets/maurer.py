@@ -15,7 +15,7 @@ class AbstractMaurerDataset(base.AbstractHarvestDataset):
     
     @property
     def uri(self):
-        return(os.path.join(self.folder,self._uri))
+        return([os.path.join(self.folder,self._uri)])
     
 
 class MaurerTas(AbstractMaurerDataset):
