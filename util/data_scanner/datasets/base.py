@@ -7,6 +7,9 @@ UNITS_CELSIUS = [{'standard_name':'C','long_name':'Celsius'}]
 
 VAR_AIR_TEMPERATURE = dict(standard_name='air_temperature',long_name='Air Temperature',description='Fill it in!')
 VAR_AIR_TEMPERATURE_MAX = dict(standard_name='air_temperature',long_name='Maximum Air Temperature',description='Fill it in!')
+VAR_AIR_TEMPERATURE_MIN = dict(standard_name='air_temperature',long_name='Minimum Air Temperature',description='Fill it in!')
+VAR_PRECIPITATION = dict(standard_name='convective_precipitation_rate',long_name='Daily Precipitation Rate',description='Fill it in!')
+
 
 class AbstractHarvestDataset(object):
     __metaclass__ = abc.ABCMeta

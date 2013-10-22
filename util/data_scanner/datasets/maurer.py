@@ -30,3 +30,17 @@ class MaurerTasmax(AbstractMaurerDataset):
     variables = ['tasmax']
     clean_units = base.UNITS_CELSIUS
     clean_variable = [base.VAR_AIR_TEMPERATURE_MAX]
+    
+    
+class MaurerTasmin(AbstractMaurerDataset):
+    _uri = 'Maurer02new_OBS_tasmin_daily.1971-2000.nc'
+    variables = ['tasmin']
+    clean_units = base.UNITS_CELSIUS
+    clean_variable = [base.VAR_AIR_TEMPERATURE_MIN]
+    
+    
+class MaurerPrecip(AbstractMaurerDataset):
+    _uri = 'Maurer02new_OBS_pr_daily.1971-2000.nc'
+    variables = ['pr']
+    clean_units = [{'standard_name':'mm/d','long_name':'Millimeters per Day'}]
+    clean_variable = [base.VAR_PRECIPITATION]
