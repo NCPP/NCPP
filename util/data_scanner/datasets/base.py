@@ -1,6 +1,6 @@
 import abc
 from ocgis.api.request.nc import NcRequestDataset
-from .. import db
+from NCPP.util.data_scanner import db
 
 
 UNITS_CELSIUS = [{'standard_name':'C','long_name':'Celsius'}]
