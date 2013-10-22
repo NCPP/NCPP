@@ -5,7 +5,7 @@ import abc
 class AbstractHayhoeGFDLDataset(base.AbstractFolderHarvestDataset):
     __metaclass__ = abc.ABCMeta
     folder = '/data/downscaled/arrm'
-    dataset_category = dict(name='Downscaled',description='Fill it in!')
+    dataset_category = dict(name='Gridded Downscaled',description='<tdk>')
     dataset = dict(name='Hayhoe ARRM-GFDL',description='Hayhoe ARRM-GFDL')
     type = 'variable'
     time_calendar = '365_day'

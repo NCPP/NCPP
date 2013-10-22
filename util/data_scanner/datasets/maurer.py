@@ -5,8 +5,8 @@ import abc
 class AbstractMaurerDataset(base.AbstractFolderHarvestDataset):
     __metaclass__ = abc.ABCMeta
     folder = '/data/maurer/concatenated'
-    dataset_category = dict(name='Gridded Observational',description='Fill it in!')
-    dataset = dict(name='Maurer 2010',description='Recent Maurer Dataset')
+    dataset_category = base.CATEGORY_GRIDDED_OBS
+    dataset = dict(name='Maurer 2010',description='<tdk>')
     type = 'variable'
     
 

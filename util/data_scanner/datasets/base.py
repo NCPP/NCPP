@@ -7,10 +7,12 @@ import os
 UNITS_CELSIUS = {'standard_name':'C','long_name':'Celsius'}
 UNITS_MM_PER_DAY = {'standard_name':'mm/d','long_name':'Millimeters per Day'}
 
-VAR_AIR_TEMPERATURE = dict(standard_name='air_temperature',long_name='Air Temperature',description='Fill it in!')
-VAR_AIR_TEMPERATURE_MAX = dict(standard_name='air_temperature',long_name='Maximum Air Temperature',description='Fill it in!')
-VAR_AIR_TEMPERATURE_MIN = dict(standard_name='air_temperature',long_name='Minimum Air Temperature',description='Fill it in!')
-VAR_PRECIPITATION = dict(standard_name='convective_precipitation_rate',long_name='Daily Precipitation Rate',description='Fill it in!')
+VAR_AIR_TEMPERATURE = dict(standard_name='air_temperature',long_name='Air Temperature',description='<tdk>')
+VAR_AIR_TEMPERATURE_MAX = dict(standard_name='air_temperature',long_name='Maximum Air Temperature',description='<tdk>')
+VAR_AIR_TEMPERATURE_MIN = dict(standard_name='air_temperature',long_name='Minimum Air Temperature',description='<tdk>')
+VAR_PRECIPITATION = dict(standard_name='convective_precipitation_rate',long_name='Daily Precipitation Rate',description='<tdk>')
+
+CATEGORY_GRIDDED_OBS = dict(name='Gridded Observational',description='<tdk>')
 
 
 class AbstractHarvestDataset(object):
