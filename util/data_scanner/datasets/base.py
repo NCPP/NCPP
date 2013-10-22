@@ -30,22 +30,20 @@ class AbstractHarvestDataset(object):
     def uri(self): [str]
     variables = None
     
-    @classmethod
-    def get_field(cls,variable=None):
-        variable = variable or cls.variables[0]
-        field = NcRequestDataset(uri=cls.uri,variable=variable).get()
+    def get_field(self,variable=None):
+        variable = variable or self.variables[0]
+        field = NcRequestDataset(uri=self.uri,variable=variable).get()
         return(field)
 
-    @classmethod
-    def get_variables(cls):
-        raise(NotImplementedError)
+#    @classmethod
+#    def get_variables(cls):
+#        raise(NotImplementedError)
     
-    @classmethod
-    def insert(cls,session):
-        container = db.Container(session,cls)
-        for idx,variable_name in enumerate(cls.variables):
-            clean_units = db.get_or_create(session,db.CleanUnits,**cls.clean_units[idx])
-            clean_variable = db.get_or_create(session,db.CleanVariable,**cls.clean_variable[idx])
-            rv = db.Field(cls,container,variable_name,clean_units,clean_variable)
+    def insert(self,session):
+        container = db.Container(session,self)
+        for idx,variable_name in enumerate(self.variables):
+            clean_units = db.get_or_create(session,db.CleanUnits,**self.clean_units[idx])
+            clean_variable = db.get_or_create(session,db.CleanVariable,**self.clean_variable[idx])
+            rv = db.Field(self,container,variable_name,clean_units,clean_variable)
             session.add(rv)
         session.commit()

@@ -8,6 +8,7 @@ from unittest.case import SkipTest
 from sqlalchemy.orm.exc import NoResultFound
 import ocgis
 from db import get_or_create
+from NCPP.util.data_scanner import harvest
 
 
 tdata = TestBase.get_tdata()
@@ -58,10 +59,13 @@ class Test(TestBase):
         TestBase.setUp(self)
         db.build_database(in_memory=True)
         
+#    class test_harvest():
+#        harvest.main()
+        
     def test_query_data_package(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
         
             dataset = session.query(db.Dataset).filter_by(name='Maurer 2010').one()
             category = session.query(db.DatasetCategory).filter_by(name='Observational').one()
@@ -97,8 +101,8 @@ class Test(TestBase):
     def test_data_package(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
-        
+            for m in models: m().insert(session)
+            
             dataset = session.query(db.Dataset).filter_by(name='Maurer 2010').one()
             category = session.query(db.DatasetCategory).filter_by(name='Observational').one()
             fields = [c.field[0] for c in dataset.container]
@@ -114,7 +118,7 @@ class Test(TestBase):
     def test_data_package_bad(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
             
             dataset = session.query(db.Dataset)
             fields = []
@@ -127,7 +131,7 @@ class Test(TestBase):
     def test_query_all(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
             
         dq = query.DataQuery()
         state = dq.get_variable_or_index('variable')
@@ -137,7 +141,7 @@ class Test(TestBase):
     def test_query_limiting_all(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
         dq = query.DataQuery()
         ret = dq.get_variable_or_index('variable',
                                        long_name='Near-Surface Air Temperature',
@@ -151,7 +155,7 @@ class Test(TestBase):
     def test_query_limiting(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
         dq = query.DataQuery()
         ret = dq.get_variable_or_index('variable',
                                        long_name='Near-Surface Air Temperature')
@@ -160,7 +164,7 @@ class Test(TestBase):
     def test_query_time_range(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
         dq = query.DataQuery()
         ret = dq.get_variable_or_index('variable',
                                        time_range=[datetime.datetime(1980,2,3),
@@ -171,7 +175,7 @@ class Test(TestBase):
     def test_query_empty(self):
         models = [CanCM4TestDataset,MaurerTas,MaurerTasmax]
         with db.session_scope() as session:
-            for m in models: m.insert(session)
+            for m in models: m().insert(session)
         dq = query.DataQuery()
         
         with self.assertRaises(NoResultFound):
@@ -182,7 +186,7 @@ class Test(TestBase):
     def test_container(self):
         session = db.Session()
         try:
-            container = db.Container(session,CanCM4TestDataset)
+            container = db.Container(session,CanCM4TestDataset())
             session.add(container)
             session.commit()
             container = session.query(db.Container).one()
@@ -196,7 +200,7 @@ class Test(TestBase):
             
     def test_container_multifile(self):
         with db.session_scope() as session:
-            container = db.Container(session,MaurerMultiFile)
+            container = db.Container(session,MaurerMultiFile())
             session.add(container)
             session.commit()
             self.assertEqual([u.value for u in container.uri],self.test_data.get_uri('maurer_2010_tasmin'))
@@ -204,7 +208,7 @@ class Test(TestBase):
     def test_raw_variable(self):
         session = db.Session()
         try:
-            hd = CanCM4TestDataset
+            hd = CanCM4TestDataset()
             container = db.Container(session,hd)
             clean_units = get_or_create(session,db.CleanUnits,**hd.clean_units[0])
             clean_variable = get_or_create(session,db.CleanVariable,**hd.clean_variable[0])
@@ -236,6 +240,6 @@ class Test(TestBase):
         db.build_database(db_path=path)
         session = db.Session()
         try:
-            CanCM4TestDataset.insert(session)
+            CanCM4TestDataset().insert(session)
         finally:
             session.close()
