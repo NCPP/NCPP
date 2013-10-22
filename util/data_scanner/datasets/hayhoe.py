@@ -14,19 +14,19 @@ class AbstractHayhoeGFDLDataset(base.AbstractFolderHarvestDataset):
 class HayhoeGFDLTasmin(AbstractHayhoeGFDLDataset):
     _uri = 'arrm_gfdl_2.1.20c3m.tasmin.NAm.1971-2000.nc'
     variables = ['tasmin']
-    clean_variable = base.VAR_AIR_TEMPERATURE_MIN
-    clean_units = base.UNITS_CELSIUS
+    clean_variable = [base.VAR_AIR_TEMPERATURE_MIN]
+    clean_units = [base.UNITS_CELSIUS]
 
 
 class HayhoeGFDLTasmax(AbstractHayhoeGFDLDataset):
     _uri = 'arrm_gfdl_2.1.20c3m.tasmax.NAm.1971-2000.nc'
     variables = ['tasmax']
-    clean_variable = base.VAR_AIR_TEMPERATURE_MAX
-    clean_units = base.UNITS_CELSIUS
+    clean_variable = [base.VAR_AIR_TEMPERATURE_MAX]
+    clean_units = [base.UNITS_CELSIUS]
     
     
 class HayhoeGFDLPr(AbstractHayhoeGFDLDataset):
     _uri = 'arrm_gfdl_2.1.20c3m.pr.NAm.1971-2000.nc'
     variables = ['pr']
-    clean_variable = base.VAR_PRECIPITATION
-    clean_units = base.UNITS_MM_PER_DAY
+    clean_variable = [base.VAR_PRECIPITATION]
+    clean_units = [base.UNITS_MM_PER_DAY]
