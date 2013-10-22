@@ -15,7 +15,7 @@ def main():
     with db.session_scope(commit=True) as session:
         for model in MODELS:
             print('inserting model: {0}'.format(model.__class__.__name__))
-            model.insert(session)
+            model().insert(session)
 
 
 if __name__ == '__main__':
